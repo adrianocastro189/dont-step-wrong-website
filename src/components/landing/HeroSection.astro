@@ -1,0 +1,79 @@
+---
+import type { Locale } from '@i18n/utils';
+import { t } from '@i18n/utils';
+import CTASteam from '@components/ui/CTASteam.astro';
+import Placeholder from '@components/ui/Placeholder.astro';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const strings = t(locale);
+---
+<section class="hero">
+  <div class="container hero__inner">
+    <div class="hero__copy">
+      <h1>{strings.landing.heroTitle}</h1>
+      <p class="hero__lead">{strings.landing.heroLead}</p>
+      <div class="hero__ctas">
+        <CTASteam label={strings.cta.playDemo} target="demo" variant="primary" />
+        <CTASteam label={strings.cta.addToWishlist} target="wishlist" variant="ghost" />
+      </div>
+    </div>
+
+    <div class="hero__visual">
+      <!-- TODO: replace placeholder with real illustration once designer-grafico delivers -->
+      <Placeholder
+        width={800}
+        height={600}
+        text="Hero"
+        variant="brand"
+        alt="Decorative illustration of a single cube with question marks above it, symbolizing the game's hidden rules"
+        loading="eager"
+      />
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    padding-block: var(--space-section);
+  }
+
+  .hero__inner {
+    display: grid;
+    gap: var(--space-12);
+    align-items: center;
+  }
+
+  .hero__copy {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+
+  .hero__lead {
+    font-size: var(--text-lead);
+    color: var(--color-text-muted);
+    max-width: 30ch;
+  }
+
+  .hero__ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+  }
+
+  .hero__visual {
+    display: flex;
+    justify-content: center;
+  }
+
+  @media (min-width: 1024px) {
+    .hero__inner {
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+      gap: var(--space-16);
+    }
+  }
+</style>

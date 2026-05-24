@@ -1,0 +1,53 @@
+---
+/**
+ * Placeholder image — uses placehold.co with project palette colors.
+ * Used during development while real illustrations are being produced.
+ * TODO: replace with actual illustrations once available (see designer-grafico).
+ */
+interface Props {
+  width: number;
+  height: number;
+  text?: string;
+  /** Color variant matches project palette */
+  variant?: 'brand' | 'surface' | 'muted';
+  alt: string;
+  class?: string;
+  loading?: 'lazy' | 'eager';
+}
+
+const {
+  width,
+  height,
+  text = 'Placeholder',
+  variant = 'brand',
+  alt,
+  class: className,
+  loading = 'lazy',
+} = Astro.props;
+
+const palettes = {
+  brand:   { bg: 'F2A62A', fg: '2C2118' },
+  surface: { bg: 'C8973A', fg: 'FEFBF6' },
+  muted:   { bg: 'E8DCC8', fg: '2C2118' },
+} as const;
+
+const { bg, fg } = palettes[variant];
+const src = `https://placehold.co/${width}x${height}/${bg}/${fg}?text=${encodeURIComponent(text)}`;
+---
+<img
+  src={src}
+  width={width}
+  height={height}
+  alt={alt}
+  loading={loading}
+  class:list={['placeholder', className]}
+/>
+
+<style>
+  .placeholder {
+    border-radius: var(--radius-lg);
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+</style>

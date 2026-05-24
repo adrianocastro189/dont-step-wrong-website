@@ -1,0 +1,40 @@
+---
+import { toAbsolute } from '@i18n/utils';
+
+interface Props {
+  title: string;
+  description: string;
+  datePublished: string; // ISO 8601
+  dateModified?: string;
+  image?: string;
+  url: string; // path, will be made absolute
+  locale: 'en' | 'pt' | 'es';
+}
+
+const { title, description, datePublished, dateModified, image, url, locale } = Astro.props;
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: title,
+  description,
+  datePublished,
+  dateModified: dateModified ?? datePublished,
+  author: {
+    '@type': 'Person',
+    name: 'Adriano Castro',
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Feriado',
+  },
+  ...(image && { image: toAbsolute(image) }),
+  url: toAbsolute(url),
+  inLanguage: locale,
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': toAbsolute(url),
+  },
+};
+---
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

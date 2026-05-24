@@ -1,0 +1,202 @@
+---
+import type { Locale } from '@i18n/utils';
+import { getCollection } from 'astro:content';
+import { t, getAlternateURLs, toAbsolute, getUrl, computeDevlogPostUrl } from '@i18n/utils';
+import BaseLayout from '@components/layout/BaseLayout.astro';
+import SchemaBreadcrumb from '@components/seo/SchemaBreadcrumb.astro';
+import Placeholder from '@components/ui/Placeholder.astro';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const strings = t(locale);
+
+const seo: Record<Locale, { title: string; description: string }> = {
+  en: {
+    title: "Devlog — Don't Step Wrong 2",
+    description: 'Development updates, design decisions and behind the scenes of Don\'t Step Wrong 2 indie puzzle game.',
+  },
+  pt: {
+    title: "Devlog — Don't Step Wrong 2",
+    description: 'Atualizações de desenvolvimento, decisões de design e bastidores de Don\'t Step Wrong 2.',
+  },
+  es: {
+    title: "Devlog — Don't Step Wrong 2",
+    description: 'Actualizaciones de desarrollo, decisiones de diseño y tras bambalinas de Don\'t Step Wrong 2.',
+  },
+};
+
+const alternates = getAlternateURLs('devlog');
+const canonicalURL = toAbsolute(alternates[locale]);
+const { title, description } = seo[locale];
+
+// Filter content collection by locale.
+const allPosts = await getCollection('devlog', ({ data }) => data.locale === locale);
+const posts = allPosts.sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime()
+);
+
+const breadcrumb = [
+  { name: strings.nav.home, url: getUrl('home', locale) },
+  { name: strings.nav.devlog, url: getUrl('devlog', locale) },
+];
+
+const dateFormatter = new Intl.DateTimeFormat(
+  locale === 'pt' ? 'pt-BR' : locale === 'es' ? 'es-ES' : 'en-US',
+  { day: 'numeric', month: 'short', year: 'numeric' }
+);
+---
+<BaseLayout
+  title={title}
+  description={description}
+  canonicalURL={canonicalURL}
+  hreflang={alternates}
+  locale={locale}
+  currentPage="devlog"
+>
+  <SchemaBreadcrumb slot="head" items={breadcrumb} />
+
+  <section class="section">
+    <div class="container-prose">
+      <h1>{strings.devlog.h1}</h1>
+      <p class="devlog-list__lead">{strings.devlog.lead}</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      {posts.length === 0 ? (
+        <p class="devlog-empty">
+          <!-- TODO: Redator to produce first posts -->
+          No posts yet. Check back soon.
+        </p>
+      ) : (
+        <ul class="devlog-list">
+          {posts.map((post) => {
+            // Slug stored as file name; remove `.{locale}` suffix if present.
+            const slug = post.slug.replace(/\.(en|pt|es)$/, '');
+            return (
+              <li>
+                <article class="devlog-card">
+                  <a href={computeDevlogPostUrl(locale, slug)} class="devlog-card__link">
+                    {post.data.coverImage ? (
+                      <img
+                        src={post.data.coverImage}
+                        alt=""
+                        width="800"
+                        height="450"
+                        loading="lazy"
+                        class="devlog-card__cover"
+                      />
+                    ) : (
+                      <Placeholder
+                        width={800}
+                        height={450}
+                        text="Devlog"
+                        variant="muted"
+                        alt=""
+                        class="devlog-card__cover"
+                      />
+                    )}
+                    <div class="devlog-card__body">
+                      <span class="devlog-card__tag">DEVLOG</span>
+                      <h2 class="devlog-card__title">{post.data.title}</h2>
+                      <p class="devlog-card__meta">
+                        {dateFormatter.format(post.data.date)}
+                      </p>
+                      <p class="devlog-card__excerpt">{post.data.description}</p>
+                    </div>
+                  </a>
+                </article>
+              </li>
+            );
+          })}
+        </ul>
+      )}
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .devlog-list__lead {
+    font-size: var(--text-lead);
+    color: var(--color-text-muted);
+    margin-top: var(--space-6);
+  }
+
+  .devlog-empty {
+    text-align: center;
+    color: var(--color-text-muted);
+    padding-block: var(--space-12);
+  }
+
+  .devlog-list {
+    display: grid;
+    gap: var(--space-8);
+    max-width: 800px;
+    margin-inline: auto;
+  }
+
+  .devlog-card {
+    background-color: var(--color-bg);
+    border: var(--border-width) solid var(--border-color);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: box-shadow var(--transition-normal),
+                border-color var(--transition-fast);
+  }
+
+  .devlog-card:hover {
+    box-shadow: var(--shadow-md);
+    border-color: var(--color-brand);
+  }
+
+  .devlog-card__link {
+    display: block;
+    color: inherit;
+  }
+
+  .devlog-card__cover {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: 0;
+  }
+
+  .devlog-card__body {
+    padding: var(--space-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .devlog-card__tag {
+    display: inline-block;
+    align-self: flex-start;
+    background-color: var(--color-accent-soft);
+    color: var(--color-accent);
+    font-size: 0.75rem;
+    font-weight: var(--weight-bold);
+    letter-spacing: 0.05em;
+    padding: 4px 10px;
+    border-radius: var(--radius-full);
+  }
+
+  .devlog-card__title {
+    font-size: var(--text-h3);
+    color: var(--color-text);
+  }
+
+  .devlog-card__meta {
+    font-size: var(--text-small);
+    color: var(--color-text-muted);
+    font-weight: var(--weight-medium);
+  }
+
+  .devlog-card__excerpt {
+    color: var(--color-text-muted);
+  }
+</style>

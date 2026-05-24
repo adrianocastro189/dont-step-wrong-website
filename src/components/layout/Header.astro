@@ -1,0 +1,172 @@
+---
+import type { Locale, PageId } from '@i18n/utils';
+import { t, getUrl } from '@i18n/utils';
+
+interface Props {
+  locale: Locale;
+  currentPage: PageId;
+}
+
+const { locale, currentPage } = Astro.props;
+const strings = t(locale);
+
+const navItems: Array<{ id: PageId; label: string }> = [
+  { id: 'home',      label: strings.nav.home },
+  { id: 'mechanics', label: strings.nav.mechanics },
+  { id: 'devlog',    label: strings.nav.devlog },
+];
+---
+<header role="banner" class="header">
+  <div class="container header__inner">
+    <a href={getUrl('home', locale)} class="header__logo" aria-label="Don't Step Wrong 2 — Home">
+      <!-- TODO: replace text logo with actual logo PNG once exported -->
+      <span class="header__logo-text">DSW2</span>
+    </a>
+
+    <nav class="header__nav" aria-label="Main navigation">
+      <ul class="header__nav-list">
+        {navItems.map((item) => (
+          <li>
+            <a
+              href={getUrl(item.id, locale)}
+              class:list={['header__link', { 'header__link--active': item.id === currentPage }]}
+              aria-current={item.id === currentPage ? 'page' : undefined}
+            >
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+
+      <a
+        href="https://store.steampowered.com/app/4627790/Dont_Step_Wrong_2/"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="header__wishlist"
+      >
+        {strings.nav.wishlist}
+        <span aria-hidden="true">↗</span>
+      </a>
+    </nav>
+
+    <button
+      type="button"
+      class="header__menu-toggle"
+      aria-label={strings.nav.menuOpen}
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+    >
+      <span aria-hidden="true">☰</span>
+    </button>
+  </div>
+
+  <!-- TODO: mobile drawer (Alpine.js implementation pending) -->
+</header>
+
+<style>
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: var(--z-sticky);
+    background-color: var(--color-bg);
+    border-bottom: 1px solid transparent;
+    transition: background-color var(--transition-normal),
+                border-color var(--transition-normal);
+  }
+
+  .header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 64px;
+    gap: var(--space-6);
+  }
+
+  .header__logo {
+    font-family: var(--font-heading);
+    font-weight: var(--weight-extrabold);
+    font-size: var(--text-h3);
+    color: var(--color-brand);
+    line-height: 1;
+  }
+
+  .header__nav {
+    display: none;
+    align-items: center;
+    gap: var(--space-8);
+  }
+
+  .header__nav-list {
+    display: flex;
+    align-items: center;
+    gap: var(--space-6);
+  }
+
+  .header__link {
+    font-family: var(--font-body);
+    font-weight: var(--weight-medium);
+    font-size: var(--text-small);
+    color: var(--color-text-muted);
+    padding: var(--space-2) 0;
+    transition: color var(--transition-fast);
+    position: relative;
+  }
+
+  .header__link:hover {
+    color: var(--color-text);
+  }
+
+  .header__link--active {
+    color: var(--color-text);
+  }
+
+  .header__link--active::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -4px;
+    height: 2px;
+    background-color: var(--color-brand);
+  }
+
+  .header__wishlist {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    font-family: var(--font-heading);
+    font-weight: var(--weight-bold);
+    font-size: var(--text-small);
+    color: var(--color-brand);
+    padding: var(--space-2) var(--space-4);
+    border: var(--border-width) solid var(--color-brand);
+    border-radius: var(--radius-md);
+    transition: background-color var(--transition-fast),
+                color var(--transition-fast);
+    min-height: 36px;
+    line-height: 1;
+  }
+
+  .header__wishlist:hover {
+    background-color: var(--color-brand);
+    color: var(--color-text-inverse);
+  }
+
+  .header__menu-toggle {
+    font-size: 1.5rem;
+    color: var(--color-text);
+    padding: var(--space-2);
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  @media (min-width: 768px) {
+    .header__nav {
+      display: flex;
+    }
+
+    .header__menu-toggle {
+      display: none;
+    }
+  }
+</style>

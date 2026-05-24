@@ -1,0 +1,120 @@
+/* ============================================================
+   Design Tokens — Don't Step Wrong 2
+   Source: web-designer/outputs/design-system.md
+   ============================================================ */
+
+:root {
+  /* ----------------------------------------------------------
+     Colors — Primary
+     ---------------------------------------------------------- */
+  --color-brand:          #F2A62A;  /* Amber Gold — highlights, secondary headings, icons */
+  --color-brand-hover:    #D9941E;
+  --color-brand-active:   #BF8217;
+  --color-brand-disabled: rgba(242, 166, 42, 0.4);
+
+  --color-cta:            #E8620A;  /* Vivid Orange — RESERVED for primary CTA only */
+  --color-cta-hover:      #C95208;
+  --color-cta-active:     #A94307;
+  --color-cta-disabled:   rgba(232, 98, 10, 0.4);
+
+  --color-bg:             #FEFBF6;  /* Cream White — primary background */
+  --color-bg-alt:         #F9F3E8;  /* Alternate section background */
+
+  --color-text:           #2C2118;  /* Warm Charcoal — body text */
+  --color-text-muted:     #6B5B4A;  /* Secondary text, captions */
+  --color-text-inverse:   #FEFBF6;  /* On dark/CTA backgrounds */
+
+  --color-accent:         #2D7A41;  /* Forest Green — tags, badges, themed icons */
+  --color-accent-hover:   #25683A;
+  --color-accent-soft:    #D9E8DD;  /* Soft tint for badges */
+
+  /* ----------------------------------------------------------
+     Colors — Support
+     ---------------------------------------------------------- */
+  --color-surface:        #C8973A;  /* Block Amber — cards, decorative elements */
+  --color-surface-hover:  #B0832F;
+  --color-muted:          #E8DCC8;  /* Sand — dividers, neutral sections */
+  --color-muted-border:   #D4C4A8;
+
+  /* ----------------------------------------------------------
+     Typography
+     ---------------------------------------------------------- */
+  --font-heading: 'Nunito', system-ui, -apple-system, sans-serif;
+  --font-body:    'Inter', system-ui, -apple-system, sans-serif;
+
+  /* Fluid type scale (mobile to desktop) */
+  --text-display: clamp(2.5rem, 5vw, 4rem);       /* H1 hero */
+  --text-h2:      clamp(1.875rem, 3vw, 2.5rem);   /* H2 section */
+  --text-h3:      clamp(1.25rem, 2vw, 1.5rem);    /* H3 subsection */
+  --text-lead:    clamp(1.125rem, 1.5vw, 1.25rem);/* Body lead */
+  --text-body:    1.125rem;                       /* Body (18px) */
+  --text-small:   0.875rem;                       /* Caption, meta */
+  --text-button:  1rem;                           /* CTA button */
+
+  /* Weights */
+  --weight-regular:   400;
+  --weight-medium:    500;
+  --weight-bold:      700;
+  --weight-extrabold: 800;
+
+  /* Line heights */
+  --leading-tight:   1.1;
+  --leading-snug:    1.2;
+  --leading-normal:  1.4;
+  --leading-relaxed: 1.6;
+
+  /* ----------------------------------------------------------
+     Spacing
+     ---------------------------------------------------------- */
+  --space-1:   4px;
+  --space-2:   8px;
+  --space-3:   12px;
+  --space-4:   16px;
+  --space-6:   24px;
+  --space-8:   32px;
+  --space-12:  48px;
+  --space-16:  64px;
+  --space-20:  80px;   /* Minimum section spacing (mobile) */
+  --space-24:  96px;
+  --space-30:  120px;  /* Generous section spacing (desktop) */
+
+  --space-section: clamp(5rem, 8vw, 7.5rem);
+  --space-content: clamp(1.5rem, 4vw, 3rem);
+
+  /* ----------------------------------------------------------
+     Borders, Radii, Shadows
+     ---------------------------------------------------------- */
+  --radius-sm:   4px;
+  --radius-md:   8px;
+  --radius-lg:   16px;
+  --radius-full: 9999px;
+
+  --shadow-sm: 0 1px 3px rgba(44, 33, 24, 0.08);
+  --shadow-md: 0 4px 12px rgba(44, 33, 24, 0.10);
+
+  --border-width: 1.5px;
+  --border-color: var(--color-muted-border);
+
+  /* ----------------------------------------------------------
+     Layout
+     ---------------------------------------------------------- */
+  --max-width: 1200px;
+  --max-width-prose: 720px;
+  --container-padding: clamp(1rem, 5vw, 2rem);
+
+  /* ----------------------------------------------------------
+     Transitions
+     ---------------------------------------------------------- */
+  --transition-fast:   150ms ease;
+  --transition-normal: 200ms ease;
+  --transition-slow:   400ms ease-out;
+
+  /* ----------------------------------------------------------
+     Z-index scale
+     ---------------------------------------------------------- */
+  --z-base:    1;
+  --z-sticky:  100;
+  --z-drawer:  200;
+  --z-modal:   300;
+  --z-skip:    9999;
+}

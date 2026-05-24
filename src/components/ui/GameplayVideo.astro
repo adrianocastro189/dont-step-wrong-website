@@ -1,0 +1,53 @@
+---
+interface Props {
+  /** Filename inside /public/videos/ (without extension). */
+  src: string;
+  /** Required: accessibility description of what the video shows. */
+  ariaLabel: string;
+  width: number;
+  height: number;
+  class?: string;
+}
+
+const { src, ariaLabel, width, height, class: className } = Astro.props;
+---
+<figure class:list={['gameplay-video', className]}>
+  <video
+    autoplay
+    loop
+    muted
+    playsinline
+    width={width}
+    height={height}
+    aria-label={ariaLabel}
+    preload="metadata"
+  >
+    <source src={`/videos/${src}.webm`} type="video/webm" />
+    <source src={`/videos/${src}.mp4`} type="video/mp4" />
+    <!-- TODO: provide WebM/MP4 sources via CEO converting game GIFs -->
+  </video>
+</figure>
+
+<style>
+  .gameplay-video {
+    margin: 0;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    background-color: var(--color-muted);
+  }
+
+  .gameplay-video video {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* Pause autoplay for reduced motion users */
+  @media (prefers-reduced-motion: reduce) {
+    .gameplay-video video {
+      /* CSS cannot pause video; relies on browser respecting prefers-reduced-motion
+         OR Alpine.js script doing video.pause(). Pending implementation. */
+    }
+  }
+</style>

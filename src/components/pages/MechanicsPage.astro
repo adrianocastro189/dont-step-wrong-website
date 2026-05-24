@@ -1,0 +1,124 @@
+---
+import type { Locale } from '@i18n/utils';
+import { t, getAlternateURLs, toAbsolute, getUrl } from '@i18n/utils';
+import BaseLayout from '@components/layout/BaseLayout.astro';
+import SchemaBreadcrumb from '@components/seo/SchemaBreadcrumb.astro';
+import CTASteam from '@components/ui/CTASteam.astro';
+import Placeholder from '@components/ui/Placeholder.astro';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const strings = t(locale);
+
+const seo: Record<Locale, { title: string; description: string }> = {
+  en: {
+    title: "Mechanics — Don't Step Wrong 2",
+    description: 'Skills, items, zones and rule categories in Don\'t Step Wrong 2. Systems explained — rules kept secret.',
+  },
+  pt: {
+    title: "Mecânicas — Don't Step Wrong 2",
+    description: 'Habilidades, itens, zonas e categorias de regras em Don\'t Step Wrong 2. Sistemas explicados — regras mantidas em segredo.',
+  },
+  es: {
+    title: "Mecánicas — Don't Step Wrong 2",
+    description: 'Habilidades, ítems, zonas y categorías de reglas en Don\'t Step Wrong 2. Sistemas explicados — reglas mantenidas en secreto.',
+  },
+};
+
+const alternates = getAlternateURLs('mechanics');
+const canonicalURL = toAbsolute(alternates[locale]);
+const { title, description } = seo[locale];
+
+const breadcrumb = [
+  { name: strings.nav.home, url: getUrl('home', locale) },
+  { name: strings.nav.mechanics, url: getUrl('mechanics', locale) },
+];
+
+// TODO: full content (rule categories, skills, biomes) pending CPO specification.
+// Using brand-brief-safe placeholders that respect the anti-spoiler principle.
+---
+<BaseLayout
+  title={title}
+  description={description}
+  canonicalURL={canonicalURL}
+  hreflang={alternates}
+  locale={locale}
+  currentPage="mechanics"
+>
+  <SchemaBreadcrumb slot="head" items={breadcrumb} />
+
+  <section class="section">
+    <div class="container-prose">
+      <h1>{strings.mechanics.h1}</h1>
+      <p class="lead">{strings.mechanics.lead}</p>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="container">
+      <h2>{strings.mechanics.rulesTitle}</h2>
+      <p class="muted">
+        <!-- TODO: CPO to specify rule categories text -->
+        Placeholder content — to be specified by CPO.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2>{strings.mechanics.skillsTitle}</h2>
+      <p class="muted">
+        <!-- TODO: CPO to specify skills text -->
+        Placeholder content — to be specified by CPO.
+      </p>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="container">
+      <h2>{strings.mechanics.biomesTitle}</h2>
+      <Placeholder
+        width={1200}
+        height={675}
+        text="Green Forest"
+        variant="surface"
+        alt="Screenshot of the Green Forest biome — the first biome in the game"
+      />
+      <p class="muted" style="margin-top: var(--space-6);">
+        <!-- TODO: CPO to specify biomes text + use real screenshots from art/Steam/Final/v1/ -->
+        Placeholder content — to be specified by CPO.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container final-cta-inline">
+      <h2>{strings.mechanics.soundsInteresting}</h2>
+      <CTASteam label={strings.cta.playDemo} target="demo" variant="primary" />
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .lead {
+    font-size: var(--text-lead);
+    color: var(--color-text-muted);
+    margin-top: var(--space-6);
+  }
+
+  .muted {
+    color: var(--color-text-muted);
+    margin-top: var(--space-6);
+  }
+
+  .final-cta-inline {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-6);
+    text-align: center;
+  }
+</style>

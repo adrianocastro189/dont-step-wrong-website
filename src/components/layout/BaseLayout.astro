@@ -1,0 +1,109 @@
+---
+import '@styles/global.css';
+import type { Locale, PageId } from '@i18n/utils';
+import { t, SITE_URL, toAbsolute } from '@i18n/utils';
+import Header from '@components/layout/Header.astro';
+import Footer from '@components/layout/Footer.astro';
+import SkipToContent from '@components/ui/SkipToContent.astro';
+import Hreflang from '@components/seo/Hreflang.astro';
+import SchemaWebSite from '@components/seo/SchemaWebSite.astro';
+
+interface Props {
+  /** Page <title>. Max 60 chars for SEO. */
+  title: string;
+  /** Meta description. Max 155 chars. */
+  description: string;
+  /** Absolute canonical URL. */
+  canonicalURL: string;
+  /** Optional OG image path (defaults to /images/og-image.jpg). */
+  ogImage?: string;
+  /** OG type. Defaults to 'website'. */
+  ogType?: 'website' | 'article';
+  /** Hreflang alternates per locale. */
+  hreflang: { en: string; pt: string; es: string };
+  /** Locale of the current page. */
+  locale: Locale;
+  /** Page identifier for nav highlighting. */
+  currentPage: PageId;
+  /** Set to true to mark the page as noindex. */
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description,
+  canonicalURL,
+  ogImage = '/images/og-image.jpg',
+  ogType = 'website',
+  hreflang,
+  locale,
+  currentPage,
+  noindex = false,
+} = Astro.props;
+
+const strings = t(locale);
+const absoluteOgImage = ogImage.startsWith('http') ? ogImage : toAbsolute(ogImage);
+const htmlLang = locale === 'pt' ? 'pt-BR' : locale === 'es' ? 'es-ES' : 'en-US';
+---
+<!DOCTYPE html>
+<html lang={htmlLang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+
+    {noindex
+      ? <meta name="robots" content="noindex, follow" />
+      : <meta name="robots" content="index, follow" />}
+
+    <link rel="canonical" href={canonicalURL} />
+    <Hreflang en={hreflang.en} pt={hreflang.pt} es={hreflang.es} />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:image" content={absoluteOgImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content={strings.meta.locale} />
+    <meta property="og:site_name" content={strings.meta.siteName} />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={absoluteOgImage} />
+
+    <!-- Favicon — TODO: replace with actual favicon from game logo -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Fonts: Nunito (heading) + Inter (body) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&family=Inter:wght@400;500;700&display=swap"
+    />
+
+    <!-- Cloudflare Web Analytics — TODO: insert CEO-provided token before launch -->
+    <!-- <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "TOKEN_HERE"}'></script> -->
+
+    <SchemaWebSite />
+
+    <slot name="head" />
+  </head>
+
+  <body>
+    <SkipToContent locale={locale} />
+    <Header locale={locale} currentPage={currentPage} />
+    <main id="main-content">
+      <slot />
+    </main>
+    <Footer locale={locale} />
+  </body>
+</html>

@@ -1,0 +1,204 @@
+---
+import type { Locale } from '@i18n/utils';
+import { t, getAlternateURLs, toAbsolute, getUrl } from '@i18n/utils';
+import BaseLayout from '@components/layout/BaseLayout.astro';
+import SchemaBreadcrumb from '@components/seo/SchemaBreadcrumb.astro';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const strings = t(locale);
+
+const seo: Record<Locale, { title: string; description: string }> = {
+  en: {
+    title: "Press Kit — Don't Step Wrong 2",
+    description: 'Assets, screenshots, description and contact for press and Steam curators covering Don\'t Step Wrong 2.',
+  },
+  pt: {
+    title: "Press Kit — Don't Step Wrong 2",
+    description: 'Assets, screenshots, descrição e contato para imprensa e curadores Steam cobrindo Don\'t Step Wrong 2.',
+  },
+  es: {
+    title: "Press Kit — Don't Step Wrong 2",
+    description: 'Assets, capturas, descripción y contacto para prensa y curadores Steam cubriendo Don\'t Step Wrong 2.',
+  },
+};
+
+const alternates = getAlternateURLs('presskit');
+const canonicalURL = toAbsolute(alternates[locale]);
+const { title, description } = seo[locale];
+
+const breadcrumb = [
+  { name: strings.nav.home, url: getUrl('home', locale) },
+  { name: strings.nav.presskit, url: getUrl('presskit', locale) },
+];
+
+// TODO: Redator + CEO to produce factual press copy and finalize asset URLs.
+const CONTACT_EMAIL = 'press@feriado.studio'; // TODO: confirm with CEO
+---
+<BaseLayout
+  title={title}
+  description={description}
+  canonicalURL={canonicalURL}
+  hreflang={alternates}
+  locale={locale}
+  currentPage="presskit"
+>
+  <SchemaBreadcrumb slot="head" items={breadcrumb} />
+
+  <section class="section">
+    <div class="container-prose">
+      <h1>{strings.presskit.h1}</h1>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container-prose presskit">
+      <div class="presskit__block">
+        <h2>{strings.presskit.aboutTitle}</h2>
+        <dl class="presskit__facts">
+          <dt>Title</dt>
+          <dd>Don't Step Wrong 2</dd>
+          <dt>Developer</dt>
+          <dd>Feriado (Adriano Castro)</dd>
+          <dt>Platform</dt>
+          <dd>PC (Steam)</dd>
+          <dt>Release</dt>
+          <dd>2026 (TBA) — Demo: June 2026</dd>
+          <dt>Genre</dt>
+          <dd>Puzzle, Rule Discovery, Indie</dd>
+          <dt>Steam</dt>
+          <dd>
+            <a href="https://store.steampowered.com/app/4627790/Dont_Step_Wrong_2/"
+               target="_blank" rel="noopener noreferrer">
+              store.steampowered.com/app/4627790
+            </a>
+          </dd>
+          <dt>Discord</dt>
+          <dd>
+            <a href="https://discord.gg/KX8mzVuqzm"
+               target="_blank" rel="noopener noreferrer">
+              discord.gg/KX8mzVuqzm
+            </a>
+          </dd>
+        </dl>
+        <p class="presskit__lead">
+          <!-- TODO: Redator — 2-paragraph factual description -->
+          A puzzle game where each level has an implicit rule. The player
+          discovers the rule through trial and error — the game itself
+          never reveals what the rule is.
+        </p>
+      </div>
+
+      <div class="presskit__block">
+        <h2>{strings.presskit.featuresTitle}</h2>
+        <ul class="presskit__features">
+          <!-- TODO: CPO — finalize feature list -->
+          <li>Dozens of rule categories across multiple biomes</li>
+          <li>Skills that hint without breaking discovery</li>
+          <li>Multilingual: English, Portuguese, Spanish</li>
+          <li>Indie production from a solo developer</li>
+        </ul>
+      </div>
+
+      <div class="presskit__block">
+        <h2>{strings.presskit.assetsTitle}</h2>
+        <ul class="presskit__assets">
+          <!-- TODO: CEO — provide final asset URLs (currently pointing to public folder placeholders) -->
+          <li>
+            <span>Logo (PNG)</span>
+            <a href="/press/logo.png" download>{strings.presskit.download}</a>
+          </li>
+          <li>
+            <span>Steam capsule</span>
+            <a href="/press/capsule.png" download>{strings.presskit.download}</a>
+          </li>
+          <li>
+            <span>Screenshots (ZIP)</span>
+            <a href="/press/screenshots.zip" download>{strings.presskit.download}</a>
+          </li>
+          <li>
+            <span>Gameplay GIF</span>
+            <a href="/press/gameplay.mp4" download>{strings.presskit.download}</a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="presskit__block">
+        <h2>{strings.presskit.contactTitle}</h2>
+        <p>
+          <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .presskit {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-12);
+  }
+
+  .presskit__block h2 {
+    margin-bottom: var(--space-4);
+  }
+
+  .presskit__lead {
+    margin-top: var(--space-4);
+    color: var(--color-text);
+  }
+
+  .presskit__facts {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: var(--space-2) var(--space-6);
+    margin-bottom: var(--space-4);
+  }
+
+  .presskit__facts dt {
+    font-weight: var(--weight-bold);
+    color: var(--color-text-muted);
+  }
+
+  .presskit__facts dd {
+    color: var(--color-text);
+  }
+
+  .presskit__features {
+    list-style: disc;
+    padding-left: var(--space-6);
+    color: var(--color-text);
+  }
+
+  .presskit__features li {
+    margin-bottom: var(--space-2);
+  }
+
+  .presskit__assets {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .presskit__assets li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-3) var(--space-4);
+    border: var(--border-width) solid var(--border-color);
+    border-radius: var(--radius-md);
+  }
+
+  .presskit__assets a {
+    color: var(--color-brand);
+    font-weight: var(--weight-bold);
+  }
+
+  .presskit__assets a:hover {
+    color: var(--color-brand-hover);
+  }
+</style>

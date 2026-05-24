@@ -1,0 +1,177 @@
+---
+import type { Locale } from '@i18n/utils';
+import type { CollectionEntry } from 'astro:content';
+import { t, getDevlogPostAlternates, toAbsolute, getUrl, computeDevlogPostUrl } from '@i18n/utils';
+import BaseLayout from '@components/layout/BaseLayout.astro';
+import SchemaBlogPosting from '@components/seo/SchemaBlogPosting.astro';
+import SchemaBreadcrumb from '@components/seo/SchemaBreadcrumb.astro';
+import CTASteam from '@components/ui/CTASteam.astro';
+
+interface Props {
+  locale: Locale;
+  post: CollectionEntry<'devlog'>;
+  slug: string;
+}
+
+const { locale, post, slug } = Astro.props;
+const strings = t(locale);
+const { Content } = await post.render();
+
+const alternates = getDevlogPostAlternates(slug);
+const url = computeDevlogPostUrl(locale, slug);
+const canonicalURL = toAbsolute(url);
+const datePublished = post.data.date.toISOString();
+
+const seoTitle = `${post.data.title} — Don't Step Wrong 2 Devlog`;
+const titleTruncated = seoTitle.length > 60 ? `${seoTitle.slice(0, 57)}...` : seoTitle;
+
+const breadcrumb = [
+  { name: strings.nav.home, url: getUrl('home', locale) },
+  { name: strings.nav.devlog, url: getUrl('devlog', locale) },
+  { name: post.data.title, url },
+];
+
+const dateFormatter = new Intl.DateTimeFormat(
+  locale === 'pt' ? 'pt-BR' : locale === 'es' ? 'es-ES' : 'en-US',
+  { day: 'numeric', month: 'long', year: 'numeric' }
+);
+
+// Rough reading time: ~200 words per minute.
+const wordCount = post.body.trim().split(/\s+/).length;
+const minutes = Math.max(1, Math.round(wordCount / 200));
+---
+<BaseLayout
+  title={titleTruncated}
+  description={post.data.description}
+  canonicalURL={canonicalURL}
+  hreflang={alternates}
+  locale={locale}
+  currentPage="devlog"
+  ogType="article"
+  ogImage={post.data.coverImage}
+>
+  <SchemaBlogPosting
+    slot="head"
+    title={post.data.title}
+    description={post.data.description}
+    datePublished={datePublished}
+    image={post.data.coverImage}
+    url={url}
+    locale={locale}
+  />
+  <SchemaBreadcrumb slot="head" items={breadcrumb} />
+
+  <article class="section">
+    <div class="container-prose">
+      <nav aria-label="Breadcrumb" class="breadcrumb">
+        <a href={getUrl('home', locale)}>{strings.nav.home}</a>
+        <span aria-hidden="true">›</span>
+        <a href={getUrl('devlog', locale)}>{strings.nav.devlog}</a>
+        <span aria-hidden="true">›</span>
+        <span>{post.data.title}</span>
+      </nav>
+
+      <h1>{post.data.title}</h1>
+      <p class="post-meta">
+        {dateFormatter.format(post.data.date)} · {minutes} {strings.devlog.readingTime}
+      </p>
+
+      {post.data.coverImage && (
+        <img
+          src={post.data.coverImage}
+          alt=""
+          width="1200"
+          height="675"
+          class="post-cover"
+          loading="eager"
+        />
+      )}
+
+      <div class="post-content">
+        <Content />
+      </div>
+
+      <aside class="post-cta">
+        <p>{strings.devlog.likedItCta}</p>
+        <CTASteam label={strings.cta.playDemo} target="demo" variant="primary" />
+      </aside>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .breadcrumb {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    align-items: center;
+    font-size: var(--text-small);
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-8);
+  }
+
+  .breadcrumb a {
+    color: var(--color-text-muted);
+    transition: color var(--transition-fast);
+  }
+
+  .breadcrumb a:hover {
+    color: var(--color-brand);
+  }
+
+  .post-meta {
+    color: var(--color-text-muted);
+    font-size: var(--text-small);
+    font-weight: var(--weight-medium);
+    margin-top: var(--space-3);
+    margin-bottom: var(--space-8);
+  }
+
+  .post-cover {
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--space-12);
+  }
+
+  .post-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+
+  .post-content :global(h2) {
+    margin-top: var(--space-8);
+  }
+
+  .post-content :global(h3) {
+    margin-top: var(--space-6);
+  }
+
+  .post-content :global(p) {
+    line-height: var(--leading-relaxed);
+  }
+
+  .post-content :global(figure) {
+    margin-block: var(--space-8);
+  }
+
+  .post-content :global(figcaption) {
+    font-size: var(--text-small);
+    color: var(--color-text-muted);
+    text-align: center;
+    margin-top: var(--space-2);
+  }
+
+  .post-cta {
+    margin-top: var(--space-16);
+    padding: var(--space-8);
+    background-color: var(--color-bg-alt);
+    border-radius: var(--radius-lg);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    align-items: center;
+  }
+</style>

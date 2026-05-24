@@ -1,0 +1,40 @@
+---
+import type { Locale } from '@i18n/utils';
+import { t } from '@i18n/utils';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+
+// Skip link label per locale
+const label: Record<Locale, string> = {
+  en: 'Skip to main content',
+  pt: 'Pular para o conteúdo',
+  es: 'Saltar al contenido',
+};
+---
+<a href="#main-content" class="skip-link">
+  {label[locale]}
+</a>
+
+<style>
+  .skip-link {
+    position: absolute;
+    top: -100px;
+    left: var(--space-4);
+    padding: var(--space-2) var(--space-4);
+    background: var(--color-brand);
+    color: var(--color-text);
+    font-weight: var(--weight-bold);
+    border-radius: var(--radius-md);
+    z-index: var(--z-skip);
+    text-decoration: none;
+    transition: top var(--transition-fast);
+  }
+
+  .skip-link:focus {
+    top: var(--space-4);
+  }
+</style>

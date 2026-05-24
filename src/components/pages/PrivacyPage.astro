@@ -1,0 +1,121 @@
+---
+import type { Locale } from '@i18n/utils';
+import { t, getAlternateURLs, toAbsolute, getUrl } from '@i18n/utils';
+import BaseLayout from '@components/layout/BaseLayout.astro';
+import SchemaBreadcrumb from '@components/seo/SchemaBreadcrumb.astro';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const strings = t(locale);
+
+const seo: Record<Locale, { title: string; description: string }> = {
+  en: {
+    title: "Privacy Policy — Don't Step Wrong 2",
+    description: 'How we handle visitor data on the Don\'t Step Wrong 2 website.',
+  },
+  pt: {
+    title: "Política de Privacidade — Don't Step Wrong 2",
+    description: 'Como tratamos os dados dos visitantes no site de Don\'t Step Wrong 2.',
+  },
+  es: {
+    title: "Política de Privacidad — Don't Step Wrong 2",
+    description: 'Cómo manejamos los datos de los visitantes en el sitio de Don\'t Step Wrong 2.',
+  },
+};
+
+const alternates = getAlternateURLs('privacy');
+const canonicalURL = toAbsolute(alternates[locale]);
+const { title, description } = seo[locale];
+
+const breadcrumb = [
+  { name: strings.nav.home, url: getUrl('home', locale) },
+  { name: strings.nav.privacy, url: getUrl('privacy', locale) },
+];
+
+// Last updated date — TODO: bump when content changes.
+const lastUpdated = new Date('2026-05-24');
+const dateFormatter = new Intl.DateTimeFormat(
+  locale === 'pt' ? 'pt-BR' : locale === 'es' ? 'es-ES' : 'en-US',
+  { day: 'numeric', month: 'long', year: 'numeric' }
+);
+---
+<BaseLayout
+  title={title}
+  description={description}
+  canonicalURL={canonicalURL}
+  hreflang={alternates}
+  locale={locale}
+  currentPage="privacy"
+>
+  <SchemaBreadcrumb slot="head" items={breadcrumb} />
+
+  <section class="section">
+    <div class="container-prose privacy">
+      <h1>{strings.privacy.h1}</h1>
+      <p class="privacy__meta">
+        {strings.privacy.lastUpdated}: {dateFormatter.format(lastUpdated)}
+      </p>
+
+      <!-- TODO: Redator + CEO legal review — produce final privacy copy.
+           The text below is a functional placeholder that reflects the
+           project's current technical reality (Cloudflare Web Analytics,
+           no cookies, no PII collection). -->
+      <div class="privacy__body">
+        <h2>Data we collect</h2>
+        <p>
+          This website does not collect personal data. We use Cloudflare
+          Web Analytics, which provides aggregated, anonymous traffic
+          statistics without cookies or any form of personal identifier.
+        </p>
+
+        <h2>Third-party services</h2>
+        <p>
+          When you click links to external services (Steam, Discord,
+          itch.io), those services may collect data according to their
+          own privacy policies.
+        </p>
+
+        <h2>Cookies</h2>
+        <p>
+          This site uses no cookies. Browser local storage may be used by
+          your browser for caching purposes only.
+        </p>
+
+        <h2>Contact</h2>
+        <p>
+          Questions about this policy: <a href="mailto:contact@feriado.studio">
+          contact@feriado.studio</a>
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .privacy__meta {
+    color: var(--color-text-muted);
+    font-size: var(--text-small);
+    margin-top: var(--space-2);
+    margin-bottom: var(--space-8);
+  }
+
+  .privacy__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+
+  .privacy__body h2 {
+    font-size: var(--text-h3);
+    margin-top: var(--space-4);
+  }
+
+  .privacy__body a {
+    color: var(--color-brand);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+</style>

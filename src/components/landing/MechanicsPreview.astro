@@ -1,0 +1,138 @@
+---
+import type { Locale } from '@i18n/utils';
+import { t, getUrl } from '@i18n/utils';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const strings = t(locale);
+
+// TODO: copy of these 3 cards depends on CPO specifying mechanics content.
+// Using placeholder labels that respect the brand brief constraint
+// (show systems, not the rules themselves).
+const cards = [
+  {
+    icon: '◇',
+    titleKey: 'rulesTitle',
+    body: locale === 'pt'
+      ? 'Regras numéricas, de palavras, de tempo e dezenas de outras categorias.'
+      : locale === 'es'
+      ? 'Reglas numéricas, de palabras, de tiempo y decenas de otras categorías.'
+      : 'Numeric, word, time and dozens of other rule categories.',
+  },
+  {
+    icon: '◆',
+    titleKey: 'skillsTitle',
+    body: locale === 'pt'
+      ? 'Habilidades que revelam pistas quando você precisa.'
+      : locale === 'es'
+      ? 'Habilidades que revelan pistas cuando las necesitas.'
+      : 'Skills that reveal hints when you need them.',
+  },
+  {
+    icon: '▣',
+    titleKey: 'biomesTitle',
+    body: locale === 'pt'
+      ? 'Biomas com paletas e regras distintas para descobrir.'
+      : locale === 'es'
+      ? 'Biomas con paletas y reglas distintas por descubrir.'
+      : 'Biomes with distinct palettes and rules to discover.',
+  },
+] as const;
+
+type CardTitleKey = 'rulesTitle' | 'skillsTitle' | 'biomesTitle';
+
+const cardTitle = (key: CardTitleKey) => {
+  return strings.mechanics[key];
+};
+---
+<section class="mechanics-preview section section-alt">
+  <div class="container">
+    <h2 class="mechanics-preview__title">{strings.landing.mechanicsTitle}</h2>
+
+    <div class="mechanics-preview__grid">
+      {cards.map((card) => (
+        <article class="mechanic-card">
+          <span class="mechanic-card__icon" aria-hidden="true">{card.icon}</span>
+          <h3>{cardTitle(card.titleKey as CardTitleKey)}</h3>
+          <p>{card.body}</p>
+        </article>
+      ))}
+    </div>
+
+    <div class="mechanics-preview__link">
+      <a href={getUrl('mechanics', locale)}>
+        {strings.landing.mechanicsLink} →
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .mechanics-preview__title {
+    text-align: center;
+    margin-bottom: var(--space-12);
+  }
+
+  .mechanics-preview__grid {
+    display: grid;
+    gap: var(--space-6);
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 768px) {
+    .mechanics-preview__grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .mechanic-card {
+    background-color: var(--color-bg);
+    border: var(--border-width) solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: var(--space-8);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    transition: border-color var(--transition-fast),
+                box-shadow var(--transition-normal);
+  }
+
+  .mechanic-card:hover {
+    border-color: var(--color-brand);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .mechanic-card__icon {
+    font-size: 2rem;
+    color: var(--color-accent);
+    line-height: 1;
+  }
+
+  .mechanic-card h3 {
+    color: var(--color-text);
+  }
+
+  .mechanic-card p {
+    color: var(--color-text-muted);
+    font-size: var(--text-body);
+  }
+
+  .mechanics-preview__link {
+    text-align: center;
+    margin-top: var(--space-8);
+  }
+
+  .mechanics-preview__link a {
+    font-family: var(--font-heading);
+    font-weight: var(--weight-bold);
+    color: var(--color-brand);
+    transition: color var(--transition-fast);
+  }
+
+  .mechanics-preview__link a:hover {
+    color: var(--color-brand-hover);
+  }
+</style>

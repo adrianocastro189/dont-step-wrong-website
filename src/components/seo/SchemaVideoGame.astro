@@ -1,0 +1,49 @@
+---
+import { SITE_URL } from '@i18n/utils';
+
+interface Props {
+  description: string;
+  locale: 'en' | 'pt' | 'es';
+}
+
+const { description, locale } = Astro.props;
+
+// TODO: when demo goes live, change "availability" from PreOrder to OnlineOnly
+// and add "screenshot" array with screenshot URLs.
+// TODO: when reviews exist, add "aggregateRating".
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'VideoGame',
+  name: "Don't Step Wrong 2",
+  description,
+  url: `${SITE_URL}/`,
+  image: `${SITE_URL}/images/og-image.jpg`,
+  genre: ['Puzzle', 'Rule Discovery', 'Logic', 'Indie'],
+  gamePlatform: ['PC', 'Steam'],
+  operatingSystem: 'Windows',
+  applicationCategory: 'Game',
+  inLanguage: ['en', 'pt', 'es'],
+  offers: {
+    '@type': 'Offer',
+    price: '10.00',
+    priceCurrency: 'USD',
+    availability: 'https://schema.org/PreOrder',
+    url: 'https://store.steampowered.com/app/4627790/',
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Feriado',
+    url: `${SITE_URL}/`,
+  },
+  author: {
+    '@type': 'Person',
+    name: 'Adriano Castro',
+  },
+  sameAs: [
+    'https://store.steampowered.com/app/4627790/Dont_Step_Wrong_2/',
+    'https://adrianocastro.itch.io/dont-step-wrong',
+    'https://discord.gg/KX8mzVuqzm',
+  ],
+};
+---
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

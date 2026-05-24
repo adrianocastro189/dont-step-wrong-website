@@ -1,0 +1,53 @@
+---
+import type { Locale } from '@i18n/utils';
+import { t, getAlternateURLs, toAbsolute } from '@i18n/utils';
+import BaseLayout from '@components/layout/BaseLayout.astro';
+import HeroSection from '@components/landing/HeroSection.astro';
+import HowItWorksSection from '@components/landing/HowItWorksSection.astro';
+import MechanicsPreview from '@components/landing/MechanicsPreview.astro';
+import FinalCtaSection from '@components/landing/FinalCtaSection.astro';
+import SchemaVideoGame from '@components/seo/SchemaVideoGame.astro';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const strings = t(locale);
+
+// SEO copy per locale.
+// TODO: refine with Redator (current copy is functional, not optimized).
+const seo: Record<Locale, { title: string; description: string }> = {
+  en: {
+    title: "Don't Step Wrong 2 — The Rule Discovery Puzzle Game",
+    description: 'Each level has one rule. The game never tells you what it is. Discover it through trial and error. Available on Steam.',
+  },
+  pt: {
+    title: "Don't Step Wrong 2 — Puzzle de Descoberta de Regras",
+    description: 'Cada fase tem uma regra. O jogo nunca te diz qual é. Descubra por tentativa e erro. Disponível na Steam.',
+  },
+  es: {
+    title: "Don't Step Wrong 2 — Puzzle de Descubrimiento de Reglas",
+    description: 'Cada nivel tiene una regla. El juego nunca te dice cuál es. Descúbrela por ensayo y error. Disponible en Steam.',
+  },
+};
+
+const alternates = getAlternateURLs('home');
+const canonicalURL = toAbsolute(alternates[locale]);
+const { title, description } = seo[locale];
+---
+<BaseLayout
+  title={title}
+  description={description}
+  canonicalURL={canonicalURL}
+  hreflang={alternates}
+  locale={locale}
+  currentPage="home"
+>
+  <SchemaVideoGame slot="head" description={description} locale={locale} />
+
+  <HeroSection locale={locale} />
+  <HowItWorksSection locale={locale} />
+  <MechanicsPreview locale={locale} />
+  <FinalCtaSection locale={locale} />
+</BaseLayout>

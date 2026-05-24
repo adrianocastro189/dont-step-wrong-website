@@ -1,0 +1,46 @@
+---
+interface Props {
+  label: string;
+  class?: string;
+}
+
+const { label, class: className } = Astro.props;
+
+const DISCORD_URL = 'https://discord.gg/KX8mzVuqzm';
+---
+<a
+  href={DISCORD_URL}
+  class:list={['cta-discord', className]}
+  target="_blank"
+  rel="noopener noreferrer"
+>
+  {label}
+  <span aria-hidden="true" class="cta-discord__icon">↗</span>
+</a>
+
+<style>
+  .cta-discord {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-family: var(--font-body);
+    font-weight: var(--weight-medium);
+    font-size: var(--text-small);
+    padding: 10px 20px;
+    border-radius: var(--radius-md);
+    background-color: var(--color-muted);
+    color: var(--color-text);
+    transition: background-color var(--transition-fast);
+    min-height: 44px;
+    line-height: 1;
+  }
+
+  .cta-discord:hover {
+    background-color: var(--color-muted-border);
+  }
+
+  .cta-discord__icon {
+    font-size: 0.875em;
+    opacity: 0.7;
+  }
+</style>
