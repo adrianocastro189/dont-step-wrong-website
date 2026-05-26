@@ -46,8 +46,8 @@ export type PageId =
 const URL_MAP: Record<PageId, Record<Locale, string>> = {
   home: {
     en: '/',
-    pt: '/pt/',
-    es: '/es/',
+    pt: '/pt',
+    es: '/es',
   },
   mechanics: {
     en: '/mechanics',
