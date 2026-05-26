@@ -16,15 +16,15 @@ const strings = t(locale);
 const seo: Record<Locale, { title: string; description: string }> = {
   en: {
     title: "Mechanics — Don't Step Wrong 2",
-    description: 'Skills, items, zones and rule categories in Don\'t Step Wrong 2. Systems explained — rules kept secret.',
+    description: 'Skills, zones and rule categories in Don\'t Step Wrong 2. Systems explained — rules kept secret.',
   },
   pt: {
     title: "Mecânicas — Don't Step Wrong 2",
-    description: 'Habilidades, itens, zonas e categorias de regras em Don\'t Step Wrong 2. Sistemas explicados — regras mantidas em segredo.',
+    description: 'Habilidades, zonas e categorias de regras em Don\'t Step Wrong 2. Sistemas explicados — regras mantidas em segredo.',
   },
   es: {
     title: "Mecánicas — Don't Step Wrong 2",
-    description: 'Habilidades, ítems, zonas y categorías de reglas en Don\'t Step Wrong 2. Sistemas explicados — reglas mantenidas en secreto.',
+    description: 'Habilidades, zonas y categorías de reglas en Don\'t Step Wrong 2. Sistemas explicados — reglas mantenidas en secreto.',
   },
 };
 
@@ -37,8 +37,192 @@ const breadcrumb = [
   { name: strings.nav.mechanics, url: getUrl('mechanics', locale) },
 ];
 
-// TODO: full content (rule categories, skills, biomes) pending CPO specification.
-// Using brand-brief-safe placeholders that respect the anti-spoiler principle.
+const ruleCards = [
+  {
+    title: 'Numeric',
+    body: locale === 'pt'
+      ? 'Regras construídas sobre propriedades matemáticas. Números que seguem um padrão, ou não. Descubra quais são válidos.'
+      : locale === 'es'
+      ? 'Reglas basadas en propiedades matemáticas. Números que siguen un patrón, o no. Descubre cuáles son válidos.'
+      : 'Rules built on mathematical properties. Numbers that follow a pattern, or don\'t. Figure out which ones are valid.',
+  },
+  {
+    title: 'Words',
+    body: locale === 'pt'
+      ? 'Algumas fases usam letras, linguagem ou significado no lugar de números. A lógica muda. A descoberta permanece a mesma.'
+      : locale === 'es'
+      ? 'Algunos niveles usan letras, lenguaje o significado en lugar de números. La lógica cambia. El descubrimiento es el mismo.'
+      : 'Some levels use letters, language, or meaning instead of numbers. The logic changes. The discovery stays the same.',
+  },
+  {
+    title: 'Time',
+    body: locale === 'pt'
+      ? 'Algumas regras envolvem o relógio, a ordem dos seus passos ou quanto tempo você espera. A grade é a mesma. A restrição não.'
+      : locale === 'es'
+      ? 'Algunas reglas involucran el reloj, el orden de tus pasos o cuánto tiempo esperas. La cuadrícula es la misma. La restricción no.'
+      : 'A few rules involve the clock, the order of your steps, or how long you wait. The grid is the same. The constraint isn\'t.',
+  },
+  {
+    title: 'And more',
+    body: locale === 'pt'
+      ? 'Dezenas de tipos de regra ao longo do jogo. Novas categorias aparecem conforme você avança para novas zonas.'
+      : locale === 'es'
+      ? 'Docenas de tipos de reglas en el juego. Nuevas categorías aparecen conforme avanzas a nuevas zonas.'
+      : 'Dozens of rule types across the game. New categories appear as you progress into new zones.',
+  },
+];
+
+const skillsLead = locale === 'pt'
+  ? 'Opcionais. Cada uma muda a forma como você aborda o puzzle. Nenhuma resolve por você.'
+  : locale === 'es'
+  ? 'Opcionales. Cada una cambia tu forma de abordar el puzzle. Ninguna lo resuelve por ti.'
+  : 'Optional. Each one changes how you approach the puzzle. None of them solve it for you.';
+
+type SkillType = 'active' | 'passive';
+
+const skillTypeLabelMap: Record<Locale, Record<SkillType, string>> = {
+  en: { active: 'Active', passive: 'Passive' },
+  pt: { active: 'Ativa', passive: 'Passiva' },
+  es: { active: 'Activa', passive: 'Pasiva' },
+};
+
+const skills: Array<{ name: string; desc: string; type: SkillType }> = [
+  {
+    name: 'Spider Sense',
+    desc: locale === 'pt'
+      ? 'Para você antes de um passo inválido, mas tem cargas limitadas.'
+      : locale === 'es'
+      ? 'Te detiene antes de un paso inválido, pero tiene cargas limitadas.'
+      : 'Stops you before an invalid step, but has limited charges.',
+    type: 'active',
+  },
+  {
+    name: 'Breadcrumb Trail',
+    desc: locale === 'pt'
+      ? 'Destaca os blocos em que você já pisou.'
+      : locale === 'es'
+      ? 'Resalta los bloques en los que ya pisaste.'
+      : 'Highlights the blocks you\'ve already stepped on.',
+    type: 'active',
+  },
+  {
+    name: 'Safe Start',
+    desc: locale === 'pt'
+      ? 'Revela qual bloco pisar primeiro.'
+      : locale === 'es'
+      ? 'Revela en qué bloque pisar primero.'
+      : 'Reveals which block to step on first.',
+    type: 'active',
+  },
+  {
+    name: 'Dead End Sense',
+    desc: locale === 'pt'
+      ? 'Avisa quando um caminho não leva a lugar nenhum.'
+      : locale === 'es'
+      ? 'Te avisa cuando un camino no lleva a ningún lado.'
+      : 'Warns you when a path leads nowhere.',
+    type: 'active',
+  },
+  {
+    name: 'Hint Reveal',
+    desc: locale === 'pt'
+      ? 'Inicia a fase com algumas dicas já visíveis.'
+      : locale === 'es'
+      ? 'Comienza el nivel con algunas pistas ya visibles.'
+      : 'Starts the level with some hints already visible.',
+    type: 'active',
+  },
+  {
+    name: 'Super Jump',
+    desc: locale === 'pt'
+      ? 'Retorna ao bloco inicial instantaneamente.'
+      : locale === 'es'
+      ? 'Te devuelve al bloque inicial al instante.'
+      : 'Returns you to the starting block instantly.',
+    type: 'active',
+  },
+  {
+    name: 'Freezer',
+    desc: locale === 'pt'
+      ? 'Quando você cai, o tabuleiro mantém seus valores atuais.'
+      : locale === 'es'
+      ? 'Cuando caes, el tablero mantiene sus valores actuales.'
+      : 'When you fall, the board keeps its current values.',
+    type: 'passive',
+  },
+  {
+    name: 'Farmer',
+    desc: locale === 'pt'
+      ? 'Aumenta a moeda ganha em fases concluídas.'
+      : locale === 'es'
+      ? 'Aumenta la moneda ganada en niveles completados.'
+      : 'Increases currency earned on completed levels.',
+    type: 'passive',
+  },
+];
+
+const biomes: Array<{ name: string; desc: string }> = [
+  {
+    name: 'Green Forest',
+    desc: locale === 'pt' ? 'Onde tudo começa. Paleta verde. As primeiras regras.'
+      : locale === 'es' ? 'Donde todo comienza. Paleta verde. Las primeras reglas.'
+      : 'Where it begins. Green palette. The first rules.',
+  },
+  {
+    name: 'Blue Forest',
+    desc: locale === 'pt' ? 'Mais fundo na floresta. A paleta muda. As regras também.'
+      : locale === 'es' ? 'Más adentro del bosque. La paleta cambia. Las reglas también.'
+      : 'Deeper into the forest. The palette shifts. So do the rules.',
+  },
+  {
+    name: 'River Crossing',
+    desc: locale === 'pt' ? 'O caminho entre. Água, pedra e algo novo.'
+      : locale === 'es' ? 'El camino entre. Agua, piedra y algo nuevo.'
+      : 'The path between. Water, stone, and something new.',
+  },
+  {
+    name: 'Swamp',
+    desc: locale === 'pt' ? 'Terreno mais difícil. Regras mais difíceis.'
+      : locale === 'es' ? 'Terreno más difícil. Reglas más difíciles.'
+      : 'Harder ground. Harder rules.',
+  },
+  {
+    name: 'Ruins',
+    desc: locale === 'pt' ? 'Uma cidade abandonada. Os blocos lembram algo.'
+      : locale === 'es' ? 'Una ciudad abandonada. Los bloques recuerdan algo.'
+      : 'An abandoned city. The blocks remember something.',
+  },
+  {
+    name: 'Rocky Desert',
+    desc: locale === 'pt' ? 'Sem sombra. Sem dicas. Só a grade.'
+      : locale === 'es' ? 'Sin sombra. Sin pistas. Solo la cuadrícula.'
+      : 'No shade. No hints. Just the grid.',
+  },
+  {
+    name: 'Sandy Desert',
+    desc: locale === 'pt' ? 'Terreno instável. As regras parecem diferentes aqui.'
+      : locale === 'es' ? 'Terreno cambiante. Las reglas se sienten diferentes aquí.'
+      : 'Shifting terrain. The rules feel different here.',
+  },
+  {
+    name: 'Snow Mountain',
+    desc: locale === 'pt' ? 'Frio e preciso. Sem margem para erro.'
+      : locale === 'es' ? 'Frío y preciso. Sin margen para el error.'
+      : 'Cold and precise. No room for error.',
+  },
+  {
+    name: 'Rocky Mountain',
+    desc: locale === 'pt' ? 'A subida antes do fim.'
+      : locale === 'es' ? 'La subida antes del final.'
+      : 'The climb before the end.',
+  },
+  {
+    name: 'Volcano',
+    desc: locale === 'pt' ? 'A zona final. O lore se encerra aqui.'
+      : locale === 'es' ? 'La zona final. El lore se cierra aquí.'
+      : 'The final zone. The lore closes here.',
+  },
+];
 ---
 <BaseLayout
   title={title}
@@ -59,38 +243,63 @@ const breadcrumb = [
 
   <section class="section section-alt">
     <div class="container">
-      <h2>{strings.mechanics.rulesTitle}</h2>
-      <p class="muted">
-        <!-- TODO: CPO to specify rule categories text -->
-        Placeholder content — to be specified by CPO.
-      </p>
+      <h2 class="section-title">{strings.mechanics.rulesTitle}</h2>
+      <div class="cards-grid cards-grid--4">
+        {ruleCards.map((card) => (
+          <article class="mechanic-card">
+            <h3 class="mechanic-card__title">{card.title}</h3>
+            <p class="mechanic-card__body">{card.body}</p>
+          </article>
+        ))}
+      </div>
     </div>
   </section>
 
   <section class="section">
     <div class="container">
-      <h2>{strings.mechanics.skillsTitle}</h2>
-      <p class="muted">
-        <!-- TODO: CPO to specify skills text -->
-        Placeholder content — to be specified by CPO.
-      </p>
+      <h2 class="section-title">{strings.mechanics.skillsTitle}</h2>
+      <p class="section-lead">{skillsLead}</p>
+      <div class="cards-grid cards-grid--2">
+        {skills.map((skill) => (
+          <article class="skill-card">
+            <div class="skill-card__header">
+              <span class="skill-card__name">{skill.name}</span>
+              <span class={`skill-card__badge skill-card__badge--${skill.type}`}>
+                {skillTypeLabelMap[locale][skill.type]}
+              </span>
+            </div>
+            <p class="skill-card__desc">{skill.desc}</p>
+          </article>
+        ))}
+      </div>
     </div>
   </section>
 
   <section class="section section-alt">
     <div class="container">
-      <h2>{strings.mechanics.biomesTitle}</h2>
-      <Placeholder
-        width={1200}
-        height={675}
-        text="Green Forest"
-        variant="surface"
-        alt="Screenshot of the Green Forest biome — the first biome in the game"
-      />
-      <p class="muted" style="margin-top: var(--space-6);">
-        <!-- TODO: CPO to specify biomes text + use real screenshots from art/Steam/Final/v1/ -->
-        Placeholder content — to be specified by CPO.
-      </p>
+      <h2 class="section-title">{strings.mechanics.biomesTitle}</h2>
+      <div class="biome-hero">
+        <Placeholder
+          width={1200}
+          height={675}
+          text="Green Forest"
+          variant="surface"
+          alt={locale === 'pt'
+            ? 'Screenshot do bioma Floresta Verde — o primeiro bioma do jogo'
+            : locale === 'es'
+            ? 'Captura del bioma Bosque Verde — el primer bioma del juego'
+            : 'Screenshot of the Green Forest biome — the first biome in the game'}
+        />
+        <p class="biome-hero__caption">{biomes[0].desc}</p>
+      </div>
+      <div class="cards-grid cards-grid--3 biomes-grid">
+        {biomes.slice(1).map((biome) => (
+          <article class="biome-card">
+            <h3 class="biome-card__name">{biome.name}</h3>
+            <p class="biome-card__desc">{biome.desc}</p>
+          </article>
+        ))}
+      </div>
     </div>
   </section>
 
@@ -109,10 +318,156 @@ const breadcrumb = [
     margin-top: var(--space-6);
   }
 
-  .muted {
+  .section-title {
+    margin-bottom: var(--space-8);
+  }
+
+  .section-lead {
     color: var(--color-text-muted);
+    margin-bottom: var(--space-8);
+    margin-top: calc(var(--space-8) * -1);
+  }
+
+  /* --- Shared grid --- */
+
+  .cards-grid {
+    display: grid;
+    gap: var(--space-6);
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 640px) {
+    .cards-grid--2 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 768px) {
+    .cards-grid--3 {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .cards-grid--4 {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  /* --- Rule type cards --- */
+
+  .mechanic-card {
+    background-color: var(--color-bg);
+    border: var(--border-width) solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .mechanic-card__title {
+    color: var(--color-text);
+    font-size: var(--text-body);
+    font-weight: var(--weight-bold);
+  }
+
+  .mechanic-card__body {
+    color: var(--color-text-muted);
+    font-size: var(--text-body);
+  }
+
+  /* --- Skill cards --- */
+
+  .skill-card {
+    background-color: var(--color-bg);
+    border: var(--border-width) solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    transition: border-color var(--transition-fast);
+  }
+
+  .skill-card:hover {
+    border-color: var(--color-brand);
+  }
+
+  .skill-card__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+  }
+
+  .skill-card__name {
+    font-weight: var(--weight-bold);
+    color: var(--color-text);
+  }
+
+  .skill-card__badge {
+    font-size: 0.75rem;
+    font-weight: var(--weight-bold);
+    padding: 0.2em 0.6em;
+    border-radius: var(--radius-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    flex-shrink: 0;
+  }
+
+  .skill-card__badge--active {
+    background-color: rgba(242, 166, 42, 0.15);
+    color: var(--color-brand-active);
+  }
+
+  .skill-card__badge--passive {
+    background-color: rgba(107, 91, 74, 0.12);
+    color: var(--color-text-muted);
+  }
+
+  .skill-card__desc {
+    color: var(--color-text-muted);
+    font-size: var(--text-body);
+  }
+
+  /* --- Biomes --- */
+
+  .biome-hero {
+    margin-bottom: var(--space-12);
+  }
+
+  .biome-hero__caption {
+    margin-top: var(--space-4);
+    color: var(--color-text-muted);
+    text-align: center;
+    font-style: italic;
+  }
+
+  .biomes-grid {
     margin-top: var(--space-6);
   }
+
+  .biome-card {
+    background-color: var(--color-bg);
+    border: var(--border-width) solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: var(--space-5);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .biome-card__name {
+    font-size: var(--text-body);
+    font-weight: var(--weight-bold);
+    color: var(--color-text);
+  }
+
+  .biome-card__desc {
+    font-size: var(--text-body);
+    color: var(--color-text-muted);
+  }
+
+  /* --- Final CTA --- */
 
   .final-cta-inline {
     display: flex;
