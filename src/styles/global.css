@@ -172,3 +172,44 @@ p {
   background-color: var(--color-brand);
   color: var(--color-text);
 }
+
+/* ============================================================
+   Screenshot contexts — Design System §9
+   ============================================================ */
+
+.screenshot-hero {
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  object-fit: cover;
+  border-radius: var(--radius-lg);
+  box-shadow: none;
+  border: none;
+}
+
+.screenshot-gameplay {
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  max-width: 800px;
+  object-fit: cover;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  border: none;
+}
+
+.screenshot-biome {
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  object-fit: cover;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  border: 1.5px solid rgba(242, 166, 42, 0.15);
+}
+
+.screenshot-devlog-thumb {
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  object-fit: cover;
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+  box-shadow: none;
+  border: none;
+}

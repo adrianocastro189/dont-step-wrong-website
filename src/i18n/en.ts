@@ -60,7 +60,6 @@ export const en = {
     skillFreezerDesc: 'When you fall, the board keeps its current values.',
     skillFarmerDesc: 'Increases currency earned on completed levels.',
     biomesTitle: 'Biomes',
-    biomeHeroAlt: 'Screenshot of the Green Forest biome — the first biome in the game',
     biomeGreenForestDesc: 'Dense canopy, green light, soft ground.',
     biomeBlueForestDesc: 'Deeper shade. Blue-green palette. Still air.',
     biomeRiverCrossingDesc: 'Stones across moving water. Muted tones.',

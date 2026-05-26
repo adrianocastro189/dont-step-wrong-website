@@ -62,7 +62,6 @@ export const pt: Strings = {
     skillFreezerDesc: 'Quando você cai, o tabuleiro mantém seus valores atuais.',
     skillFarmerDesc: 'Aumenta a moeda ganha em fases concluídas.',
     biomesTitle: 'Biomas',
-    biomeHeroAlt: 'Screenshot do bioma Floresta Verde — o primeiro bioma do jogo',
     biomeGreenForestDesc: 'Dossel denso, luz verde, chão macio.',
     biomeBlueForestDesc: 'Sombra mais profunda. Paleta azul-esverdeada. Ar parado.',
     biomeRiverCrossingDesc: 'Pedras sobre água corrente. Tons suaves.',

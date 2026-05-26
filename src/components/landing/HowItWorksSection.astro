@@ -15,13 +15,14 @@ const strings = t(locale);
     <h2 class="how-it-works__title">{strings.landing.howItWorksTitle}</h2>
 
     <div class="how-it-works__media">
-      <!-- TODO: replace with real gameplay video once CEO provides webm/mp4
+      <!-- TODO: replace with real gameplay video/screenshot once CEO provides assets
            (see GameplayVideo component). Using placeholder for now. -->
       <Placeholder
-        width={1200}
-        height={675}
+        width={800}
+        height={450}
         text="Gameplay"
         variant="surface"
+        class="screenshot-gameplay"
         alt="Gameplay grid showing successful and failed steps as the player discovers a rule"
       />
     </div>
@@ -40,7 +41,7 @@ const strings = t(locale);
 
   .how-it-works__media {
     margin-inline: auto;
-    max-width: 900px;
+    max-width: 800px;
     margin-bottom: var(--space-8);
   }
 

@@ -1,0 +1,321 @@
+---
+interface Biome {
+  name: string;
+  desc: string;
+  image?: string;
+}
+
+interface Props {
+  biomes: Biome[];
+}
+
+const { biomes } = Astro.props;
+const total = biomes.length;
+
+type SlideState = 'active' | 'next' | 'prev' | 'hidden';
+
+function initialState(i: number): SlideState {
+  if (i === 0) return 'active';
+  if (i === 1) return 'next';
+  if (i === total - 1) return 'prev';
+  return 'hidden';
+}
+
+const biomePlaceholder = (name: string) =>
+  `https://placehold.co/1200x675/2D7A41/FEFBF6?text=${encodeURIComponent(name)}`;
+---
+
+<div class="biome-carousel" data-biome-carousel>
+
+  <!-- Screenshot frame with left/right arrows -->
+  <div class="biome-carousel__frame">
+
+    <button
+      class="biome-carousel__arrow biome-carousel__arrow--prev"
+      aria-label="Previous biome"
+      data-bc-prev
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+           fill="none" stroke="currentColor" stroke-width="2"
+           stroke-linecap="round" stroke-linejoin="round"
+           aria-hidden="true" focusable="false">
+        <path d="m15 18-6-6 6-6"/>
+      </svg>
+    </button>
+
+    <div class="biome-carousel__slides" aria-live="polite" aria-atomic="false">
+      {biomes.map((biome, i) => (
+        <div
+          class="biome-carousel__slide"
+          data-state={initialState(i)}
+          role="group"
+          aria-label={`Biome ${i + 1} of ${total}: ${biome.name}`}
+          aria-hidden={i !== 0 ? "true" : undefined}
+        >
+          <img
+            src={biome.image ?? biomePlaceholder(biome.name)}
+            alt={`${biome.name} zone in Don't Step Wrong 2`}
+            width="1200"
+            height="675"
+            loading={i === 0 ? 'eager' : 'lazy'}
+            class="biome-carousel__img"
+          />
+        </div>
+      ))}
+    </div>
+
+    <button
+      class="biome-carousel__arrow biome-carousel__arrow--next"
+      aria-label="Next biome"
+      data-bc-next
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+           fill="none" stroke="currentColor" stroke-width="2"
+           stroke-linecap="round" stroke-linejoin="round"
+           aria-hidden="true" focusable="false">
+        <path d="m9 18 6-6-6-6"/>
+      </svg>
+    </button>
+
+  </div>
+
+  <!-- Per-slide info: name + description -->
+  <div class="biome-carousel__infos">
+    {biomes.map((biome, i) => (
+      <div
+        class="biome-carousel__info"
+        data-bc-info
+        data-index={i}
+        hidden={i !== 0}
+      >
+        <h3 class="biome-carousel__name">{biome.name}</h3>
+        <p class="biome-carousel__desc">{biome.desc}</p>
+      </div>
+    ))}
+  </div>
+
+  <!-- Dot indicators -->
+  <div class="biome-carousel__dots" role="tablist" aria-label="Biomes">
+    {biomes.map((biome, i) => (
+      <button
+        class="biome-carousel__dot"
+        role="tab"
+        aria-selected={i === 0 ? "true" : "false"}
+        aria-label={biome.name}
+        data-bc-dot
+        data-index={i}
+      />
+    ))}
+  </div>
+
+</div>
+
+<style>
+  /* Frame: visual treatment per .screenshot-biome (Design System §9 — Context 3) */
+  .biome-carousel__frame {
+    position: relative;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    border: 1.5px solid rgba(242, 166, 42, 0.15);
+    overflow: hidden;
+    aspect-ratio: 16 / 9;
+  }
+
+  .biome-carousel__slides {
+    position: absolute;
+    inset: 0;
+  }
+
+  .biome-carousel__slide {
+    position: absolute;
+    inset: 0;
+    transition: transform 300ms ease-in-out;
+  }
+
+  .biome-carousel__slide[data-state="active"] {
+    transform: translateX(0);
+    z-index: 1;
+  }
+
+  .biome-carousel__slide[data-state="prev"] {
+    transform: translateX(-100%);
+    z-index: 0;
+  }
+
+  .biome-carousel__slide[data-state="next"] {
+    transform: translateX(100%);
+    z-index: 0;
+  }
+
+  .biome-carousel__slide[data-state="hidden"] {
+    transform: translateX(100%);
+    visibility: hidden;
+  }
+
+  .biome-carousel__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* Arrows */
+  .biome-carousel__arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-full);
+    background-color: rgba(254, 251, 246, 0.85);
+    border: var(--border-width) solid var(--border-color);
+    color: var(--color-text);
+    transition: background-color var(--transition-fast),
+                border-color var(--transition-fast),
+                color var(--transition-fast);
+  }
+
+  .biome-carousel__arrow--prev {
+    left: var(--space-4);
+  }
+
+  .biome-carousel__arrow--next {
+    right: var(--space-4);
+  }
+
+  .biome-carousel__arrow:hover {
+    background-color: var(--color-brand);
+    border-color: var(--color-brand);
+    color: var(--color-text-inverse);
+  }
+
+  @media (max-width: 479px) {
+    .biome-carousel__arrow {
+      display: none;
+    }
+  }
+
+  /* Info section */
+  .biome-carousel__infos {
+    margin-top: var(--space-4);
+  }
+
+  .biome-carousel__name {
+    margin-bottom: var(--space-2);
+  }
+
+  .biome-carousel__desc {
+    color: var(--color-text-muted);
+    max-width: 680px;
+  }
+
+  /* Dots */
+  .biome-carousel__dots {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-2);
+    margin-top: var(--space-6);
+  }
+
+  .biome-carousel__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: var(--radius-full);
+    background-color: var(--color-muted);
+    opacity: 0.4;
+    transition: background-color var(--transition-fast),
+                opacity var(--transition-fast);
+    padding: 0;
+    flex-shrink: 0;
+  }
+
+  .biome-carousel__dot[aria-selected="true"] {
+    background-color: var(--color-brand);
+    opacity: 1;
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-biome-carousel]').forEach((carousel) => {
+    const slides = Array.from(carousel.querySelectorAll<HTMLElement>('.biome-carousel__slide'));
+    const infos  = Array.from(carousel.querySelectorAll<HTMLElement>('[data-bc-info]'));
+    const dots   = Array.from(carousel.querySelectorAll<HTMLButtonElement>('[data-bc-dot]'));
+    const prevBtn = carousel.querySelector<HTMLButtonElement>('[data-bc-prev]');
+    const nextBtn = carousel.querySelector<HTMLButtonElement>('[data-bc-next]');
+    const total = slides.length;
+    let current = 0;
+    let animating = false;
+
+    function setSlideState(index: number, state: string) {
+      slides[index].dataset.state = state;
+      slides[index].toggleAttribute('aria-hidden', state !== 'active');
+    }
+
+    function syncNeighbors() {
+      slides.forEach((_, i) => {
+        if (i === current) return;
+        if (i === (current + 1) % total) { setSlideState(i, 'next'); return; }
+        if (i === (current - 1 + total) % total) { setSlideState(i, 'prev'); return; }
+        setSlideState(i, 'hidden');
+      });
+    }
+
+    function goTo(next: number, direction: 'forward' | 'backward') {
+      if (animating || next === current) return;
+      animating = true;
+
+      const entering = slides[next];
+      const initialPos = direction === 'forward' ? 'next' : 'prev';
+
+      // Teleport entering slide to starting position without transition
+      entering.style.transition = 'none';
+      entering.dataset.state = initialPos;
+      entering.getBoundingClientRect(); // force repaint
+      entering.style.transition = '';
+
+      // Animate both slides
+      setSlideState(current, direction === 'forward' ? 'prev' : 'next');
+      setSlideState(next, 'active');
+
+      // Update info panels
+      infos[current].hidden = true;
+      infos[next].hidden = false;
+
+      // Update dots
+      dots[current].setAttribute('aria-selected', 'false');
+      dots[next].setAttribute('aria-selected', 'true');
+
+      current = next;
+
+      setTimeout(() => {
+        syncNeighbors();
+        animating = false;
+      }, 300);
+    }
+
+    prevBtn?.addEventListener('click', () => goTo((current - 1 + total) % total, 'backward'));
+    nextBtn?.addEventListener('click', () => goTo((current + 1) % total, 'forward'));
+
+    dots.forEach((dot, i) => {
+      dot.addEventListener('click', () => goTo(i, i > current ? 'forward' : 'backward'));
+    });
+
+    // Touch swipe
+    let touchStartX = 0;
+    carousel.addEventListener('touchstart', (e) => {
+      touchStartX = e.touches[0].clientX;
+    }, { passive: true });
+    carousel.addEventListener('touchend', (e) => {
+      const delta = touchStartX - e.changedTouches[0].clientX;
+      if (Math.abs(delta) > 50) {
+        delta > 0
+          ? goTo((current + 1) % total, 'forward')
+          : goTo((current - 1 + total) % total, 'backward');
+      }
+    }, { passive: true });
+  });
+</script>

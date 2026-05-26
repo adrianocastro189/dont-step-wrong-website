@@ -9,7 +9,7 @@ interface Props {
   height: number;
   text?: string;
   /** Color variant matches project palette */
-  variant?: 'brand' | 'surface' | 'muted';
+  variant?: 'brand' | 'surface' | 'muted' | 'accent';
   alt: string;
   class?: string;
   loading?: 'lazy' | 'eager';
@@ -29,6 +29,7 @@ const palettes = {
   brand:   { bg: 'F2A62A', fg: '2C2118' },
   surface: { bg: 'C8973A', fg: 'FEFBF6' },
   muted:   { bg: 'E8DCC8', fg: '2C2118' },
+  accent:  { bg: '2D7A41', fg: 'FEFBF6' },
 } as const;
 
 const { bg, fg } = palettes[variant];

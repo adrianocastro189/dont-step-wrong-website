@@ -4,7 +4,7 @@ import { t, getAlternateURLs, toAbsolute, getUrl } from '@i18n/utils';
 import BaseLayout from '@components/layout/BaseLayout.astro';
 import SchemaBreadcrumb from '@components/seo/SchemaBreadcrumb.astro';
 import CTASteam from '@components/ui/CTASteam.astro';
-import Placeholder from '@components/ui/Placeholder.astro';
+import BiomeCarousel from '@components/ui/BiomeCarousel.astro';
 
 interface Props {
   locale: Locale;
@@ -126,24 +126,7 @@ const biomes: Array<{ name: string; desc: string }> = [
   <section class="section section-alt">
     <div class="container">
       <h2 class="section-title">{m.biomesTitle}</h2>
-      <div class="biome-hero">
-        <Placeholder
-          width={1200}
-          height={675}
-          text="Green Forest"
-          variant="surface"
-          alt={m.biomeHeroAlt}
-        />
-        <p class="biome-hero__caption">{biomes[0].desc}</p>
-      </div>
-      <div class="cards-grid cards-grid--3 biomes-grid">
-        {biomes.slice(1).map((biome) => (
-          <article class="biome-card">
-            <h3 class="biome-card__name">{biome.name}</h3>
-            <p class="biome-card__desc">{biome.desc}</p>
-          </article>
-        ))}
-      </div>
+      <BiomeCarousel biomes={biomes} />
     </div>
   </section>
 
@@ -271,44 +254,6 @@ const biomes: Array<{ name: string; desc: string }> = [
   .skill-card__desc {
     color: var(--color-text-muted);
     font-size: var(--text-body);
-  }
-
-  /* --- Biomes --- */
-
-  .biome-hero {
-    margin-bottom: var(--space-12);
-  }
-
-  .biome-hero__caption {
-    margin-top: var(--space-4);
-    color: var(--color-text-muted);
-    text-align: center;
-    font-style: italic;
-  }
-
-  .biomes-grid {
-    margin-top: var(--space-6);
-  }
-
-  .biome-card {
-    background-color: var(--color-bg);
-    border: var(--border-width) solid var(--border-color);
-    border-radius: var(--radius-lg);
-    padding: var(--space-4);
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-2);
-  }
-
-  .biome-card__name {
-    font-size: var(--text-body);
-    font-weight: var(--weight-bold);
-    color: var(--color-text);
-  }
-
-  .biome-card__desc {
-    font-size: var(--text-body);
-    color: var(--color-text-muted);
   }
 
   /* --- Final CTA --- */
