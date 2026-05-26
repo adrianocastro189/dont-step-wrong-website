@@ -39,7 +39,7 @@ const breadcrumb = [
 
 const ruleCards = [
   {
-    title: 'Numeric',
+    title: locale === 'pt' ? 'Numérico' : locale === 'es' ? 'Numérico' : 'Numeric',
     body: locale === 'pt'
       ? 'Regras construídas sobre propriedades matemáticas. Números que seguem um padrão, ou não. Descubra quais são válidos.'
       : locale === 'es'
@@ -47,7 +47,7 @@ const ruleCards = [
       : 'Rules built on mathematical properties. Numbers that follow a pattern, or don\'t. Figure out which ones are valid.',
   },
   {
-    title: 'Words',
+    title: locale === 'pt' ? 'Palavras' : locale === 'es' ? 'Palabras' : 'Words',
     body: locale === 'pt'
       ? 'Algumas fases usam letras, linguagem ou significado no lugar de números. A lógica muda. A descoberta permanece a mesma.'
       : locale === 'es'
@@ -55,7 +55,7 @@ const ruleCards = [
       : 'Some levels use letters, language, or meaning instead of numbers. The logic changes. The discovery stays the same.',
   },
   {
-    title: 'Time',
+    title: locale === 'pt' ? 'Tempo' : locale === 'es' ? 'Tiempo' : 'Time',
     body: locale === 'pt'
       ? 'Algumas regras envolvem o relógio, a ordem dos seus passos ou quanto tempo você espera. A grade é a mesma. A restrição não.'
       : locale === 'es'
@@ -63,7 +63,7 @@ const ruleCards = [
       : 'A few rules involve the clock, the order of your steps, or how long you wait. The grid is the same. The constraint isn\'t.',
   },
   {
-    title: 'And more',
+    title: locale === 'pt' ? 'E mais' : locale === 'es' ? 'Y más' : 'And more',
     body: locale === 'pt'
       ? 'Dezenas de tipos de regra ao longo do jogo. Novas categorias aparecem conforme você avança para novas zonas.'
       : locale === 'es'
@@ -164,63 +164,63 @@ const skills: Array<{ name: string; desc: string; type: SkillType }> = [
 const biomes: Array<{ name: string; desc: string }> = [
   {
     name: 'Green Forest',
-    desc: locale === 'pt' ? 'Onde tudo começa. Paleta verde. As primeiras regras.'
-      : locale === 'es' ? 'Donde todo comienza. Paleta verde. Las primeras reglas.'
-      : 'Where it begins. Green palette. The first rules.',
+    desc: locale === 'pt' ? 'Dossel denso, luz verde, chão macio.'
+      : locale === 'es' ? 'Dosel denso, luz verde, suelo suave.'
+      : 'Dense canopy, green light, soft ground.',
   },
   {
     name: 'Blue Forest',
-    desc: locale === 'pt' ? 'Mais fundo na floresta. A paleta muda. As regras também.'
-      : locale === 'es' ? 'Más adentro del bosque. La paleta cambia. Las reglas también.'
-      : 'Deeper into the forest. The palette shifts. So do the rules.',
+    desc: locale === 'pt' ? 'Sombra mais profunda. Paleta azul-esverdeada. Ar parado.'
+      : locale === 'es' ? 'Sombra más profunda. Paleta azul verdosa. Aire quieto.'
+      : 'Deeper shade. Blue-green palette. Still air.',
   },
   {
     name: 'River Crossing',
-    desc: locale === 'pt' ? 'O caminho entre. Água, pedra e algo novo.'
-      : locale === 'es' ? 'El camino entre. Agua, piedra y algo nuevo.'
-      : 'The path between. Water, stone, and something new.',
+    desc: locale === 'pt' ? 'Pedras sobre água corrente. Tons suaves.'
+      : locale === 'es' ? 'Piedras sobre agua en movimiento. Tonos apagados.'
+      : 'Stones across moving water. Muted tones.',
   },
   {
     name: 'Swamp',
-    desc: locale === 'pt' ? 'Terreno mais difícil. Regras mais difíceis.'
-      : locale === 'es' ? 'Terreno más difícil. Reglas más difíciles.'
-      : 'Harder ground. Harder rules.',
+    desc: locale === 'pt' ? 'Água parada, terreno lamacento, vegetação baixa.'
+      : locale === 'es' ? 'Agua estancada, suelo pantanoso, vegetación baja.'
+      : 'Still water, murky ground, low vegetation.',
   },
   {
     name: 'Ruins',
-    desc: locale === 'pt' ? 'Uma cidade abandonada. Os blocos lembram algo.'
-      : locale === 'es' ? 'Una ciudad abandonada. Los bloques recuerdan algo.'
-      : 'An abandoned city. The blocks remember something.',
+    desc: locale === 'pt' ? 'Pedra em ruínas, paredes tomadas pela natureza, ocre suave.'
+      : locale === 'es' ? 'Piedra en ruinas, paredes tomadas por la naturaleza, ocre suave.'
+      : 'Crumbling stone, overgrown walls, muted ochre.',
   },
   {
     name: 'Rocky Desert',
-    desc: locale === 'pt' ? 'Sem sombra. Sem dicas. Só a grade.'
-      : locale === 'es' ? 'Sin sombra. Sin pistas. Solo la cuadrícula.'
-      : 'No shade. No hints. Just the grid.',
+    desc: locale === 'pt' ? 'Rocha exposta, céu pálido, sem sombra.'
+      : locale === 'es' ? 'Roca expuesta, cielo pálido, sin sombra.'
+      : 'Open rock, pale sky, no shade.',
   },
   {
     name: 'Sandy Desert',
-    desc: locale === 'pt' ? 'Terreno instável. As regras parecem diferentes aqui.'
-      : locale === 'es' ? 'Terreno cambiante. Las reglas se sienten diferentes aquí.'
-      : 'Shifting terrain. The rules feel different here.',
+    desc: locale === 'pt' ? 'Dunas de areia, dourado pálido, horizonte amplo.'
+      : locale === 'es' ? 'Dunas de arena, dorado pálido, horizonte abierto.'
+      : 'Sand dunes, pale gold, wide horizon.',
   },
   {
     name: 'Snow Mountain',
-    desc: locale === 'pt' ? 'Frio e preciso. Sem margem para erro.'
-      : locale === 'es' ? 'Frío y preciso. Sin margen para el error.'
-      : 'Cold and precise. No room for error.',
+    desc: locale === 'pt' ? 'Encostas brancas, árvores esparsas, luz fria.'
+      : locale === 'es' ? 'Laderas blancas, árboles dispersos, luz fría.'
+      : 'White slopes, sparse trees, cold light.',
   },
   {
     name: 'Rocky Mountain',
-    desc: locale === 'pt' ? 'A subida antes do fim.'
-      : locale === 'es' ? 'La subida antes del final.'
-      : 'The climb before the end.',
+    desc: locale === 'pt' ? 'Rocha exposta, terreno inclinado, céu cinza.'
+      : locale === 'es' ? 'Roca expuesta, terreno empinado, cielo gris.'
+      : 'Exposed rock, steep terrain, grey sky.',
   },
   {
     name: 'Volcano',
-    desc: locale === 'pt' ? 'A zona final. O lore se encerra aqui.'
-      : locale === 'es' ? 'La zona final. El lore se cierra aquí.'
-      : 'The final zone. The lore closes here.',
+    desc: locale === 'pt' ? 'Fluxos de lava, cinzas, vermelho e laranja intensos.'
+      : locale === 'es' ? 'Flujos de lava, ceniza, rojo y naranja intensos.'
+      : 'Lava flows, ash, deep red and orange.',
   },
 ];
 ---
@@ -265,7 +265,7 @@ const biomes: Array<{ name: string; desc: string }> = [
             <div class="skill-card__header">
               <span class="skill-card__name">{skill.name}</span>
               <span class={`skill-card__badge skill-card__badge--${skill.type}`}>
-                {skillTypeLabelMap[locale][skill.type]}
+                {skill.type === 'active' ? skillTypeLabelMap[locale].active : skillTypeLabelMap[locale].passive}
               </span>
             </div>
             <p class="skill-card__desc">{skill.desc}</p>
