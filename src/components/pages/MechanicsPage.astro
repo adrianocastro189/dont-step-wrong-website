@@ -37,191 +37,39 @@ const breadcrumb = [
   { name: strings.nav.mechanics, url: getUrl('mechanics', locale) },
 ];
 
-const ruleCards = [
-  {
-    title: locale === 'pt' ? 'Numérico' : locale === 'es' ? 'Numérico' : 'Numeric',
-    body: locale === 'pt'
-      ? 'Regras construídas sobre propriedades matemáticas. Números que seguem um padrão, ou não. Descubra quais são válidos.'
-      : locale === 'es'
-      ? 'Reglas basadas en propiedades matemáticas. Números que siguen un patrón, o no. Descubre cuáles son válidos.'
-      : 'Rules built on mathematical properties. Numbers that follow a pattern, or don\'t. Figure out which ones are valid.',
-  },
-  {
-    title: locale === 'pt' ? 'Palavras' : locale === 'es' ? 'Palabras' : 'Words',
-    body: locale === 'pt'
-      ? 'Algumas fases usam letras, linguagem ou significado no lugar de números. A lógica muda. A descoberta permanece a mesma.'
-      : locale === 'es'
-      ? 'Algunos niveles usan letras, lenguaje o significado en lugar de números. La lógica cambia. El descubrimiento es el mismo.'
-      : 'Some levels use letters, language, or meaning instead of numbers. The logic changes. The discovery stays the same.',
-  },
-  {
-    title: locale === 'pt' ? 'Tempo' : locale === 'es' ? 'Tiempo' : 'Time',
-    body: locale === 'pt'
-      ? 'Algumas regras envolvem o relógio, a ordem dos seus passos ou quanto tempo você espera. A grade é a mesma. A restrição não.'
-      : locale === 'es'
-      ? 'Algunas reglas involucran el reloj, el orden de tus pasos o cuánto tiempo esperas. La cuadrícula es la misma. La restricción no.'
-      : 'A few rules involve the clock, the order of your steps, or how long you wait. The grid is the same. The constraint isn\'t.',
-  },
-  {
-    title: locale === 'pt' ? 'E mais' : locale === 'es' ? 'Y más' : 'And more',
-    body: locale === 'pt'
-      ? 'Dezenas de tipos de regra ao longo do jogo. Novas categorias aparecem conforme você avança para novas zonas.'
-      : locale === 'es'
-      ? 'Docenas de tipos de reglas en el juego. Nuevas categorías aparecen conforme avanzas a nuevas zonas.'
-      : 'Dozens of rule types across the game. New categories appear as you progress into new zones.',
-  },
-];
+const m = strings.mechanics;
 
-const skillsLead = locale === 'pt'
-  ? 'Opcionais. Cada uma muda a forma como você aborda o puzzle. Nenhuma resolve por você.'
-  : locale === 'es'
-  ? 'Opcionales. Cada una cambia tu forma de abordar el puzzle. Ninguna lo resuelve por ti.'
-  : 'Optional. Each one changes how you approach the puzzle. None of them solve it for you.';
+const ruleCards = [
+  { title: m.ruleNumericTitle, body: m.ruleNumericBody },
+  { title: m.ruleWordsTitle,   body: m.ruleWordsBody },
+  { title: m.ruleTimeTitle,    body: m.ruleTimeBody },
+  { title: m.ruleMoreTitle,    body: m.ruleMoreBody },
+];
 
 type SkillType = 'active' | 'passive';
 
-const skillTypeLabelMap: Record<Locale, Record<SkillType, string>> = {
-  en: { active: 'Active', passive: 'Passive' },
-  pt: { active: 'Ativa', passive: 'Passiva' },
-  es: { active: 'Activa', passive: 'Pasiva' },
-};
-
 const skills: Array<{ name: string; desc: string; type: SkillType }> = [
-  {
-    name: 'Spider Sense',
-    desc: locale === 'pt'
-      ? 'Para você antes de um passo inválido, mas tem cargas limitadas.'
-      : locale === 'es'
-      ? 'Te detiene antes de un paso inválido, pero tiene cargas limitadas.'
-      : 'Stops you before an invalid step, but has limited charges.',
-    type: 'active',
-  },
-  {
-    name: 'Breadcrumb Trail',
-    desc: locale === 'pt'
-      ? 'Destaca os blocos em que você já pisou.'
-      : locale === 'es'
-      ? 'Resalta los bloques en los que ya pisaste.'
-      : 'Highlights the blocks you\'ve already stepped on.',
-    type: 'active',
-  },
-  {
-    name: 'Safe Start',
-    desc: locale === 'pt'
-      ? 'Revela qual bloco pisar primeiro.'
-      : locale === 'es'
-      ? 'Revela en qué bloque pisar primero.'
-      : 'Reveals which block to step on first.',
-    type: 'active',
-  },
-  {
-    name: 'Dead End Sense',
-    desc: locale === 'pt'
-      ? 'Avisa quando um caminho não leva a lugar nenhum.'
-      : locale === 'es'
-      ? 'Te avisa cuando un camino no lleva a ningún lado.'
-      : 'Warns you when a path leads nowhere.',
-    type: 'active',
-  },
-  {
-    name: 'Hint Reveal',
-    desc: locale === 'pt'
-      ? 'Inicia a fase com algumas dicas já visíveis.'
-      : locale === 'es'
-      ? 'Comienza el nivel con algunas pistas ya visibles.'
-      : 'Starts the level with some hints already visible.',
-    type: 'active',
-  },
-  {
-    name: 'Super Jump',
-    desc: locale === 'pt'
-      ? 'Retorna ao bloco inicial instantaneamente.'
-      : locale === 'es'
-      ? 'Te devuelve al bloque inicial al instante.'
-      : 'Returns you to the starting block instantly.',
-    type: 'active',
-  },
-  {
-    name: 'Freezer',
-    desc: locale === 'pt'
-      ? 'Quando você cai, o tabuleiro mantém seus valores atuais.'
-      : locale === 'es'
-      ? 'Cuando caes, el tablero mantiene sus valores actuales.'
-      : 'When you fall, the board keeps its current values.',
-    type: 'passive',
-  },
-  {
-    name: 'Farmer',
-    desc: locale === 'pt'
-      ? 'Aumenta a moeda ganha em fases concluídas.'
-      : locale === 'es'
-      ? 'Aumenta la moneda ganada en niveles completados.'
-      : 'Increases currency earned on completed levels.',
-    type: 'passive',
-  },
+  { name: 'Spider Sense',     desc: m.skillSpiderSenseDesc, type: 'active' },
+  { name: 'Breadcrumb Trail', desc: m.skillBreadcrumbDesc,  type: 'active' },
+  { name: 'Safe Start',       desc: m.skillSafeStartDesc,   type: 'active' },
+  { name: 'Dead End Sense',   desc: m.skillDeadEndDesc,     type: 'active' },
+  { name: 'Hint Reveal',      desc: m.skillHintRevealDesc,  type: 'active' },
+  { name: 'Super Jump',       desc: m.skillSuperJumpDesc,   type: 'active' },
+  { name: 'Freezer',          desc: m.skillFreezerDesc,     type: 'passive' },
+  { name: 'Farmer',           desc: m.skillFarmerDesc,      type: 'passive' },
 ];
 
 const biomes: Array<{ name: string; desc: string }> = [
-  {
-    name: 'Green Forest',
-    desc: locale === 'pt' ? 'Dossel denso, luz verde, chão macio.'
-      : locale === 'es' ? 'Dosel denso, luz verde, suelo suave.'
-      : 'Dense canopy, green light, soft ground.',
-  },
-  {
-    name: 'Blue Forest',
-    desc: locale === 'pt' ? 'Sombra mais profunda. Paleta azul-esverdeada. Ar parado.'
-      : locale === 'es' ? 'Sombra más profunda. Paleta azul verdosa. Aire quieto.'
-      : 'Deeper shade. Blue-green palette. Still air.',
-  },
-  {
-    name: 'River Crossing',
-    desc: locale === 'pt' ? 'Pedras sobre água corrente. Tons suaves.'
-      : locale === 'es' ? 'Piedras sobre agua en movimiento. Tonos apagados.'
-      : 'Stones across moving water. Muted tones.',
-  },
-  {
-    name: 'Swamp',
-    desc: locale === 'pt' ? 'Água parada, terreno lamacento, vegetação baixa.'
-      : locale === 'es' ? 'Agua estancada, suelo pantanoso, vegetación baja.'
-      : 'Still water, murky ground, low vegetation.',
-  },
-  {
-    name: 'Ruins',
-    desc: locale === 'pt' ? 'Pedra em ruínas, paredes tomadas pela natureza, ocre suave.'
-      : locale === 'es' ? 'Piedra en ruinas, paredes tomadas por la naturaleza, ocre suave.'
-      : 'Crumbling stone, overgrown walls, muted ochre.',
-  },
-  {
-    name: 'Rocky Desert',
-    desc: locale === 'pt' ? 'Rocha exposta, céu pálido, sem sombra.'
-      : locale === 'es' ? 'Roca expuesta, cielo pálido, sin sombra.'
-      : 'Open rock, pale sky, no shade.',
-  },
-  {
-    name: 'Sandy Desert',
-    desc: locale === 'pt' ? 'Dunas de areia, dourado pálido, horizonte amplo.'
-      : locale === 'es' ? 'Dunas de arena, dorado pálido, horizonte abierto.'
-      : 'Sand dunes, pale gold, wide horizon.',
-  },
-  {
-    name: 'Snow Mountain',
-    desc: locale === 'pt' ? 'Encostas brancas, árvores esparsas, luz fria.'
-      : locale === 'es' ? 'Laderas blancas, árboles dispersos, luz fría.'
-      : 'White slopes, sparse trees, cold light.',
-  },
-  {
-    name: 'Rocky Mountain',
-    desc: locale === 'pt' ? 'Rocha exposta, terreno inclinado, céu cinza.'
-      : locale === 'es' ? 'Roca expuesta, terreno empinado, cielo gris.'
-      : 'Exposed rock, steep terrain, grey sky.',
-  },
-  {
-    name: 'Volcano',
-    desc: locale === 'pt' ? 'Fluxos de lava, cinzas, vermelho e laranja intensos.'
-      : locale === 'es' ? 'Flujos de lava, ceniza, rojo y naranja intensos.'
-      : 'Lava flows, ash, deep red and orange.',
-  },
+  { name: 'Green Forest',   desc: m.biomeGreenForestDesc },
+  { name: 'Blue Forest',    desc: m.biomeBlueForestDesc },
+  { name: 'River Crossing', desc: m.biomeRiverCrossingDesc },
+  { name: 'Swamp',          desc: m.biomeSwampDesc },
+  { name: 'Ruins',          desc: m.biomeRuinsDesc },
+  { name: 'Rocky Desert',   desc: m.biomeRockyDesertDesc },
+  { name: 'Sandy Desert',   desc: m.biomeSandyDesertDesc },
+  { name: 'Snow Mountain',  desc: m.biomeSnowMountainDesc },
+  { name: 'Rocky Mountain', desc: m.biomeRockyMountainDesc },
+  { name: 'Volcano',        desc: m.biomeVolcanoDesc },
 ];
 ---
 <BaseLayout
@@ -236,14 +84,14 @@ const biomes: Array<{ name: string; desc: string }> = [
 
   <section class="section">
     <div class="container-prose">
-      <h1>{strings.mechanics.h1}</h1>
-      <p class="lead">{strings.mechanics.lead}</p>
+      <h1>{m.h1}</h1>
+      <p class="lead">{m.lead}</p>
     </div>
   </section>
 
   <section class="section section-alt">
     <div class="container">
-      <h2 class="section-title">{strings.mechanics.rulesTitle}</h2>
+      <h2 class="section-title">{m.rulesTitle}</h2>
       <div class="cards-grid cards-grid--4">
         {ruleCards.map((card) => (
           <article class="mechanic-card">
@@ -257,15 +105,15 @@ const biomes: Array<{ name: string; desc: string }> = [
 
   <section class="section">
     <div class="container">
-      <h2 class="section-title">{strings.mechanics.skillsTitle}</h2>
-      <p class="section-lead">{skillsLead}</p>
+      <h2 class="section-title">{m.skillsTitle}</h2>
+      <p class="section-lead">{m.skillsLead}</p>
       <div class="cards-grid cards-grid--2">
         {skills.map((skill) => (
           <article class="skill-card">
             <div class="skill-card__header">
               <span class="skill-card__name">{skill.name}</span>
               <span class={`skill-card__badge skill-card__badge--${skill.type}`}>
-                {skill.type === 'active' ? skillTypeLabelMap[locale].active : skillTypeLabelMap[locale].passive}
+                {skill.type === 'active' ? m.skillLabelActive : m.skillLabelPassive}
               </span>
             </div>
             <p class="skill-card__desc">{skill.desc}</p>
@@ -277,18 +125,14 @@ const biomes: Array<{ name: string; desc: string }> = [
 
   <section class="section section-alt">
     <div class="container">
-      <h2 class="section-title">{strings.mechanics.biomesTitle}</h2>
+      <h2 class="section-title">{m.biomesTitle}</h2>
       <div class="biome-hero">
         <Placeholder
           width={1200}
           height={675}
           text="Green Forest"
           variant="surface"
-          alt={locale === 'pt'
-            ? 'Screenshot do bioma Floresta Verde — o primeiro bioma do jogo'
-            : locale === 'es'
-            ? 'Captura del bioma Bosque Verde — el primer bioma del juego'
-            : 'Screenshot of the Green Forest biome — the first biome in the game'}
+          alt={m.biomeHeroAlt}
         />
         <p class="biome-hero__caption">{biomes[0].desc}</p>
       </div>
@@ -305,7 +149,7 @@ const biomes: Array<{ name: string; desc: string }> = [
 
   <section class="section">
     <div class="container final-cta-inline">
-      <h2>{strings.mechanics.soundsInteresting}</h2>
+      <h2>{m.soundsInteresting}</h2>
       <CTASteam label={strings.cta.playDemo} target="demo" variant="primary" />
     </div>
   </section>
@@ -450,7 +294,7 @@ const biomes: Array<{ name: string; desc: string }> = [
     background-color: var(--color-bg);
     border: var(--border-width) solid var(--border-color);
     border-radius: var(--radius-lg);
-    padding: var(--space-5);
+    padding: var(--space-4);
     display: flex;
     flex-direction: column;
     gap: var(--space-2);

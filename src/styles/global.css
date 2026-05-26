@@ -77,11 +77,14 @@ h1 {
   font-size: var(--text-display);
   font-weight: var(--weight-extrabold);
   line-height: var(--leading-tight);
-  letter-spacing: -0.02em;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
 }
 
 h2 {
   font-size: var(--text-h2);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 h3 {

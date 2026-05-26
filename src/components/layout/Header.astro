@@ -1,6 +1,6 @@
 ---
 import type { Locale, PageId } from '@i18n/utils';
-import { t, getUrl } from '@i18n/utils';
+import { t, getUrl, getAlternateURLs } from '@i18n/utils';
 
 interface Props {
   locale: Locale;
@@ -9,11 +9,40 @@ interface Props {
 
 const { locale, currentPage } = Astro.props;
 const strings = t(locale);
+const alternates = getAlternateURLs(currentPage);
 
 const navItems: Array<{ id: PageId; label: string }> = [
   { id: 'home',      label: strings.nav.home },
   { id: 'mechanics', label: strings.nav.mechanics },
   { id: 'devlog',    label: strings.nav.devlog },
+];
+
+const FLAG_SVG: Record<Locale, string> = {
+  en: `<svg viewBox="0 0 20 15" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <rect width="20" height="15" fill="#B22234"/>
+    <rect y="1.15" width="20" height="1.15" fill="#fff"/>
+    <rect y="3.46" width="20" height="1.15" fill="#fff"/>
+    <rect y="5.77" width="20" height="1.15" fill="#fff"/>
+    <rect y="8.08" width="20" height="1.15" fill="#fff"/>
+    <rect y="10.38" width="20" height="1.15" fill="#fff"/>
+    <rect y="12.69" width="20" height="1.15" fill="#fff"/>
+    <rect width="8" height="7" fill="#3C3B6E"/>
+  </svg>`,
+  pt: `<svg viewBox="0 0 20 15" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <rect width="20" height="15" fill="#009C3B"/>
+    <polygon points="10,1.5 18.5,7.5 10,13.5 1.5,7.5" fill="#FFDF00"/>
+    <circle cx="10" cy="7.5" r="3.5" fill="#002776"/>
+  </svg>`,
+  es: `<svg viewBox="0 0 20 15" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <rect width="20" height="15" fill="#AA151B"/>
+    <rect y="3.75" width="20" height="7.5" fill="#F1BF00"/>
+  </svg>`,
+};
+
+const languages: Array<{ locale: Locale; code: string; url: string }> = [
+  { locale: 'en', code: 'EN', url: alternates.en },
+  { locale: 'pt', code: 'PT', url: alternates.pt },
+  { locale: 'es', code: 'ES', url: alternates.es },
 ];
 ---
 <header role="banner" class="header">
@@ -38,6 +67,19 @@ const navItems: Array<{ id: PageId; label: string }> = [
         ))}
       </ul>
 
+      <nav class="lang-switcher" aria-label={strings.nav.langSwitcherLabel}>
+        {languages.map((lang) => (
+          <a
+            href={lang.url}
+            class:list={['lang-switcher__item', { 'lang-switcher__item--active': lang.locale === locale }]}
+            hreflang={lang.locale === 'pt' ? 'pt-BR' : lang.locale === 'es' ? 'es-ES' : 'en-US'}
+          >
+            <span class="lang-switcher__flag" set:html={FLAG_SVG[lang.locale]} />
+            <span class="lang-switcher__code">{lang.code}</span>
+          </a>
+        ))}
+      </nav>
+
       <a
         href="https://store.steampowered.com/app/4627790/Dont_Step_Wrong_2/"
         target="_blank"
@@ -60,7 +102,7 @@ const navItems: Array<{ id: PageId; label: string }> = [
     </button>
   </div>
 
-  <!-- TODO: mobile drawer (Alpine.js implementation pending) -->
+  <!-- TODO: mobile drawer (Alpine.js implementation pending) — lang switcher goes here too -->
 </header>
 
 <style>
@@ -129,6 +171,53 @@ const navItems: Array<{ id: PageId; label: string }> = [
     height: 2px;
     background-color: var(--color-brand);
   }
+
+  /* --- Language switcher --- */
+
+  .lang-switcher {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+  }
+
+  .lang-switcher__item {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-family: var(--font-heading);
+    font-weight: var(--weight-bold);
+    font-size: var(--text-small);
+    color: var(--color-text-muted);
+    opacity: 0.55;
+    transition: opacity var(--transition-fast);
+    text-transform: uppercase;
+  }
+
+  .lang-switcher__item:hover {
+    opacity: 1;
+  }
+
+  .lang-switcher__item--active {
+    opacity: 1;
+    color: var(--color-brand);
+  }
+
+  .lang-switcher__flag {
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  .lang-switcher__flag :global(svg) {
+    display: inline;
+    width: 20px;
+    height: 15px;
+    border-radius: 2px;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    vertical-align: middle;
+  }
+
+  /* --- Wishlist CTA --- */
 
   .header__wishlist {
     display: inline-flex;

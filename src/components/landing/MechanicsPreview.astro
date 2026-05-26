@@ -10,33 +10,9 @@ const { locale } = Astro.props;
 const strings = t(locale);
 
 const cards = [
-  {
-    icon: '◇',
-    title: strings.landing.rulesCardTitle,
-    body: locale === 'pt'
-      ? 'De padrões numéricos a desafios baseados em tempo. Cada zona traz um novo conjunto de regras, e nunca te diz qual é.'
-      : locale === 'es'
-      ? 'De patrones numéricos a desafíos basados en el tiempo. Cada zona trae un nuevo conjunto de reglas, y nunca te dice cuál es.'
-      : 'From numeric patterns to time-based challenges. Each zone brings a new rule set, and never tells you what it is.',
-  },
-  {
-    icon: '◆',
-    title: strings.landing.skillsCardTitle,
-    body: locale === 'pt'
-      ? 'Habilidades opcionais que ajudam sem resolver por você. O puzzle ainda é seu.'
-      : locale === 'es'
-      ? 'Habilidades opcionales que ayudan sin resolver el puzzle por ti. El puzzle sigue siendo tuyo.'
-      : 'Optional abilities that help without solving it for you. The puzzle is still yours.',
-  },
-  {
-    icon: '▣',
-    title: strings.landing.zonesCardTitle,
-    body: locale === 'pt'
-      ? 'Dez zonas distintas, cada uma com visual e regras próprias. Mais profundidade do que parece à primeira vista.'
-      : locale === 'es'
-      ? 'Diez zonas distintas, cada una con su propio estilo visual y reglas. Más profundidad de lo que parece a primera vista.'
-      : 'Ten distinct zones with their own visual style and rule set. More depth than it first appears.',
-  },
+  { icon: '◇', title: strings.landing.rulesCardTitle, body: strings.landing.rulesCardBody },
+  { icon: '◆', title: strings.landing.skillsCardTitle, body: strings.landing.skillsCardBody },
+  { icon: '▣', title: strings.landing.zonesCardTitle,  body: strings.landing.zonesCardBody },
 ];
 ---
 <section class="mechanics-preview section section-alt">

@@ -35,61 +35,14 @@ const breadcrumb = [
   { name: strings.nav.presskit, url: getUrl('presskit', locale) },
 ];
 
-const CONTACT_EMAIL = 'feriado.dev@gmail.com';
+const p = strings.presskit;
 
-const about: Record<Locale, { p1: string; p2: string }> = {
-  en: {
-    p1: "Don't Step Wrong 2 is a grid-based puzzle game where each level contains an implicit rule. The player navigates from a starting block to an exit, stepping only on blocks that satisfy the rule. The rule is never stated, displayed, or hinted at. Discovery happens through repeated attempts: step on a wrong block, observe the result, and update your hypothesis.",
-    p2: "The game spans 10 distinct zones, each with a different visual palette and rule categories. Rule categories include numeric patterns, word-based logic, and time-based constraints, among others. Players can equip optional skills before each level that provide targeted assistance without revealing the rule. Skills are selected per level with no permanent loadout.",
-  },
-  pt: {
-    p1: "Don't Step Wrong 2 é um puzzle em grade onde cada fase contém uma regra implícita. O jogador navega de um bloco inicial até a saída, pisando apenas nos blocos que satisfazem a regra. A regra nunca é declarada, exibida ou indicada. A descoberta acontece por tentativas repetidas: pise em um bloco errado, observe o resultado e atualize sua hipótese.",
-    p2: "O jogo abrange 10 zonas distintas, cada uma com uma paleta visual diferente e categorias de regra. As categorias incluem padrões numéricos, lógica baseada em palavras e restrições temporais, entre outras. Os jogadores podem equipar habilidades opcionais antes de cada fase que oferecem assistência pontual sem revelar a regra. As habilidades são selecionadas por fase, sem loadout permanente.",
-  },
-  es: {
-    p1: "Don't Step Wrong 2 es un puzzle en cuadrícula donde cada nivel contiene una regla implícita. El jugador navega desde un bloque inicial hasta la salida, pisando solo los bloques que satisfacen la regla. La regla nunca se enuncia, muestra ni insinúa. El descubrimiento ocurre a través de intentos repetidos: pisa un bloque incorrecto, observa el resultado y actualiza tu hipótesis.",
-    p2: "El juego abarca 10 zonas distintas, cada una con una paleta visual diferente y categorías de reglas. Las categorías incluyen patrones numéricos, lógica basada en palabras y restricciones temporales, entre otras. Los jugadores pueden equipar habilidades opcionales antes de cada nivel que ofrecen asistencia puntual sin revelar la regla. Las habilidades se eligen por nivel, sin carga permanente.",
-  },
-};
+const features = [
+  p.feature1, p.feature2, p.feature3, p.feature4, p.feature5,
+  p.feature6, p.feature7, p.feature8, p.feature9, p.feature10,
+];
 
-const features: Record<Locale, string[]> = {
-  en: [
-    'Grid-based puzzle game: reach the exit by stepping only on valid blocks',
-    'Each level has an implicit rule, never named or displayed by the game',
-    'Discovery through trial and error, with no hints, tutorial, or explanation',
-    '10 distinct zones with different visual palettes and rule categories',
-    'Rule categories include numeric, word-based, and time-based types, among others',
-    '8 optional skills (active and passive) that assist without solving the puzzle',
-    'Skills are chosen per level, with no permanent loadout',
-    'Multilingual: English, Portuguese (pt-BR), Spanish',
-    'Solo indie production by Feriado studio',
-    'Free demo available on Steam',
-  ],
-  pt: [
-    'Puzzle em grade: chegue à saída pisando apenas nos blocos válidos',
-    'Cada fase tem uma regra implícita, nunca nomeada ou exibida pelo jogo',
-    'Descoberta por tentativa e erro, sem dicas, tutorial ou explicação',
-    '10 zonas distintas com paletas visuais e categorias de regra diferentes',
-    'As categorias incluem tipos numéricos, baseados em palavras e temporais, entre outros',
-    '8 habilidades opcionais (ativas e passivas) que auxiliam sem resolver o puzzle',
-    'Habilidades escolhidas por fase, sem loadout permanente',
-    'Multilíngue: inglês, português (pt-BR), espanhol',
-    'Produção indie solo pelo estúdio Feriado',
-    'Demo gratuita disponível na Steam',
-  ],
-  es: [
-    'Puzzle en cuadrícula: llega a la salida pisando solo los bloques válidos',
-    'Cada nivel tiene una regla implícita, nunca nombrada ni mostrada por el juego',
-    'Descubrimiento por prueba y error, sin pistas, tutorial ni explicación',
-    '10 zonas distintas con paletas visuales y categorías de reglas diferentes',
-    'Las categorías incluyen tipos numéricos, basados en palabras y temporales, entre otros',
-    '8 habilidades opcionales (activas y pasivas) que ayudan sin resolver el puzzle',
-    'Habilidades elegidas por nivel, sin carga permanente',
-    'Multilingüe: inglés, portugués (pt-BR), español',
-    'Producción indie en solitario por el estudio Feriado',
-    'Demo gratuita disponible en Steam',
-  ],
-};
+const CONTACT_EMAIL = p.contactEmail;
 ---
 <BaseLayout
   title={title}
@@ -103,14 +56,14 @@ const features: Record<Locale, string[]> = {
 
   <section class="section">
     <div class="container-prose">
-      <h1>{strings.presskit.h1}</h1>
+      <h1>{p.h1}</h1>
     </div>
   </section>
 
   <section class="section">
     <div class="container-prose presskit">
       <div class="presskit__block">
-        <h2>{strings.presskit.aboutTitle}</h2>
+        <h2>{p.aboutTitle}</h2>
         <dl class="presskit__facts">
           <dt>Title</dt>
           <dd>Don't Step Wrong 2</dd>
@@ -137,42 +90,42 @@ const features: Record<Locale, string[]> = {
             </a>
           </dd>
         </dl>
-        <p class="presskit__lead">{about[locale].p1}</p>
-        <p class="presskit__lead">{about[locale].p2}</p>
+        <p class="presskit__lead">{p.aboutP1}</p>
+        <p class="presskit__lead">{p.aboutP2}</p>
       </div>
 
       <div class="presskit__block">
-        <h2>{strings.presskit.featuresTitle}</h2>
+        <h2>{p.featuresTitle}</h2>
         <ul class="presskit__features">
-          {features[locale].map((f) => <li>{f}</li>)}
+          {features.map((f) => <li>{f}</li>)}
         </ul>
       </div>
 
       <div class="presskit__block">
-        <h2>{strings.presskit.assetsTitle}</h2>
+        <h2>{p.assetsTitle}</h2>
         <ul class="presskit__assets">
           <!-- TODO: CEO — provide final asset URLs (currently pointing to public folder placeholders) -->
           <li>
             <span>Logo (PNG)</span>
-            <a href="/press/logo.png" download>{strings.presskit.download}</a>
+            <a href="/press/logo.png" download>{p.download}</a>
           </li>
           <li>
             <span>Steam capsule</span>
-            <a href="/press/capsule.png" download>{strings.presskit.download}</a>
+            <a href="/press/capsule.png" download>{p.download}</a>
           </li>
           <li>
             <span>Screenshots (ZIP)</span>
-            <a href="/press/screenshots.zip" download>{strings.presskit.download}</a>
+            <a href="/press/screenshots.zip" download>{p.download}</a>
           </li>
           <li>
             <span>Gameplay GIF</span>
-            <a href="/press/gameplay.mp4" download>{strings.presskit.download}</a>
+            <a href="/press/gameplay.mp4" download>{p.download}</a>
           </li>
         </ul>
       </div>
 
       <div class="presskit__block">
-        <h2>{strings.presskit.contactTitle}</h2>
+        <h2>{p.contactTitle}</h2>
         <p>
           <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
         </p>
