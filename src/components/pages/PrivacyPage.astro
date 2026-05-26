@@ -59,36 +59,84 @@ const dateFormatter = new Intl.DateTimeFormat(
         {strings.privacy.lastUpdated}: {dateFormatter.format(lastUpdated)}
       </p>
 
-      <!-- TODO: Redator + CEO legal review — produce final privacy copy.
-           The text below is a functional placeholder that reflects the
-           project's current technical reality (Cloudflare Web Analytics,
-           no cookies, no PII collection). -->
       <div class="privacy__body">
-        <h2>Data we collect</h2>
-        <p>
-          This website does not collect personal data. We use Cloudflare
-          Web Analytics, which provides aggregated, anonymous traffic
-          statistics without cookies or any form of personal identifier.
-        </p>
-
-        <h2>Third-party services</h2>
-        <p>
-          When you click links to external services (Steam, Discord,
-          itch.io), those services may collect data according to their
-          own privacy policies.
-        </p>
-
-        <h2>Cookies</h2>
-        <p>
-          This site uses no cookies. Browser local storage may be used by
-          your browser for caching purposes only.
-        </p>
-
-        <h2>Contact</h2>
-        <p>
-          Questions about this policy: <a href="mailto:contact@feriado.studio">
-          contact@feriado.studio</a>
-        </p>
+        {locale === 'pt' ? (
+          <>
+            <h2>Dados que coletamos</h2>
+            <p>
+              Este site não coleta dados pessoais. Utilizamos o Cloudflare
+              Web Analytics, que fornece estatísticas de tráfego agregadas e
+              anônimas, sem cookies e sem qualquer identificador pessoal.
+            </p>
+            <h2>Serviços de terceiros</h2>
+            <p>
+              Ao clicar em links para serviços externos (Steam, Discord,
+              itch.io), esses serviços podem coletar dados conforme suas
+              próprias políticas de privacidade.
+            </p>
+            <h2>Cookies</h2>
+            <p>
+              Este site não utiliza cookies. O armazenamento local do
+              navegador pode ser usado pelo próprio navegador apenas para
+              fins de cache.
+            </p>
+            <h2>Contato</h2>
+            <p>
+              Dúvidas sobre esta política:{' '}
+              <a href="mailto:feriado.dev@gmail.com">feriado.dev@gmail.com</a>
+            </p>
+          </>
+        ) : locale === 'es' ? (
+          <>
+            <h2>Datos que recopilamos</h2>
+            <p>
+              Este sitio no recopila datos personales. Utilizamos Cloudflare
+              Web Analytics, que proporciona estadísticas de tráfico agregadas
+              y anónimas, sin cookies ni ningún identificador personal.
+            </p>
+            <h2>Servicios de terceros</h2>
+            <p>
+              Al hacer clic en enlaces a servicios externos (Steam, Discord,
+              itch.io), esos servicios pueden recopilar datos según sus propias
+              políticas de privacidad.
+            </p>
+            <h2>Cookies</h2>
+            <p>
+              Este sitio no usa cookies. El almacenamiento local del navegador
+              puede ser usado por el propio navegador solo con fines de caché.
+            </p>
+            <h2>Contacto</h2>
+            <p>
+              Preguntas sobre esta política:{' '}
+              <a href="mailto:feriado.dev@gmail.com">feriado.dev@gmail.com</a>
+            </p>
+          </>
+        ) : (
+          <>
+            <h2>Data we collect</h2>
+            <p>
+              This website does not collect personal data. We use Cloudflare
+              Web Analytics, which provides aggregated, anonymous traffic
+              statistics without cookies or any form of personal identifier.
+            </p>
+            <h2>Third-party services</h2>
+            <p>
+              When you click links to external services (Steam, Discord,
+              itch.io), those services may collect data according to their
+              own privacy policies.
+            </p>
+            <h2>Cookies</h2>
+            <p>
+              This site uses no cookies. Browser local storage may be used by
+              your browser for caching purposes only.
+            </p>
+            <h2>Contact</h2>
+            <p>
+              Questions about this policy:{' '}
+              <a href="mailto:feriado.dev@gmail.com">feriado.dev@gmail.com</a>
+            </p>
+          </>
+        )}
       </div>
     </div>
   </section>
