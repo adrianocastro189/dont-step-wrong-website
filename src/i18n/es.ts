@@ -2,7 +2,6 @@ import type { Strings } from './en';
 
 /**
  * Spanish (es) UI strings.
- * Translation refinement pending: Tradutor (see dev-web/memoria.md).
  */
 export const es: Strings = {
   nav: {
@@ -23,12 +22,15 @@ export const es: Strings = {
   },
   landing: {
     heroTitle: 'Cada nivel tiene una regla. El juego nunca te dice cuál es.',
-    heroLead: 'La descubres por ensayo y error. Esa es la parte buena.',
-    howItWorksTitle: '¿Te equivocaste? Es parte del juego. Inténtalo de nuevo.',
-    howItWorksBody: 'Reglas implícitas. Descubrimiento real. Sin pistas. Cada nivel es un pequeño enigma que se resuelve cuando notas el patrón. Sin tutorial. Sin explicación. Solo tú y la grilla.',
-    mechanicsTitle: 'Lo que encontrarás',
+    heroLead: 'Descúbrela por prueba y error.',
+    howItWorksTitle: '¿Te equivocaste? Bien. Inténtalo de nuevo.',
+    howItWorksBody: 'Cada nivel es un puzzle de descubrimiento de reglas. Sin pistas, sin tutorial, sin explicación. Pisa el bloque equivocado, observa qué pasó, y descúbrelo. Las reglas implícitas siempre están ahí.',
+    mechanicsTitle: 'Qué vas a encontrar',
+    rulesCardTitle: 'Reglas',
+    skillsCardTitle: 'Habilidades',
+    zonesCardTitle: 'Zonas',
     mechanicsLink: 'Ver todas las mecánicas',
-    finalCtaTitle: 'El juego nunca te dice la regla. Pero la descubrirás.',
+    finalCtaTitle: 'El juego nunca te dice la regla. Pero lo descubrirás.',
     demoAvailable: 'Demo disponible — gratis',
   },
   mechanics: {

@@ -1,6 +1,5 @@
 /**
  * English (default) UI strings.
- * Copy refinement pending: Redator (see dev-web/memoria.md).
  */
 export const en = {
   nav: {
@@ -21,10 +20,13 @@ export const en = {
   },
   landing: {
     heroTitle: 'Every level has a rule. The game never tells you what it is.',
-    heroLead: 'You figure it out by trial and error. That\'s the good part.',
-    howItWorksTitle: 'Got it wrong? That\'s part of it. Try again.',
-    howItWorksBody: 'Implicit rules. Real discovery. No hints. Each level is a small puzzle that resolves the moment you spot the pattern. No tutorial. No explanation. Just you and the grid.',
+    heroLead: 'Discover it through trial and error.',
+    howItWorksTitle: 'Got it wrong? Good. Try again.',
+    howItWorksBody: 'Every level is a rule discovery puzzle. No hints, no tutorial, no explanation. Step on the wrong block, observe what happened, and figure it out. The implicit rules are always there.',
     mechanicsTitle: 'What you\'ll find',
+    rulesCardTitle: 'Rules',
+    skillsCardTitle: 'Skills',
+    zonesCardTitle: 'Zones',
     mechanicsLink: 'See all mechanics',
     finalCtaTitle: 'The game never tells you the rule. But you\'ll figure it out.',
     demoAvailable: 'Demo available — free',

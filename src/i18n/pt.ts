@@ -2,7 +2,6 @@ import type { Strings } from './en';
 
 /**
  * Portuguese (pt-BR) UI strings.
- * Translation refinement pending: Tradutor (see dev-web/memoria.md).
  */
 export const pt: Strings = {
   nav: {
@@ -22,13 +21,16 @@ export const pt: Strings = {
     followDevelopment: 'Acompanhe o desenvolvimento',
   },
   landing: {
-    heroTitle: 'Cada fase tem uma regra. O jogo nunca te conta qual é.',
-    heroLead: 'Você descobre por tentativa e erro. Essa é a parte boa.',
-    howItWorksTitle: 'Tentou errado? Faz parte. Tente de novo.',
-    howItWorksBody: 'Regras implícitas. Descoberta real. Nenhuma dica. Cada fase é um pequeno enigma que se resolve quando você percebe o padrão. Sem tutorial. Sem explicação. Só você e a grade.',
+    heroTitle: 'Cada fase tem uma regra. O jogo nunca te diz qual é.',
+    heroLead: 'Descubra por tentativa e erro.',
+    howItWorksTitle: 'Errou? Ótimo. Tente de novo.',
+    howItWorksBody: 'Cada fase é um puzzle de descoberta de regras. Sem dicas, sem tutorial, sem explicação. Pise no bloco errado, observe o que aconteceu, e descubra a regra. As regras implícitas sempre estão lá.',
     mechanicsTitle: 'O que você vai encontrar',
+    rulesCardTitle: 'Regras',
+    skillsCardTitle: 'Habilidades',
+    zonesCardTitle: 'Zonas',
     mechanicsLink: 'Ver todas as mecânicas',
-    finalCtaTitle: 'O jogo nunca te conta a regra. Mas você vai descobrir.',
+    finalCtaTitle: 'O jogo nunca te diz a regra. Mas você vai descobrir.',
     demoAvailable: 'Demo disponível — grátis',
   },
   mechanics: {

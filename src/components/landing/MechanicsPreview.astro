@@ -9,44 +9,35 @@ interface Props {
 const { locale } = Astro.props;
 const strings = t(locale);
 
-// TODO: copy of these 3 cards depends on CPO specifying mechanics content.
-// Using placeholder labels that respect the brand brief constraint
-// (show systems, not the rules themselves).
 const cards = [
   {
     icon: '◇',
-    titleKey: 'rulesTitle',
+    title: strings.landing.rulesCardTitle,
     body: locale === 'pt'
-      ? 'Regras numéricas, de palavras, de tempo e dezenas de outras categorias.'
+      ? 'De padrões numéricos a desafios baseados em tempo. Cada zona traz um novo conjunto de regras, e nunca te diz qual é.'
       : locale === 'es'
-      ? 'Reglas numéricas, de palabras, de tiempo y decenas de otras categorías.'
-      : 'Numeric, word, time and dozens of other rule categories.',
+      ? 'De patrones numéricos a desafíos basados en el tiempo. Cada zona trae un nuevo conjunto de reglas, y nunca te dice cuál es.'
+      : 'From numeric patterns to time-based challenges. Each zone brings a new rule set, and never tells you what it is.',
   },
   {
     icon: '◆',
-    titleKey: 'skillsTitle',
+    title: strings.landing.skillsCardTitle,
     body: locale === 'pt'
-      ? 'Habilidades que revelam pistas quando você precisa.'
+      ? 'Habilidades opcionais que ajudam sem resolver por você. O puzzle ainda é seu.'
       : locale === 'es'
-      ? 'Habilidades que revelan pistas cuando las necesitas.'
-      : 'Skills that reveal hints when you need them.',
+      ? 'Habilidades opcionales que ayudan sin resolver el puzzle por ti. El puzzle sigue siendo tuyo.'
+      : 'Optional abilities that help without solving it for you. The puzzle is still yours.',
   },
   {
     icon: '▣',
-    titleKey: 'biomesTitle',
+    title: strings.landing.zonesCardTitle,
     body: locale === 'pt'
-      ? 'Biomas com paletas e regras distintas para descobrir.'
+      ? 'Dez zonas distintas, cada uma com visual e regras próprias. Mais profundidade do que parece à primeira vista.'
       : locale === 'es'
-      ? 'Biomas con paletas y reglas distintas por descubrir.'
-      : 'Biomes with distinct palettes and rules to discover.',
+      ? 'Diez zonas distintas, cada una con su propio estilo visual y reglas. Más profundidad de lo que parece a primera vista.'
+      : 'Ten distinct zones with their own visual style and rule set. More depth than it first appears.',
   },
-] as const;
-
-type CardTitleKey = 'rulesTitle' | 'skillsTitle' | 'biomesTitle';
-
-const cardTitle = (key: CardTitleKey) => {
-  return strings.mechanics[key];
-};
+];
 ---
 <section class="mechanics-preview section section-alt">
   <div class="container">
@@ -56,7 +47,7 @@ const cardTitle = (key: CardTitleKey) => {
       {cards.map((card) => (
         <article class="mechanic-card">
           <span class="mechanic-card__icon" aria-hidden="true">{card.icon}</span>
-          <h3>{cardTitle(card.titleKey as CardTitleKey)}</h3>
+          <h3>{card.title}</h3>
           <p>{card.body}</p>
         </article>
       ))}
