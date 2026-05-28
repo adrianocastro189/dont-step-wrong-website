@@ -5,6 +5,7 @@ import BaseLayout from '@components/layout/BaseLayout.astro';
 import SchemaBreadcrumb from '@components/seo/SchemaBreadcrumb.astro';
 import CTASteam from '@components/ui/CTASteam.astro';
 import BiomeCarousel from '@components/ui/BiomeCarousel.astro';
+import Icon from '@components/ui/Icon.astro';
 
 interface Props {
   locale: Locale;
@@ -47,32 +48,32 @@ const ruleCards = [
 ];
 
 const skills = [
-  { name: m.skillSpiderSenseName,  desc: m.skillSpiderSenseDesc },
-  { name: m.skillBreadcrumbName,   desc: m.skillBreadcrumbDesc },
-  { name: m.skillSafeStartName,    desc: m.skillSafeStartDesc },
-  { name: m.skillDeadEndName,      desc: m.skillDeadEndDesc },
-  { name: m.skillSuperJumpName,    desc: m.skillSuperJumpDesc },
-  { name: m.skillFarmerName,       desc: m.skillFarmerDesc },
-  { name: m.skillFreezerName,      desc: m.skillFreezerDesc },
+  { name: m.skillSpiderSenseName,  desc: m.skillSpiderSenseDesc,  icon: 27 },
+  { name: m.skillBreadcrumbName,   desc: m.skillBreadcrumbDesc,   icon: 28 },
+  { name: m.skillSafeStartName,    desc: m.skillSafeStartDesc,    icon: 26 },
+  { name: m.skillDeadEndName,      desc: m.skillDeadEndDesc,      icon: 29 },
+  { name: m.skillSuperJumpName,    desc: m.skillSuperJumpDesc,    icon: 24 },
+  { name: m.skillFarmerName,       desc: m.skillFarmerDesc,       icon:  0 },
+  { name: m.skillFreezerName,      desc: m.skillFreezerDesc,      icon:  3 },
 ];
 
 const items = [
-  { name: m.itemRevealAchievementName, desc: m.itemRevealAchievementDesc },
-  { name: m.itemDoubleBlocksName,      desc: m.itemDoubleBlocksDesc },
-  { name: m.itemHintUnlockName,        desc: m.itemHintUnlockDesc },
-  { name: m.itemBoardLockName,         desc: m.itemBoardLockDesc },
-  { name: m.itemValidBlockName,        desc: m.itemValidBlockDesc },
-  { name: m.itemRulesRevealName,       desc: m.itemRulesRevealDesc },
+  { name: m.itemRevealAchievementName, desc: m.itemRevealAchievementDesc, icon:  5 },
+  { name: m.itemDoubleBlocksName,      desc: m.itemDoubleBlocksDesc,      icon:  0 },
+  { name: m.itemHintUnlockName,        desc: m.itemHintUnlockDesc,        icon:  1 },
+  { name: m.itemBoardLockName,         desc: m.itemBoardLockDesc,         icon:  3 },
+  { name: m.itemValidBlockName,        desc: m.itemValidBlockDesc,        icon:  8 },
+  { name: m.itemRulesRevealName,       desc: m.itemRulesRevealDesc,       icon: 10 },
 ];
 
 const achievementCategories = [
-  { name: m.achievementSpeedName,     desc: m.achievementSpeedDesc },
-  { name: m.achievementZonesName,     desc: m.achievementZonesDesc },
-  { name: m.achievementStepsName,     desc: m.achievementStepsDesc },
-  { name: m.achievementCurrencyName,  desc: m.achievementCurrencyDesc },
-  { name: m.achievementShopName,      desc: m.achievementShopDesc },
-  { name: m.achievementEnduranceName, desc: m.achievementEnduranceDesc },
-  { name: m.achievementMomentsName,   desc: m.achievementMomentsDesc },
+  { name: m.achievementSpeedName,     desc: m.achievementSpeedDesc,     icon: 11 },
+  { name: m.achievementZonesName,     desc: m.achievementZonesDesc,     icon: 14 },
+  { name: m.achievementStepsName,     desc: m.achievementStepsDesc,     icon:  8 },
+  { name: m.achievementCurrencyName,  desc: m.achievementCurrencyDesc,  icon:  6 },
+  { name: m.achievementShopName,      desc: m.achievementShopDesc,      icon: 25 },
+  { name: m.achievementEnduranceName, desc: m.achievementEnduranceDesc, icon:  9 },
+  { name: m.achievementMomentsName,   desc: m.achievementMomentsDesc,   icon: 23 },
 ];
 
 const biomes: Array<{ name: string; desc: string; image?: string }> = [
@@ -131,6 +132,7 @@ const biomes: Array<{ name: string; desc: string; image?: string }> = [
         {skills.map((skill) => (
           <article class="item-card">
             <div class="item-card__header">
+              <Icon index={skill.icon} size={40} alt={skill.name} />
               <span class="item-card__name">{skill.name}</span>
               <span class="item-card__badge item-card__badge--permanent">
                 {m.skillLabelPermanent}
@@ -152,6 +154,7 @@ const biomes: Array<{ name: string; desc: string; image?: string }> = [
         {items.map((item) => (
           <article class="item-card">
             <div class="item-card__header">
+              <Icon index={item.icon} size={40} alt={item.name} />
               <span class="item-card__name">{item.name}</span>
               <span class="item-card__badge item-card__badge--single-use">
                 {m.skillLabelSingleUse}
@@ -181,6 +184,7 @@ const biomes: Array<{ name: string; desc: string; image?: string }> = [
       <div class="cards-grid cards-grid--achievements">
         {achievementCategories.map((cat) => (
           <article class="achievement-card">
+            <Icon index={cat.icon} size={40} alt={cat.name} />
             <h3 class="achievement-card__name">{cat.name}</h3>
             <p class="achievement-card__desc">{cat.desc}</p>
           </article>

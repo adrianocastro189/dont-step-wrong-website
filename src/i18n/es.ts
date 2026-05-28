@@ -71,7 +71,7 @@ export const es: Strings = {
     skillFreezerName: 'Congelador',
     skillFreezerDesc: 'Mantiene los valores del tablero intactos cuando caes.',
     // Items
-    itemsTitle: 'Items',
+    itemsTitle: 'Objetos',
     itemsLead: 'De un solo uso. Gástalos con cuidado.',
     skillLabelSingleUse: 'Un solo uso',
     itemRevealAchievementName: 'Revelar Logro',
