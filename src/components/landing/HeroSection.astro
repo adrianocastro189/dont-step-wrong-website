@@ -2,7 +2,6 @@
 import type { Locale } from '@i18n/utils';
 import { t } from '@i18n/utils';
 import CTASteam from '@components/ui/CTASteam.astro';
-import Placeholder from '@components/ui/Placeholder.astro';
 
 interface Props {
   locale: Locale;
@@ -23,15 +22,14 @@ const strings = t(locale);
     </div>
 
     <div class="hero__visual">
-      <!-- TODO: replace with real gameplay screenshot (1200×675, 16:9) when available -->
-      <Placeholder
-        width={1200}
-        height={675}
-        text="Screenshot"
-        variant="surface"
-        class="screenshot-hero"
+      <img
+        src="/images/screenshot-hero.png"
         alt="Don't Step Wrong 2 — gameplay screenshot"
+        width="1200"
+        height="675"
+        class="screenshot-hero"
         loading="eager"
+        decoding="async"
       />
     </div>
   </div>

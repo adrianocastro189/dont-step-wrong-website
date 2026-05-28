@@ -101,6 +101,10 @@ const htmlLang = locale === 'pt' ? 'pt-BR' : locale === 'es' ? 'es-ES' : 'en-US'
   <body>
     <SkipToContent locale={locale} />
     <Header locale={locale} currentPage={currentPage} />
+    <script>
+      import Alpine from 'alpinejs';
+      Alpine.start();
+    </script>
     <main id="main-content">
       <slot />
     </main>

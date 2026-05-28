@@ -45,13 +45,19 @@ const languages: Array<{ locale: Locale; code: string; url: string }> = [
   { locale: 'es', code: 'ES', url: alternates.es },
 ];
 ---
-<header role="banner" class="header">
+<header
+  role="banner"
+  class="header"
+  x-data="{ menuOpen: false }"
+  @keydown.escape.window="menuOpen = false"
+>
   <div class="container header__inner">
-    <a href={getUrl('home', locale)} class="header__logo" aria-label="Don't Step Wrong 2 — Home">
+    <a href={getUrl('home', locale)} class="header__logo" aria-label="Don't Step Wrong 2 - Home">
       <!-- TODO: replace text logo with actual logo PNG once exported -->
       <span class="header__logo-text">DSW2</span>
     </a>
 
+    <!-- Desktop nav -->
     <nav class="header__nav" aria-label="Main navigation">
       <ul class="header__nav-list">
         {navItems.map((item) => (
@@ -91,18 +97,77 @@ const languages: Array<{ locale: Locale; code: string; url: string }> = [
       </a>
     </nav>
 
+    <!-- Hamburger button (mobile only) -->
     <button
       type="button"
       class="header__menu-toggle"
-      aria-label={strings.nav.menuOpen}
-      aria-expanded="false"
+      :aria-label="menuOpen ? $el.dataset.labelClose : $el.dataset.labelOpen"
+      :aria-expanded="menuOpen.toString()"
       aria-controls="mobile-menu"
+      data-label-open={strings.nav.menuOpen}
+      data-label-close={strings.nav.menuClose}
+      @click="menuOpen = !menuOpen"
     >
-      <span aria-hidden="true">☰</span>
+      <span aria-hidden="true" x-text="menuOpen ? '✕' : '☰'">☰</span>
     </button>
   </div>
 
-  <!-- TODO: mobile drawer (Alpine.js implementation pending) — lang switcher goes here too -->
+  <!-- Mobile drawer -->
+  <div
+    id="mobile-menu"
+    class="mobile-menu"
+    x-show="menuOpen"
+    x-transition:enter="mobile-menu--enter"
+    x-transition:enter-start="mobile-menu--hidden"
+    x-transition:enter-end="mobile-menu--visible"
+    x-transition:leave="mobile-menu--enter"
+    x-transition:leave-start="mobile-menu--visible"
+    x-transition:leave-end="mobile-menu--hidden"
+    @click.outside="menuOpen = false"
+    aria-label="Mobile navigation"
+    role="navigation"
+  >
+    <ul class="mobile-menu__nav-list">
+      {navItems.map((item) => (
+        <li>
+          <a
+            href={getUrl(item.id, locale)}
+            class:list={['mobile-menu__link', { 'mobile-menu__link--active': item.id === currentPage }]}
+            aria-current={item.id === currentPage ? 'page' : undefined}
+            @click="menuOpen = false"
+          >
+            {item.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <div class="mobile-menu__footer">
+      <nav class="mobile-menu__lang" aria-label={strings.nav.langSwitcherLabel}>
+        {languages.map((lang) => (
+          <a
+            href={lang.url}
+            class:list={['lang-switcher__item', { 'lang-switcher__item--active': lang.locale === locale }]}
+            hreflang={lang.locale === 'pt' ? 'pt-BR' : lang.locale === 'es' ? 'es-ES' : 'en-US'}
+          >
+            <span class="lang-switcher__flag" set:html={FLAG_SVG[lang.locale]} />
+            <span class="lang-switcher__code">{lang.code}</span>
+          </a>
+        ))}
+      </nav>
+
+      <a
+        href="https://store.steampowered.com/app/4627790/Dont_Step_Wrong_2/"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="mobile-menu__wishlist"
+        @click="menuOpen = false"
+      >
+        {strings.nav.wishlist}
+        <span aria-hidden="true">↗</span>
+      </a>
+    </div>
+  </div>
 </header>
 
 <style>
@@ -241,6 +306,8 @@ const languages: Array<{ locale: Locale; code: string; url: string }> = [
     color: var(--color-text-inverse);
   }
 
+  /* --- Hamburger button --- */
+
   .header__menu-toggle {
     font-size: 1.5rem;
     color: var(--color-text);
@@ -255,6 +322,97 @@ const languages: Array<{ locale: Locale; code: string; url: string }> = [
     }
 
     .header__menu-toggle {
+      display: none;
+    }
+  }
+
+  /* --- Mobile drawer --- */
+
+  .mobile-menu {
+    background-color: var(--color-bg);
+    border-top: var(--border-width) solid var(--border-color);
+    padding: var(--space-6) var(--space-4) var(--space-8);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+  }
+
+  .mobile-menu--enter {
+    transition: opacity var(--transition-normal), transform var(--transition-normal);
+  }
+
+  .mobile-menu--hidden {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+
+  .mobile-menu--visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .mobile-menu__nav-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .mobile-menu__link {
+    display: block;
+    font-family: var(--font-body);
+    font-weight: var(--weight-medium);
+    font-size: var(--text-body);
+    color: var(--color-text-muted);
+    padding: var(--space-3) 0;
+    border-bottom: var(--border-width) solid var(--border-color);
+    transition: color var(--transition-fast);
+  }
+
+  .mobile-menu__link:hover {
+    color: var(--color-text);
+  }
+
+  .mobile-menu__link--active {
+    color: var(--color-brand);
+    font-weight: var(--weight-bold);
+  }
+
+  .mobile-menu__footer {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+
+  .mobile-menu__lang {
+    display: flex;
+    align-items: center;
+    gap: var(--space-6);
+  }
+
+  .mobile-menu__wishlist {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    font-family: var(--font-heading);
+    font-weight: var(--weight-bold);
+    font-size: var(--text-small);
+    color: var(--color-brand);
+    padding: var(--space-3) var(--space-4);
+    border: var(--border-width) solid var(--color-brand);
+    border-radius: var(--radius-md);
+    text-align: center;
+    justify-content: center;
+    transition: background-color var(--transition-fast),
+                color var(--transition-fast);
+  }
+
+  .mobile-menu__wishlist:hover {
+    background-color: var(--color-brand);
+    color: var(--color-text-inverse);
+  }
+
+  @media (min-width: 768px) {
+    .mobile-menu {
       display: none;
     }
   }

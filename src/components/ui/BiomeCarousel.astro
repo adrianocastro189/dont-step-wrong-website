@@ -7,9 +7,10 @@ interface Biome {
 
 interface Props {
   biomes: Biome[];
+  comingSoonText: string;
 }
 
-const { biomes } = Astro.props;
+const { biomes, comingSoonText } = Astro.props;
 const total = biomes.length;
 
 type SlideState = 'active' | 'next' | 'prev' | 'hidden';
@@ -21,8 +22,8 @@ function initialState(i: number): SlideState {
   return 'hidden';
 }
 
-const biomePlaceholder = (name: string) =>
-  `https://placehold.co/1200x675/2D7A41/FEFBF6?text=${encodeURIComponent(name)}`;
+const biomePlaceholder = () =>
+  `https://placehold.co/1200x675/2D7A41/FEFBF6?text=${encodeURIComponent(comingSoonText)}`;
 ---
 
 <div class="biome-carousel" data-biome-carousel>
@@ -53,7 +54,7 @@ const biomePlaceholder = (name: string) =>
           aria-hidden={i !== 0 ? "true" : undefined}
         >
           <img
-            src={biome.image ?? biomePlaceholder(biome.name)}
+            src={biome.image ?? biomePlaceholder()}
             alt={`${biome.name} zone in Don't Step Wrong 2`}
             width="1200"
             height="675"
