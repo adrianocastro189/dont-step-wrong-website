@@ -79,9 +79,9 @@ const resolvedHref = href ?? (target === 'demo' ? STEAM_DEMO_URL : STEAM_GAME_UR
     background-color: var(--color-cta-active);
   }
 
-  /* Ghost — outline brand */
+  /* Ghost — outline brand, fundo sólido para legibilidade sobre imagens */
   .cta-steam--ghost {
-    background-color: transparent;
+    background-color: var(--color-bg);
     color: var(--color-brand);
     border: var(--border-width) solid var(--color-brand);
     padding: calc(14px - var(--border-width)) calc(32px - var(--border-width));
