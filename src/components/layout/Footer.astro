@@ -33,6 +33,7 @@ const year = new Date().getFullYear();
         <li><a href={getUrl('devlog',    locale)}>{strings.nav.devlog}</a></li>
         <li><a href={getUrl('presskit',  locale)}>{strings.nav.presskit}</a></li>
         <li><a href={getUrl('privacy',   locale)}>{strings.nav.privacy}</a></li>
+        <li><a href={getUrl('credits',   locale)}>{strings.nav.credits}</a></li>
       </ul>
     </nav>
 
@@ -59,8 +60,7 @@ const year = new Date().getFullYear();
     <div class="footer__meta">
       <p>© {year} {strings.meta.studio}. {strings.footer.rights}</p>
       <p>
-        <!-- TODO: link to actual third-party asset credits document -->
-        <a href="#assets-credit" class="footer__credit-link">{strings.footer.assetsCredit}</a>
+        <a href={getUrl('credits', locale)} class="footer__credit-link">{strings.footer.assetsCredit}</a>
       </p>
     </div>
   </div>

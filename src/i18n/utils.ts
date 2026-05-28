@@ -37,7 +37,8 @@ export type PageId =
   | 'devlog'
   | 'devlogPost'
   | 'presskit'
-  | 'privacy';
+  | 'privacy'
+  | 'credits';
 
 /**
  * URL mapping per page and locale.
@@ -74,6 +75,11 @@ const URL_MAP: Record<PageId, Record<Locale, string>> = {
     en: '/privacy',
     pt: '/pt/privacidade',
     es: '/es/privacidad',
+  },
+  credits: {
+    en: '/credits',
+    pt: '/pt/creditos',
+    es: '/es/creditos',
   },
 };
 
