@@ -15,7 +15,15 @@ const year = new Date().getFullYear();
 <footer role="contentinfo" class="footer">
   <div class="container footer__inner">
     <div class="footer__brand">
-      <span class="footer__logo">DSW2</span>
+      <img
+        src="/images/logo-1280-x-720.png"
+        alt="Don't Step Wrong 2"
+        class="footer__logo-img"
+        width="1280"
+        height="720"
+        loading="lazy"
+        decoding="async"
+      />
     </div>
 
     <nav class="footer__nav" aria-label="Footer navigation">
@@ -63,7 +71,6 @@ const year = new Date().getFullYear();
     background-color: var(--color-bg-alt);
     border-top: 1px solid var(--color-muted);
     padding-block: var(--space-12);
-    margin-top: var(--space-section);
   }
 
   .footer__inner {
@@ -71,11 +78,10 @@ const year = new Date().getFullYear();
     gap: var(--space-8);
   }
 
-  .footer__brand .footer__logo {
-    font-family: var(--font-heading);
-    font-weight: var(--weight-extrabold);
-    font-size: var(--text-h3);
-    color: var(--color-brand);
+  .footer__logo-img {
+    height: 48px;
+    width: auto;
+    display: block;
   }
 
   .footer__nav ul {

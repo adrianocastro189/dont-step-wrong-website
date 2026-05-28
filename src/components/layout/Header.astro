@@ -53,8 +53,15 @@ const languages: Array<{ locale: Locale; code: string; url: string }> = [
 >
   <div class="container header__inner">
     <a href={getUrl('home', locale)} class="header__logo" aria-label="Don't Step Wrong 2 - Home">
-      <!-- TODO: replace text logo with actual logo PNG once exported -->
-      <span class="header__logo-text">DSW2</span>
+      <img
+        src="/images/logo-1280-x-720.png"
+        alt="Don't Step Wrong 2"
+        class="header__logo-img"
+        width="1280"
+        height="720"
+        loading="eager"
+        decoding="async"
+      />
     </a>
 
     <!-- Desktop nav -->
@@ -190,11 +197,15 @@ const languages: Array<{ locale: Locale; code: string; url: string }> = [
   }
 
   .header__logo {
-    font-family: var(--font-heading);
-    font-weight: var(--weight-extrabold);
-    font-size: var(--text-h3);
-    color: var(--color-brand);
+    display: inline-flex;
+    align-items: center;
     line-height: 1;
+  }
+
+  .header__logo-img {
+    height: 40px;
+    width: auto;
+    display: block;
   }
 
   .header__nav {
