@@ -131,8 +131,8 @@ const biomes: Array<{ name: string; desc: string; image?: string }> = [
       <div class="cards-grid cards-grid--2">
         {skills.map((skill) => (
           <article class="item-card">
+            <Icon index={skill.icon} size={112} class="item-card__icon-ghost" />
             <div class="item-card__header">
-              <Icon index={skill.icon} size={40} alt={skill.name} />
               <span class="item-card__name">{skill.name}</span>
               <span class="item-card__badge item-card__badge--permanent">
                 {m.skillLabelPermanent}
@@ -153,8 +153,8 @@ const biomes: Array<{ name: string; desc: string; image?: string }> = [
       <div class="cards-grid cards-grid--2">
         {items.map((item) => (
           <article class="item-card">
+            <Icon index={item.icon} size={112} class="item-card__icon-ghost" />
             <div class="item-card__header">
-              <Icon index={item.icon} size={40} alt={item.name} />
               <span class="item-card__name">{item.name}</span>
               <span class="item-card__badge item-card__badge--single-use">
                 {m.skillLabelSingleUse}
@@ -184,7 +184,7 @@ const biomes: Array<{ name: string; desc: string; image?: string }> = [
       <div class="cards-grid cards-grid--achievements">
         {achievementCategories.map((cat) => (
           <article class="achievement-card">
-            <Icon index={cat.icon} size={40} alt={cat.name} />
+            <Icon index={cat.icon} size={112} class="achievement-card__icon-ghost" />
             <h3 class="achievement-card__name">{cat.name}</h3>
             <p class="achievement-card__desc">{cat.desc}</p>
           </article>
@@ -281,10 +281,38 @@ const biomes: Array<{ name: string; desc: string; image?: string }> = [
     flex-direction: column;
     gap: var(--space-3);
     transition: border-color var(--transition-fast);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .item-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, rgba(242, 166, 42, 0.20) 0%, transparent 32%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  :global(.item-card__icon-ghost) {
+    position: absolute;
+    left: var(--space-4);
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.06;
+    filter: brightness(0);
+    z-index: 0;
+    pointer-events: none;
   }
 
   .item-card:hover {
     border-color: var(--color-brand);
+  }
+
+  .item-card__header,
+  .item-card__desc {
+    position: relative;
+    z-index: 1;
   }
 
   .item-card__header {
@@ -335,10 +363,38 @@ const biomes: Array<{ name: string; desc: string; image?: string }> = [
     flex-direction: column;
     gap: var(--space-2);
     transition: border-color var(--transition-fast);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .achievement-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, rgba(242, 166, 42, 0.20) 0%, transparent 32%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  :global(.achievement-card__icon-ghost) {
+    position: absolute;
+    left: var(--space-4);
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.06;
+    filter: brightness(0);
+    z-index: 0;
+    pointer-events: none;
   }
 
   .achievement-card:hover {
     border-color: var(--color-brand);
+  }
+
+  .achievement-card__name,
+  .achievement-card__desc {
+    position: relative;
+    z-index: 1;
   }
 
   .achievement-card__name {

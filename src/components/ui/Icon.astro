@@ -2,21 +2,22 @@
 interface Props {
   index: number;
   size?: number;
-  alt: string;
+  alt?: string;
+  class?: string;
 }
 
-const { index, size = 40, alt } = Astro.props;
+const { index, size = 40, alt, class: className } = Astro.props;
 const COLS = 10;
 const col = index % COLS;
 const row = Math.floor(index / COLS);
 const bgSize = `${COLS * size}px auto`;
 const bgPos = `-${col * size}px -${row * size}px`;
+const decorative = !alt;
 ---
 
 <span
-  class="icon"
-  role="img"
-  aria-label={alt}
+  class:list={['icon', className]}
+  {...(decorative ? { 'aria-hidden': 'true' } : { role: 'img', 'aria-label': alt })}
   style={`width:${size}px;height:${size}px;background-size:${bgSize};background-position:${bgPos};`}
 />
 
