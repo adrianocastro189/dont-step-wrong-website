@@ -11,26 +11,25 @@ const { locale } = Astro.props;
 const strings = t(locale);
 ---
 <section class="hero">
-  <div class="container hero__inner">
-    <div class="hero__copy">
-      <h1>{strings.landing.heroTitle}</h1>
-      <p class="hero__lead">{strings.landing.heroLead}</p>
-      <div class="hero__ctas">
-        <CTASteam label={strings.cta.playDemo} target="demo" variant="primary" />
-        <CTASteam label={strings.cta.addToWishlist} target="wishlist" variant="ghost" />
-      </div>
-    </div>
-
-    <div class="hero__visual">
+  <div class="container">
+    <div class="hero__banner">
       <img
         src="/images/screenshot-hero.png"
         alt="Don't Step Wrong 2 — gameplay screenshot"
         width="1200"
         height="675"
-        class="screenshot-hero"
+        class="screenshot-hero hero__image"
         loading="eager"
         decoding="async"
       />
+      <div class="hero__copy">
+        <h1>{strings.landing.heroTitle}</h1>
+        <p class="hero__lead">{strings.landing.heroLead}</p>
+        <div class="hero__ctas">
+          <CTASteam label={strings.cta.playDemo} target="demo" variant="primary" />
+          <CTASteam label={strings.cta.addToWishlist} target="wishlist" variant="ghost" />
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -38,22 +37,53 @@ const strings = t(locale);
 <style>
   .hero {
     padding-block: var(--space-section);
+  }
+
+  .hero__banner {
     position: relative;
     overflow: hidden;
+    border-radius: var(--radius-lg);
   }
 
-  .hero__inner {
-    display: grid;
-    gap: var(--space-12);
-    align-items: center;
-    position: relative;
-    z-index: 1;
+  .hero__image {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: var(--radius-lg);
+    /* Filtro warm para harmonizar com a paleta creme/âmbar do site */
+    filter: sepia(18%) saturate(82%) hue-rotate(8deg) brightness(0.9);
   }
 
+  /* Gradiente esquerda → direita: bg sólido → transparente */
+  .hero__banner::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to right,
+      var(--color-bg) 0%,
+      var(--color-bg) 18%,
+      rgba(254, 251, 246, 0.90) 34%,
+      rgba(254, 251, 246, 0.28) 56%,
+      transparent 72%
+    );
+    pointer-events: none;
+  }
+
+  /* Copy sobreposta na metade esquerda da imagem */
   .hero__copy {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 56%;
+    max-width: 580px;
     display: flex;
     flex-direction: column;
+    justify-content: center;
     gap: var(--space-6);
+    padding: var(--space-8);
+    z-index: 1;
   }
 
   .hero__lead {
@@ -68,53 +98,31 @@ const strings = t(locale);
     gap: var(--space-4);
   }
 
-  /* Mobile: imagem em fluxo normal */
-  .hero__visual {
-    display: flex;
-    justify-content: center;
-  }
+  /* Mobile: copy empilha abaixo da imagem */
+  @media (max-width: 767px) {
+    .hero__banner {
+      overflow: visible;
+      border-radius: 0;
+    }
 
-  .screenshot-hero {
-    width: 100%;
-    height: auto;
-    display: block;
-    border-radius: var(--radius-lg);
-  }
+    .hero__banner::after {
+      display: none;
+    }
 
-  /* Desktop: grid 2 colunas — copy esquerda, imagem direita full-height com fade */
-  @media (min-width: 1024px) {
-    .hero__inner {
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-      gap: var(--space-8);
-      align-items: stretch;
+    .hero__image {
+      border-radius: var(--radius-lg);
+      filter: none;
     }
 
     .hero__copy {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-
-    .hero__visual {
-      position: relative;
-      display: block;
-    }
-
-    .hero__visual::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to right, var(--color-bg) 0%, transparent 45%);
-      z-index: 1;
-      pointer-events: none;
-    }
-
-    .screenshot-hero {
+      position: static;
       width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center;
-      border-radius: 0;
+      max-width: none;
+      padding: var(--space-6) 0 0;
+    }
+
+    .hero__lead {
+      max-width: none;
     }
   }
 </style>

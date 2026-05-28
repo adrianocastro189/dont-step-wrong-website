@@ -10,9 +10,21 @@ const { locale } = Astro.props;
 const strings = t(locale);
 
 const cards = [
-  { icon: '◇', title: strings.landing.rulesCardTitle, body: strings.landing.rulesCardBody },
-  { icon: '◆', title: strings.landing.skillsCardTitle, body: strings.landing.skillsCardBody },
-  { icon: '▣', title: strings.landing.zonesCardTitle,  body: strings.landing.zonesCardBody },
+  {
+    title: strings.landing.rulesCardTitle,
+    body: strings.landing.rulesCardBody,
+    image: '/images/what-youll-find/rules.png',
+  },
+  {
+    title: strings.landing.skillsCardTitle,
+    body: strings.landing.skillsCardBody,
+    image: '/images/what-youll-find/skills.png',
+  },
+  {
+    title: strings.landing.zonesCardTitle,
+    body: strings.landing.zonesCardBody,
+    image: '/images/zones/green-forest.png',
+  },
 ];
 ---
 <section class="mechanics-preview section section-alt">
@@ -22,9 +34,20 @@ const cards = [
     <div class="mechanics-preview__grid">
       {cards.map((card) => (
         <article class="mechanic-card">
-          <span class="mechanic-card__icon" aria-hidden="true">{card.icon}</span>
-          <h3>{card.title}</h3>
-          <p>{card.body}</p>
+          <div class="mechanic-card__image">
+            <img
+              src={card.image}
+              alt={card.title}
+              width="400"
+              height="225"
+              loading="lazy"
+              onerror="this.style.display='none'"
+            />
+          </div>
+          <div class="mechanic-card__content">
+            <h3>{card.title}</h3>
+            <p>{card.body}</p>
+          </div>
         </article>
       ))}
     </div>
@@ -59,10 +82,9 @@ const cards = [
     background-color: var(--color-bg);
     border: var(--border-width) solid var(--border-color);
     border-radius: var(--radius-lg);
-    padding: var(--space-8);
+    overflow: hidden;
     display: flex;
     flex-direction: column;
-    gap: var(--space-3);
     transition: border-color var(--transition-fast),
                 box-shadow var(--transition-normal);
   }
@@ -72,10 +94,30 @@ const cards = [
     box-shadow: var(--shadow-sm);
   }
 
-  .mechanic-card__icon {
-    font-size: 2rem;
-    color: var(--color-accent);
-    line-height: 1;
+  .mechanic-card__image {
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background-color: var(--color-muted);
+  }
+
+  .mechanic-card__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform var(--transition-normal);
+  }
+
+  .mechanic-card:hover .mechanic-card__image img {
+    transform: scale(1.03);
+  }
+
+  .mechanic-card__content {
+    padding: var(--space-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    flex: 1;
   }
 
   .mechanic-card h3 {
