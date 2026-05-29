@@ -96,7 +96,7 @@ export const es: Strings = {
     biomeSwampDesc: 'Terreno más difícil. Reglas más difíciles.',
     biomeRuinsDesc: 'Una ciudad abandonada. Los bloques recuerdan algo.',
     biomeRockyDesertDesc: 'Sin sombra. Sin pistas. Solo la cuadrícula.',
-    biomeSandyDesertDesc: 'Terreno cambiante. Las regras se sienten diferentes aquí.',
+    biomeSandyDesertDesc: 'Terreno cambiante. Las reglas se sienten diferentes aquí.',
     biomeSnowMountainDesc: 'Frío y preciso. Sin margen para el error.',
     biomeRockyMountainDesc: 'La subida antes del final.',
     biomeVolcanoDesc: 'La zona final. El lore se cierra aquí.',
