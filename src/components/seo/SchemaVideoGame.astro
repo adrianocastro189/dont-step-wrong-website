@@ -8,8 +8,8 @@ interface Props {
 
 const { description, locale } = Astro.props;
 
-// TODO: when demo goes live, change "availability" from PreOrder to OnlineOnly
-// and add "screenshot" array with screenshot URLs.
+// TODO: when full game launches, change "availability" from OnlineOnly to InStock.
+// TODO: add "screenshot" array with screenshot URLs.
 // TODO: when reviews exist, add "aggregateRating".
 const schema = {
   '@context': 'https://schema.org',
@@ -27,7 +27,7 @@ const schema = {
     '@type': 'Offer',
     price: '10.00',
     priceCurrency: 'USD',
-    availability: 'https://schema.org/PreOrder',
+    availability: 'https://schema.org/OnlineOnly',
     url: 'https://store.steampowered.com/app/4627790/',
   },
   publisher: {
