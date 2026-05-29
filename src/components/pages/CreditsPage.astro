@@ -51,21 +51,19 @@ const c = strings.credits;
   <section class="section">
     <div class="container-prose">
       <h1>{c.h1}</h1>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="container-prose credits">
-      <p class="credits__intro">{c.intro}</p>
-      <ul class="credits__list">
-        {c.items.map((item) => <li>{item}</li>)}
-      </ul>
+      <div class="credits">
+        <p class="credits__intro">{c.intro}</p>
+        <ul class="credits__list">
+          {c.items.map((item) => <li>{item}</li>)}
+        </ul>
+      </div>
     </div>
   </section>
 </BaseLayout>
 
 <style>
   .credits {
+    margin-top: var(--space-16);
     display: flex;
     flex-direction: column;
     gap: var(--space-8);

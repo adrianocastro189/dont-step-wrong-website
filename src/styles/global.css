@@ -57,6 +57,20 @@ a {
   text-decoration: none;
 }
 
+/* Links editoriais em prosa — não afeta links de UI (nav, cards, CTAs) */
+.container-prose a:not([class]) {
+  color: var(--color-brand);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  text-decoration-color: color-mix(in srgb, var(--color-brand) 40%, transparent);
+  transition: text-decoration-color var(--transition-fast);
+}
+
+.container-prose a:not([class]):hover {
+  text-decoration-color: var(--color-brand);
+}
+
 ul,
 ol {
   list-style: none;
