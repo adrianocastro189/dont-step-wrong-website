@@ -1,0 +1,430 @@
+---
+import type { Locale, PageId } from '@i18n/utils';
+import { t, getUrl, getAlternateURLs } from '@i18n/utils';
+
+interface Props {
+  locale: Locale;
+  currentPage: PageId;
+}
+
+const { locale, currentPage } = Astro.props;
+const strings = t(locale);
+const alternates = getAlternateURLs(currentPage);
+
+const navItems: Array<{ id: PageId; label: string }> = [
+  { id: 'home',      label: strings.nav.home },
+  { id: 'mechanics', label: strings.nav.mechanics },
+  { id: 'devlog',    label: strings.nav.devlog },
+];
+
+const FLAG_SVG: Record<Locale, string> = {
+  en: `<svg viewBox="0 0 20 15" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <rect width="20" height="15" fill="#B22234"/>
+    <rect y="1.15" width="20" height="1.15" fill="#fff"/>
+    <rect y="3.46" width="20" height="1.15" fill="#fff"/>
+    <rect y="5.77" width="20" height="1.15" fill="#fff"/>
+    <rect y="8.08" width="20" height="1.15" fill="#fff"/>
+    <rect y="10.38" width="20" height="1.15" fill="#fff"/>
+    <rect y="12.69" width="20" height="1.15" fill="#fff"/>
+    <rect width="8" height="7" fill="#3C3B6E"/>
+  </svg>`,
+  pt: `<svg viewBox="0 0 20 15" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <rect width="20" height="15" fill="#009C3B"/>
+    <polygon points="10,1.5 18.5,7.5 10,13.5 1.5,7.5" fill="#FFDF00"/>
+    <circle cx="10" cy="7.5" r="3.5" fill="#002776"/>
+  </svg>`,
+  es: `<svg viewBox="0 0 20 15" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <rect width="20" height="15" fill="#AA151B"/>
+    <rect y="3.75" width="20" height="7.5" fill="#F1BF00"/>
+  </svg>`,
+};
+
+const languages: Array<{ locale: Locale; code: string; url: string }> = [
+  { locale: 'en', code: 'EN', url: alternates.en },
+  { locale: 'pt', code: 'PT', url: alternates.pt },
+  { locale: 'es', code: 'ES', url: alternates.es },
+];
+---
+<header
+  role="banner"
+  class="header"
+  x-data="{ menuOpen: false }"
+  @keydown.escape.window="menuOpen = false"
+>
+  <div class="container header__inner">
+    <a href={getUrl('home', locale)} class="header__logo" aria-label="Don't Step Wrong 2 - Home">
+      <img
+        src="/images/logo-1280-x-720.png"
+        alt="Don't Step Wrong 2"
+        class="header__logo-img"
+        width="1280"
+        height="720"
+        loading="eager"
+        decoding="async"
+      />
+    </a>
+
+    <!-- Desktop nav -->
+    <nav class="header__nav" aria-label="Main navigation">
+      <ul class="header__nav-list">
+        {navItems.map((item) => (
+          <li>
+            <a
+              href={getUrl(item.id, locale)}
+              class:list={['header__link', { 'header__link--active': item.id === currentPage }]}
+              aria-current={item.id === currentPage ? 'page' : undefined}
+            >
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+
+      <nav class="lang-switcher" aria-label={strings.nav.langSwitcherLabel}>
+        {languages.map((lang) => (
+          <a
+            href={lang.url}
+            class:list={['lang-switcher__item', { 'lang-switcher__item--active': lang.locale === locale }]}
+            hreflang={lang.locale === 'pt' ? 'pt-BR' : lang.locale === 'es' ? 'es-ES' : 'en-US'}
+          >
+            <span class="lang-switcher__flag" set:html={FLAG_SVG[lang.locale]} />
+            <span class="lang-switcher__code">{lang.code}</span>
+          </a>
+        ))}
+      </nav>
+
+      <a
+        href="https://store.steampowered.com/app/4627790/Dont_Step_Wrong_2/"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="header__wishlist"
+      >
+        {strings.nav.wishlist}
+        <span aria-hidden="true">↗</span>
+      </a>
+    </nav>
+
+    <!-- Hamburger button (mobile only) -->
+    <button
+      type="button"
+      class="header__menu-toggle"
+      :aria-label="menuOpen ? $el.dataset.labelClose : $el.dataset.labelOpen"
+      :aria-expanded="menuOpen.toString()"
+      aria-controls="mobile-menu"
+      data-label-open={strings.nav.menuOpen}
+      data-label-close={strings.nav.menuClose}
+      @click="menuOpen = !menuOpen"
+    >
+      <span aria-hidden="true" x-text="menuOpen ? '✕' : '☰'">☰</span>
+    </button>
+  </div>
+
+  <!-- Mobile drawer -->
+  <div
+    id="mobile-menu"
+    class="mobile-menu"
+    x-show="menuOpen"
+    x-transition:enter="mobile-menu--enter"
+    x-transition:enter-start="mobile-menu--hidden"
+    x-transition:enter-end="mobile-menu--visible"
+    x-transition:leave="mobile-menu--enter"
+    x-transition:leave-start="mobile-menu--visible"
+    x-transition:leave-end="mobile-menu--hidden"
+    @click.outside="menuOpen = false"
+    aria-label="Mobile navigation"
+    role="navigation"
+  >
+    <ul class="mobile-menu__nav-list">
+      {navItems.map((item) => (
+        <li>
+          <a
+            href={getUrl(item.id, locale)}
+            class:list={['mobile-menu__link', { 'mobile-menu__link--active': item.id === currentPage }]}
+            aria-current={item.id === currentPage ? 'page' : undefined}
+            @click="menuOpen = false"
+          >
+            {item.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <div class="mobile-menu__footer">
+      <nav class="mobile-menu__lang" aria-label={strings.nav.langSwitcherLabel}>
+        {languages.map((lang) => (
+          <a
+            href={lang.url}
+            class:list={['lang-switcher__item', { 'lang-switcher__item--active': lang.locale === locale }]}
+            hreflang={lang.locale === 'pt' ? 'pt-BR' : lang.locale === 'es' ? 'es-ES' : 'en-US'}
+          >
+            <span class="lang-switcher__flag" set:html={FLAG_SVG[lang.locale]} />
+            <span class="lang-switcher__code">{lang.code}</span>
+          </a>
+        ))}
+      </nav>
+
+      <a
+        href="https://store.steampowered.com/app/4627790/Dont_Step_Wrong_2/"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="mobile-menu__wishlist"
+        @click="menuOpen = false"
+      >
+        {strings.nav.wishlist}
+        <span aria-hidden="true">↗</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<style>
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: var(--z-sticky);
+    background-color: var(--color-bg);
+    border-bottom: 1px solid transparent;
+    transition: background-color var(--transition-normal),
+                border-color var(--transition-normal);
+  }
+
+  .header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 64px;
+    gap: var(--space-6);
+  }
+
+  .header__logo {
+    display: inline-flex;
+    align-items: center;
+    line-height: 1;
+  }
+
+  .header__logo-img {
+    height: 40px;
+    width: auto;
+    display: block;
+  }
+
+  .header__nav {
+    display: none;
+    align-items: center;
+    gap: var(--space-8);
+  }
+
+  .header__nav-list {
+    display: flex;
+    align-items: center;
+    gap: var(--space-6);
+  }
+
+  .header__link {
+    font-family: var(--font-body);
+    font-weight: var(--weight-medium);
+    font-size: var(--text-small);
+    color: var(--color-text-muted);
+    padding: var(--space-2) 0;
+    transition: color var(--transition-fast);
+    position: relative;
+  }
+
+  .header__link:hover {
+    color: var(--color-text);
+  }
+
+  .header__link--active {
+    color: var(--color-text);
+  }
+
+  .header__link--active::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -4px;
+    height: 2px;
+    background-color: var(--color-brand);
+  }
+
+  /* --- Language switcher --- */
+
+  .lang-switcher {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+  }
+
+  .lang-switcher__item {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-family: var(--font-heading);
+    font-weight: var(--weight-bold);
+    font-size: var(--text-small);
+    color: var(--color-text-muted);
+    opacity: 0.55;
+    transition: opacity var(--transition-fast);
+    text-transform: uppercase;
+  }
+
+  .lang-switcher__item:hover {
+    opacity: 1;
+  }
+
+  .lang-switcher__item--active {
+    opacity: 1;
+    color: var(--color-brand);
+  }
+
+  .lang-switcher__flag {
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  .lang-switcher__flag :global(svg) {
+    display: inline;
+    width: 20px;
+    height: 15px;
+    border-radius: 2px;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    vertical-align: middle;
+  }
+
+  /* --- Wishlist CTA --- */
+
+  .header__wishlist {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    font-family: var(--font-heading);
+    font-weight: var(--weight-bold);
+    font-size: var(--text-small);
+    color: var(--color-brand);
+    padding: var(--space-2) var(--space-4);
+    border: var(--border-width) solid var(--color-brand);
+    border-radius: var(--radius-md);
+    transition: background-color var(--transition-fast),
+                color var(--transition-fast);
+    min-height: 36px;
+    line-height: 1;
+  }
+
+  .header__wishlist:hover {
+    background-color: var(--color-brand);
+    color: var(--color-text-inverse);
+  }
+
+  /* --- Hamburger button --- */
+
+  .header__menu-toggle {
+    font-size: 1.5rem;
+    color: var(--color-text);
+    padding: var(--space-2);
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  @media (min-width: 768px) {
+    .header__nav {
+      display: flex;
+    }
+
+    .header__menu-toggle {
+      display: none;
+    }
+  }
+
+  /* --- Mobile drawer --- */
+
+  .mobile-menu {
+    background-color: var(--color-bg);
+    border-top: var(--border-width) solid var(--border-color);
+    padding: var(--space-6) var(--space-4) var(--space-8);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+  }
+
+  .mobile-menu--enter {
+    transition: opacity var(--transition-normal), transform var(--transition-normal);
+  }
+
+  .mobile-menu--hidden {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+
+  .mobile-menu--visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .mobile-menu__nav-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .mobile-menu__link {
+    display: block;
+    font-family: var(--font-body);
+    font-weight: var(--weight-medium);
+    font-size: var(--text-body);
+    color: var(--color-text-muted);
+    padding: var(--space-3) 0;
+    border-bottom: var(--border-width) solid var(--border-color);
+    transition: color var(--transition-fast);
+  }
+
+  .mobile-menu__link:hover {
+    color: var(--color-text);
+  }
+
+  .mobile-menu__link--active {
+    color: var(--color-brand);
+    font-weight: var(--weight-bold);
+  }
+
+  .mobile-menu__footer {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+
+  .mobile-menu__lang {
+    display: flex;
+    align-items: center;
+    gap: var(--space-6);
+  }
+
+  .mobile-menu__wishlist {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    font-family: var(--font-heading);
+    font-weight: var(--weight-bold);
+    font-size: var(--text-small);
+    color: var(--color-brand);
+    padding: var(--space-3) var(--space-4);
+    border: var(--border-width) solid var(--color-brand);
+    border-radius: var(--radius-md);
+    text-align: center;
+    justify-content: center;
+    transition: background-color var(--transition-fast),
+                color var(--transition-fast);
+  }
+
+  .mobile-menu__wishlist:hover {
+    background-color: var(--color-brand);
+    color: var(--color-text-inverse);
+  }
+
+  @media (min-width: 768px) {
+    .mobile-menu {
+      display: none;
+    }
+  }
+</style>

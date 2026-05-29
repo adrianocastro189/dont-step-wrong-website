@@ -1,0 +1,147 @@
+---
+import type { Locale } from '@i18n/utils';
+import { t, getUrl } from '@i18n/utils';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const strings = t(locale);
+
+const cards = [
+  {
+    title: strings.landing.rulesCardTitle,
+    body: strings.landing.rulesCardBody,
+    image: '/images/screenshot-rules.png',
+  },
+  {
+    title: strings.landing.skillsCardTitle,
+    body: strings.landing.skillsCardBody,
+    image: '/images/screenshot-skills.png',
+  },
+  {
+    title: strings.landing.zonesCardTitle,
+    body: strings.landing.zonesCardBody,
+    image: '/images/zones/green-forest.png',
+  },
+];
+---
+<section class="mechanics-preview section section-alt">
+  <div class="container">
+    <h2 class="mechanics-preview__title">{strings.landing.mechanicsTitle}</h2>
+
+    <div class="mechanics-preview__grid">
+      {cards.map((card) => (
+        <article class="mechanic-card">
+          <div class="mechanic-card__image">
+            <img
+              src={card.image}
+              alt={card.title}
+              width="400"
+              height="225"
+              loading="lazy"
+              onerror="this.style.display='none'"
+            />
+          </div>
+          <div class="mechanic-card__content">
+            <h3>{card.title}</h3>
+            <p>{card.body}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <div class="mechanics-preview__link">
+      <a href={getUrl('mechanics', locale)}>
+        {strings.landing.mechanicsLink} →
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .mechanics-preview__title {
+    text-align: center;
+    margin-bottom: var(--space-12);
+  }
+
+  .mechanics-preview__grid {
+    display: grid;
+    gap: var(--space-6);
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 768px) {
+    .mechanics-preview__grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .mechanic-card {
+    background-color: var(--color-bg);
+    border: var(--border-width) solid var(--border-color);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: border-color var(--transition-fast),
+                box-shadow var(--transition-normal);
+  }
+
+  .mechanic-card:hover {
+    border-color: var(--color-brand);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .mechanic-card__image {
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background-color: var(--color-muted);
+  }
+
+  .mechanic-card__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform var(--transition-normal);
+  }
+
+  .mechanic-card:hover .mechanic-card__image img {
+    transform: scale(1.03);
+  }
+
+  .mechanic-card__content {
+    padding: var(--space-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    flex: 1;
+  }
+
+  .mechanic-card h3 {
+    color: var(--color-text);
+  }
+
+  .mechanic-card p {
+    color: var(--color-text-muted);
+    font-size: var(--text-body);
+  }
+
+  .mechanics-preview__link {
+    text-align: center;
+    margin-top: var(--space-8);
+  }
+
+  .mechanics-preview__link a {
+    font-family: var(--font-heading);
+    font-weight: var(--weight-bold);
+    color: var(--color-brand);
+    transition: color var(--transition-fast);
+  }
+
+  .mechanics-preview__link a:hover {
+    color: var(--color-brand-hover);
+  }
+</style>

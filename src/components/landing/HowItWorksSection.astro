@@ -1,0 +1,51 @@
+---
+import type { Locale } from '@i18n/utils';
+import { t } from '@i18n/utils';
+import GameplayVideo from '@components/ui/GameplayVideo.astro';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const strings = t(locale);
+---
+<section class="how-it-works section">
+  <div class="container">
+    <h2 class="how-it-works__title">{strings.landing.howItWorksTitle}</h2>
+
+    <p class="how-it-works__body">{strings.landing.howItWorksBody}</p>
+
+    <div class="how-it-works__media">
+      <GameplayVideo
+        src="gameplay"
+        ariaLabel={strings.landing.howItWorksVideoAlt}
+        width={800}
+        height={450}
+      />
+    </div>
+  </div>
+</section>
+
+<style>
+  .how-it-works__title {
+    text-align: center;
+    max-width: 24ch;
+    margin-inline: auto;
+    margin-bottom: var(--space-8);
+  }
+
+  .how-it-works__body {
+    max-width: 60ch;
+    margin-inline: auto;
+    text-align: center;
+    color: var(--color-text-muted);
+    font-size: var(--text-lead);
+    margin-bottom: var(--space-12);
+  }
+
+  .how-it-works__media {
+    margin-inline: auto;
+    max-width: 800px;
+  }
+</style>

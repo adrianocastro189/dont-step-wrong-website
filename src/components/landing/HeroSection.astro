@@ -1,0 +1,158 @@
+---
+import type { Locale } from '@i18n/utils';
+import { t } from '@i18n/utils';
+import CTASteam from '@components/ui/CTASteam.astro';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const strings = t(locale);
+---
+<section class="hero">
+  <div class="container">
+    <div class="hero__banner">
+      <img
+        src="/images/screenshot-hero.png"
+        alt="Don't Step Wrong 2 — gameplay screenshot"
+        width="1200"
+        height="675"
+        class="screenshot-hero hero__image"
+        loading="eager"
+        decoding="async"
+      />
+      <div class="hero__copy">
+        <h1>{strings.landing.heroTitle}</h1>
+        <p class="hero__lead">{strings.landing.heroLead}</p>
+        <div class="hero__ctas">
+          <CTASteam label={strings.cta.playDemo} target="demo" variant="primary" />
+          <CTASteam label={strings.cta.addToWishlist} target="wishlist" variant="ghost" />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    padding-block-start: var(--space-section);
+    padding-block-end: var(--space-6);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Grid com radial fade — igual à referência do Docusaurus, adaptado à paleta */
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(44, 33, 24, 0.07) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(44, 33, 24, 0.07) 1px, transparent 1px);
+    background-size: 40px 40px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 30%, transparent 80%);
+    -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 30%, transparent 80%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .hero .container {
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero__banner {
+    position: relative;
+    border-radius: var(--radius-lg);
+  }
+
+  .hero__image {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: var(--radius-lg);
+    /* Filtro warm — reduz clash azul/laranja, harmoniza com paleta creme/âmbar */
+    filter: sepia(70%) saturate(55%) brightness(0.86);
+  }
+
+  /* Gradiente esquerda → direita: bg sólido → transparente */
+  .hero__banner::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius-lg);
+    background: linear-gradient(
+      to right,
+      var(--color-bg) 0%,
+      var(--color-bg) 18%,
+      rgba(254, 251, 246, 0.90) 34%,
+      rgba(254, 251, 246, 0.28) 56%,
+      transparent 72%
+    );
+    pointer-events: none;
+  }
+
+  /* Copy sobreposta na metade esquerda da imagem */
+  .hero__copy {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 56%;
+    max-width: 580px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--space-6);
+    padding: var(--space-8);
+    z-index: 1;
+  }
+
+  .hero__copy h1 {
+    text-shadow:
+      0 0 72px rgba(255, 255, 255, 1.0),
+      0 0 168px rgba(255, 255, 255, 1.0),
+      0 0 300px rgba(255, 255, 255, 0.75);
+  }
+
+  .hero__lead {
+    font-size: var(--text-lead);
+    color: var(--color-text-muted);
+    max-width: 30ch;
+  }
+
+  .hero__ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+  }
+
+  /* Mobile: copy empilha abaixo da imagem */
+  @media (max-width: 767px) {
+    .hero__banner {
+      overflow: visible;
+      border-radius: 0;
+    }
+
+    .hero__banner::after {
+      display: none;
+    }
+
+    .hero__image {
+      border-radius: var(--radius-lg);
+      filter: none;
+    }
+
+    .hero__copy {
+      position: static;
+      width: 100%;
+      max-width: none;
+      padding: var(--space-6) 0 0;
+    }
+
+    .hero__lead {
+      max-width: none;
+    }
+  }
+</style>

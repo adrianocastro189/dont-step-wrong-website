@@ -1,0 +1,18 @@
+---
+import { getCollection } from 'astro:content';
+import DevlogPost from '@components/pages/DevlogPost.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('devlog', ({ data }) => data.locale === 'es');
+  return posts.map((post) => {
+    const slug = post.id.slice(0, -(post.data.locale.length));
+    return {
+      params: { slug },
+      props: { post, slug },
+    };
+  });
+}
+
+const { post, slug } = Astro.props;
+---
+<DevlogPost locale="es" post={post} slug={slug} />

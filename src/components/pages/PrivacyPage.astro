@@ -1,0 +1,109 @@
+---
+import type { Locale } from '@i18n/utils';
+import { t, getAlternateURLs, toAbsolute, getUrl } from '@i18n/utils';
+import BaseLayout from '@components/layout/BaseLayout.astro';
+import SchemaBreadcrumb from '@components/seo/SchemaBreadcrumb.astro';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const strings = t(locale);
+
+const seo: Record<Locale, { title: string; description: string }> = {
+  en: {
+    title: "Privacy Policy — Don't Step Wrong 2",
+    description: 'How we handle visitor data on the Don\'t Step Wrong 2 website.',
+  },
+  pt: {
+    title: "Política de Privacidade — Don't Step Wrong 2",
+    description: 'Como tratamos os dados dos visitantes no site de Don\'t Step Wrong 2.',
+  },
+  es: {
+    title: "Política de Privacidad — Don't Step Wrong 2",
+    description: 'Cómo manejamos los datos de los visitantes en el sitio de Don\'t Step Wrong 2.',
+  },
+};
+
+const alternates = getAlternateURLs('privacy');
+const canonicalURL = toAbsolute(alternates[locale]);
+const { title, description } = seo[locale];
+
+const breadcrumb = [
+  { name: strings.nav.home, url: getUrl('home', locale) },
+  { name: strings.nav.privacy, url: getUrl('privacy', locale) },
+];
+
+const p = strings.privacy;
+
+// Last updated date — TODO: bump when content changes.
+const lastUpdated = new Date('2026-05-24');
+const intlLocale = locale === 'pt' ? 'pt-BR' : locale === 'es' ? 'es-ES' : 'en-US';
+const dateFormatter = new Intl.DateTimeFormat(intlLocale, {
+  day: 'numeric', month: 'long', year: 'numeric',
+});
+---
+<BaseLayout
+  title={title}
+  description={description}
+  canonicalURL={canonicalURL}
+  hreflang={alternates}
+  locale={locale}
+  currentPage="privacy"
+  noindex={true}
+>
+  <SchemaBreadcrumb slot="head" items={breadcrumb} />
+
+  <section class="section">
+    <div class="container-prose privacy">
+      <h1>{p.h1}</h1>
+      <p class="privacy__meta">
+        {p.lastUpdated}: {dateFormatter.format(lastUpdated)}
+      </p>
+
+      <div class="privacy__body">
+        <h2>{p.dataTitle}</h2>
+        <p>{p.dataBody}</p>
+
+        <h2>{p.thirdPartyTitle}</h2>
+        <p>{p.thirdPartyBody}</p>
+
+        <h2>{p.cookiesTitle}</h2>
+        <p>{p.cookiesBody}</p>
+
+        <h2>{p.contactTitle}</h2>
+        <p>
+          {p.contactBody}{' '}
+          <a href={`mailto:${p.contactEmail}`}>{p.contactEmail}</a>
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .privacy__meta {
+    color: var(--color-text-muted);
+    font-size: var(--text-small);
+    margin-top: var(--space-2);
+    margin-bottom: var(--space-8);
+  }
+
+  .privacy__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+
+  .privacy__body h2 {
+    font-size: var(--text-h3);
+    margin-top: var(--space-4);
+  }
+
+  .privacy__body a {
+    color: var(--color-brand);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+</style>

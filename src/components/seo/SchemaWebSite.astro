@@ -1,0 +1,11 @@
+---
+import { SITE_URL } from '@i18n/utils';
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: "Don't Step Wrong 2",
+  url: `${SITE_URL}/`,
+};
+---
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

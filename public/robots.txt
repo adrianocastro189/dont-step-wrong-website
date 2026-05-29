@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://dontstepwrong.com/sitemap-index.xml

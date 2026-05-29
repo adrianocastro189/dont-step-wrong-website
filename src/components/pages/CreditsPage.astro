@@ -1,0 +1,92 @@
+---
+import type { Locale } from '@i18n/utils';
+import { t, getAlternateURLs, toAbsolute, getUrl } from '@i18n/utils';
+import BaseLayout from '@components/layout/BaseLayout.astro';
+import SchemaBreadcrumb from '@components/seo/SchemaBreadcrumb.astro';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const strings = t(locale);
+
+const seo: Record<Locale, { title: string; description: string }> = {
+  en: {
+    title: "Credits — Don't Step Wrong 2",
+    description: 'Third-party assets and tools used in the development of Don\'t Step Wrong 2.',
+  },
+  pt: {
+    title: "Créditos — Don't Step Wrong 2",
+    description: 'Assets e ferramentas de terceiros utilizados no desenvolvimento de Don\'t Step Wrong 2.',
+  },
+  es: {
+    title: "Créditos — Don't Step Wrong 2",
+    description: 'Assets y herramientas de terceros utilizados en el desarrollo de Don\'t Step Wrong 2.',
+  },
+};
+
+const alternates = getAlternateURLs('credits');
+const canonicalURL = toAbsolute(alternates[locale]);
+const { title, description } = seo[locale];
+
+const breadcrumb = [
+  { name: strings.nav.home, url: getUrl('home', locale) },
+  { name: strings.nav.credits, url: getUrl('credits', locale) },
+];
+
+const c = strings.credits;
+---
+<BaseLayout
+  title={title}
+  description={description}
+  canonicalURL={canonicalURL}
+  hreflang={alternates}
+  locale={locale}
+  currentPage="credits"
+  noindex={true}
+>
+  <SchemaBreadcrumb slot="head" items={breadcrumb} />
+
+  <section class="section">
+    <div class="container-prose">
+      <h1>{c.h1}</h1>
+      <div class="credits">
+        <p class="credits__intro">{c.intro}</p>
+        <ul class="credits__list">
+          {c.items.map((item) => <li>{item}</li>)}
+        </ul>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .credits {
+    margin-top: var(--space-16);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+  }
+
+  .credits__intro {
+    color: var(--color-text-muted);
+    max-width: none;
+  }
+
+  .credits__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .credits__list li {
+    padding: var(--space-3) var(--space-4);
+    border: var(--border-width) solid var(--border-color);
+    border-radius: var(--radius-md);
+    font-family: var(--font-body);
+    font-size: var(--text-small);
+    color: var(--color-text);
+    line-height: var(--leading-normal);
+  }
+</style>

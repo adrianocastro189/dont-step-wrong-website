@@ -1,0 +1,94 @@
+---
+interface Props {
+  label: string;
+  variant?: 'primary' | 'ghost';
+  href?: string;
+  /** When true, uses the demo URL; otherwise the main store page. */
+  target?: 'demo' | 'wishlist';
+  class?: string;
+}
+
+const {
+  label,
+  variant = 'primary',
+  target = 'demo',
+  href,
+  class: className,
+} = Astro.props;
+
+// TODO: replace with demo-specific Steam URL when CEO provides it.
+// For now, both targets point to the main store page.
+const STEAM_GAME_URL = 'https://store.steampowered.com/app/4627790/Dont_Step_Wrong_2/';
+const STEAM_DEMO_URL = STEAM_GAME_URL;
+
+const resolvedHref = href ?? (target === 'demo' ? STEAM_DEMO_URL : STEAM_GAME_URL);
+---
+<a
+  href={resolvedHref}
+  class:list={['cta-steam', `cta-steam--${variant}`, className]}
+  target="_blank"
+  rel="noopener noreferrer"
+>
+  {label}
+  <span aria-hidden="true" class="cta-steam__icon">↗</span>
+</a>
+
+<style>
+  .cta-steam {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-family: var(--font-heading);
+    font-weight: var(--weight-bold);
+    font-size: var(--text-button);
+    padding: 14px 32px;
+    border-radius: var(--radius-md);
+    transition: transform var(--transition-fast),
+                background-color var(--transition-fast),
+                color var(--transition-fast),
+                border-color var(--transition-fast);
+    text-align: center;
+    min-height: 44px; /* WCAG touch target */
+    line-height: 1;
+  }
+
+  .cta-steam:hover {
+    transform: translateY(-1px);
+  }
+
+  .cta-steam:active {
+    transform: translateY(0);
+  }
+
+  .cta-steam__icon {
+    font-size: 0.875em;
+    opacity: 0.85;
+  }
+
+  /* Primary — RESERVED orange */
+  .cta-steam--primary {
+    background-color: var(--color-cta);
+    color: var(--color-text-inverse);
+  }
+
+  .cta-steam--primary:hover {
+    background-color: var(--color-cta-hover);
+  }
+
+  .cta-steam--primary:active {
+    background-color: var(--color-cta-active);
+  }
+
+  /* Ghost — outline brand, fundo sólido para legibilidade sobre imagens */
+  .cta-steam--ghost {
+    background-color: var(--color-bg);
+    color: var(--color-brand);
+    border: var(--border-width) solid var(--color-brand);
+    padding: calc(14px - var(--border-width)) calc(32px - var(--border-width));
+  }
+
+  .cta-steam--ghost:hover {
+    background-color: var(--color-brand);
+    color: var(--color-text-inverse);
+  }
+</style>

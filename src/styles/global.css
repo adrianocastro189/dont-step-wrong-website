@@ -1,0 +1,235 @@
+@import './tokens.css';
+
+/* ============================================================
+   Reset and base
+   ============================================================ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: var(--leading-relaxed);
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Links editoriais em prosa — não afeta links de UI (nav, cards, CTAs) */
+.container-prose a:not([class]) {
+  color: var(--color-brand);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  text-decoration-color: color-mix(in srgb, var(--color-brand) 40%, transparent);
+  transition: text-decoration-color var(--transition-fast);
+}
+
+.container-prose a:not([class]):hover {
+  text-decoration-color: var(--color-brand);
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+/* ============================================================
+   Headings
+   ============================================================ */
+
+h1, h2, h3, h4 {
+  font-family: var(--font-heading);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-snug);
+  color: var(--color-text);
+}
+
+h1 {
+  font-size: var(--text-display);
+  font-weight: var(--weight-extrabold);
+  line-height: var(--leading-tight);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+h2 {
+  font-size: var(--text-h2);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+h3 {
+  font-size: var(--text-h3);
+  line-height: var(--leading-normal);
+}
+
+p {
+  max-width: 65ch;
+}
+
+/* ============================================================
+   Layout helpers
+   ============================================================ */
+
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: var(--container-padding);
+}
+
+.container-prose {
+  width: 100%;
+  max-width: var(--max-width-prose);
+  margin-inline: auto;
+  padding-inline: var(--container-padding);
+}
+
+.section {
+  padding-block: var(--space-section);
+}
+
+.section-alt {
+  background-color: var(--color-bg-alt);
+  /* Grid fade esq → dir: opacidade zero na esquerda, visível na direita */
+  background-image:
+    linear-gradient(to right, var(--color-bg-alt) 0%, transparent 45%),
+    linear-gradient(rgba(44, 33, 24, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(44, 33, 24, 0.045) 1px, transparent 1px);
+  background-size: 100% 100%, 40px 40px, 40px 40px;
+}
+
+/* ============================================================
+   Accessibility
+   ============================================================ */
+
+:focus-visible {
+  outline: 3px solid var(--color-brand);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* ============================================================
+   Selection
+   ============================================================ */
+
+::selection {
+  background-color: var(--color-brand);
+  color: var(--color-text);
+}
+
+/* ============================================================
+   Screenshot contexts — Design System §9
+   ============================================================ */
+
+.screenshot-hero {
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  object-fit: cover;
+  border-radius: var(--radius-lg);
+  box-shadow: none;
+  border: none;
+}
+
+.screenshot-gameplay {
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  max-width: 800px;
+  object-fit: cover;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  border: none;
+}
+
+.screenshot-biome {
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  object-fit: cover;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  border: 1.5px solid rgba(242, 166, 42, 0.15);
+}
+
+.screenshot-devlog-thumb {
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  object-fit: cover;
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+  box-shadow: none;
+  border: none;
+}

@@ -1,0 +1,42 @@
+---
+import type { Locale } from '@i18n/utils';
+import { t } from '@i18n/utils';
+import CTASteam from '@components/ui/CTASteam.astro';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const strings = t(locale);
+---
+<section class="final-cta section">
+  <div class="container final-cta__inner">
+    <h2>{strings.landing.finalCtaTitle}</h2>
+    <div class="final-cta__buttons">
+      <CTASteam label={strings.cta.playDemo} target="demo" variant="primary" />
+      <CTASteam label={strings.cta.addToWishlist} target="wishlist" variant="ghost" />
+    </div>
+  </div>
+</section>
+
+<style>
+  .final-cta__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-8);
+    text-align: center;
+  }
+
+  .final-cta h2 {
+    max-width: 22ch;
+  }
+
+  .final-cta__buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    justify-content: center;
+  }
+</style>

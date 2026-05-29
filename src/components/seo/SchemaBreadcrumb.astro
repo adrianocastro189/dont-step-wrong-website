@@ -1,0 +1,26 @@
+---
+import { toAbsolute } from '@i18n/utils';
+
+interface BreadcrumbItem {
+  name: string;
+  url: string; // path
+}
+
+interface Props {
+  items: BreadcrumbItem[];
+}
+
+const { items } = Astro.props;
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: items.map((item, idx) => ({
+    '@type': 'ListItem',
+    position: idx + 1,
+    name: item.name,
+    item: toAbsolute(item.url),
+  })),
+};
+---
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />
