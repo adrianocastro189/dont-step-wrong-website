@@ -6,7 +6,7 @@ locale: es
 coverImage: /images/devlog/what-changed-from-dsw1-to-dsw2.jpg
 ---
 
-Don't Step Wrong 2 es la secuela del [Don't Step Wrong original](https://adrianocastro.itch.io/dont-step-wrong), un puzzle game que empezó como un pequeño experimento en itch.io. La premisa es simple: cada nivel tiene una regla implícita. El juego nunca te dice cuál es. La descubres por prueba y error.
+Don't Step Wrong 2 es la secuela del <a href="https://adrianocastro.itch.io/dont-step-wrong" rel="nofollow">Don't Step Wrong original</a>, un puzzle game que empezó como un pequeño experimento en itch.io. La premisa es simple: cada nivel tiene una regla implícita. El juego nunca te dice cuál es. La descubres por prueba y error.
 
 Eso es rule discovery, un subgénero de puzzle game construido sobre la idea de que encontrar la lógica es el puzzle, no ejecutarla.
 
@@ -22,19 +22,21 @@ Lo que no cambia es el núcleo: sin tutorial, sin explicación, sin pistas por d
 
 ## Biomas
 
-El primer juego tenía un solo entorno visual. DSW2 tiene diez zonas, cada una con una paleta visual distinta y su propio conjunto de reglas.
+El primer juego tenía un solo entorno visual. DSW2 tiene diez zonas, cada una con una paleta visual distinta.
 
-Empiezas en el Green Forest. Ahí es donde el juego enseña el sistema sin explicarlo. Desde ahí avanzas por un cruce de río, ruinas, un pantano, desiertos, montañas y, eventualmente, un volcán. Cada zona se ve diferente y, más importante, se juega diferente. Las reglas que aplican en el bosque no necesariamente se trasladan a lo que viene.
+Empiezas en el Bosque Verde. Ahí es donde el juego enseña el sistema sin explicarlo. Desde ahí avanzas por un cruce de río, ruinas, un pantano, desiertos, montañas y, eventualmente, un volcán. Cada zona se ve diferente y, más importante, se juega diferente. Las reglas que aplican en el bosque no necesariamente se trasladan a lo que viene.
 
-No es solo una decisión estética. Combinar contexto visual con familias de reglas hace que el descubrimiento se sienta más coherente. Cuando el mundo cambia, esperas que la lógica cambie con él.
+No es solo una decisión estética. El cambio visual señala un cambio de lógica. Cuando el mundo cambia, esperas que las reglas cambien con él.
 
-## Habilidades
+## Habilidades e ítems
 
-El original no tenía habilidades. Don't Step Wrong 2 agrega siete habilidades permanentes opcionales que puedes desbloquear y equipar.
+El original no tenía habilidades ni ítems. Don't Step Wrong 2 agrega dos categorías de herramientas opcionales que puedes desbloquear y equipar.
 
-No son pistas. No revelan la regla. Lo que hacen es ayudarte a navegar sin arruinar el descubrimiento: Spider Sense te detiene antes de pisar un bloque inválido, Breadcrumb Trail resalta los bloques que ya pisaste, Dead End Sense te avisa cuando un camino no lleva a ningún lado. Herramientas para el puzzle, no respuestas para él.
+Las habilidades son permanentes: Sentido Arácnido, Rastro de Migajas, Comienzo Seguro, Sentido de Callejón sin Salida, Súper Salto, Farmer y Congelador. No revelan la regla. Lo que hacen es ayudarte a navegar sin arruinar el descubrimiento.
 
-Las habilidades son completamente opcionales. Si quieres la experiencia pura, sin ayuda, sin red de seguridad, puedes jugar así. Si quieres algo de estructura sin romper el loop de descubrimiento, la [página de mecánicas](/es/mecanicas) tiene una lista completa de lo que hace cada habilidad.
+Los ítems son consumibles de un solo uso: Revelar Logro, Bloques Dobles, Desbloquear Pista, Bloqueo de Tablero, Bloque Válido y Revelar Regla. Cada uno modifica una parte específica del puzzle sin romperlo.
+
+Ninguna categoría te da la respuesta. Ofrecen formas distintas de abordar el problema. Ambas son completamente opcionales. Si quieres la experiencia pura, sin ayuda, sin red de seguridad, puedes jugar así. La [página de mecánicas](/es/mecanicas) tiene una lista completa de lo que hace cada una.
 
 ## ¿La demo está disponible?
 
