@@ -135,7 +135,7 @@ export const pt: Strings = {
     aboutTitle: 'Sobre o jogo',
     aboutP1: "Don't Step Wrong 2 é um puzzle em grade onde cada fase contém uma regra implícita. O jogador navega de um bloco inicial até a saída, pisando apenas nos blocos que satisfazem a regra. A regra nunca é declarada ou exibida. A descoberta acontece por tentativas repetidas: pise em um bloco errado, observe o resultado e atualize sua hipótese.",
     aboutP2: 'O jogo abrange 10 zonas distintas, cada uma com uma paleta visual diferente e seu próprio conjunto de regras. Os tipos de regra incluem padrões numéricos, lógica baseada em palavras, conhecimentos gerais e restrições temporais, entre outros. Os jogadores podem usar 7 habilidades permanentes opcionais e itens de uso único — incluindo o item Desbloquear Dica — que oferecem assistência pontual sem revelar a regra.',
-    featuresTitle: 'Features',
+    featuresTitle: 'Características',
     feature1: 'Puzzle em grade: chegue à saída pisando apenas nos blocos válidos',
     feature2: 'Cada fase tem uma regra implícita, nunca nomeada ou exibida pelo jogo',
     feature3: 'Descoberta por tentativa e erro; dicas existem mas são bloqueadas — desbloqueie com itens de uso único',
