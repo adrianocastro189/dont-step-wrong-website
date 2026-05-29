@@ -146,6 +146,7 @@ export const en = {
     feature10: 'Free demo available on Steam',
     assetsTitle: 'Assets',
     contactTitle: 'Contact',
+    contactEmail: 'feriado.dev@gmail.com',
     download: 'Download',
   },
   privacy: {

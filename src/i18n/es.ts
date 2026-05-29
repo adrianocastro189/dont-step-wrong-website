@@ -148,6 +148,7 @@ export const es: Strings = {
     feature10: 'Demo gratuita disponible en Steam',
     assetsTitle: 'Assets',
     contactTitle: 'Contacto',
+    contactEmail: 'feriado.dev@gmail.com',
     download: 'Descargar',
   },
   privacy: {
