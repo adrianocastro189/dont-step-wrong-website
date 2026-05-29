@@ -79,7 +79,7 @@ const minutes = Math.max(1, Math.round(wordCount / 200));
       {post.data.coverImage && (
         <img
           src={post.data.coverImage}
-          alt=""
+          alt={`Cover image for: ${post.data.title}`}
           width="1200"
           height="675"
           class="post-cover"
