@@ -65,7 +65,7 @@ const dateFormatter = new Intl.DateTimeFormat(
     </div>
   </section>
 
-  <section class="section">
+  <section class="section devlog-posts-section">
     <div class="container">
       {posts.length === 0 ? (
         <p class="devlog-empty">
@@ -76,7 +76,7 @@ const dateFormatter = new Intl.DateTimeFormat(
         <ul class="devlog-list">
           {posts.map((post) => {
             // Slug stored as file name; remove `.{locale}` suffix if present.
-            const slug = post.slug.replace(/\.(en|pt|es)$/, '');
+            const slug = post.id.slice(0, -(post.data.locale.length));
             return (
               <li>
                 <article class="devlog-card">
@@ -120,6 +120,10 @@ const dateFormatter = new Intl.DateTimeFormat(
 </BaseLayout>
 
 <style>
+  .devlog-posts-section {
+    padding-block-start: 0;
+  }
+
   .devlog-list__lead {
     font-size: var(--text-lead);
     color: var(--color-text-muted);

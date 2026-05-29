@@ -1,6 +1,7 @@
 ---
 import type { Locale } from '@i18n/utils';
 import type { CollectionEntry } from 'astro:content';
+import { render } from 'astro:content';
 import { t, getDevlogPostAlternates, toAbsolute, getUrl, computeDevlogPostUrl } from '@i18n/utils';
 import BaseLayout from '@components/layout/BaseLayout.astro';
 import SchemaBlogPosting from '@components/seo/SchemaBlogPosting.astro';
@@ -15,7 +16,7 @@ interface Props {
 
 const { locale, post, slug } = Astro.props;
 const strings = t(locale);
-const { Content } = await post.render();
+const { Content } = await render(post);
 
 const alternates = getDevlogPostAlternates(slug);
 const url = computeDevlogPostUrl(locale, slug);
@@ -37,7 +38,7 @@ const dateFormatter = new Intl.DateTimeFormat(
 );
 
 // Rough reading time: ~200 words per minute.
-const wordCount = post.body.trim().split(/\s+/).length;
+const wordCount = post.body ? post.body.trim().split(/\s+/).filter(Boolean).length : 0;
 const minutes = Math.max(1, Math.round(wordCount / 200));
 ---
 <BaseLayout

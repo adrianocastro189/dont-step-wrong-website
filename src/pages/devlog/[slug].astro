@@ -5,7 +5,7 @@ import DevlogPost from '@components/pages/DevlogPost.astro';
 export async function getStaticPaths() {
   const posts = await getCollection('devlog', ({ data }) => data.locale === 'en');
   return posts.map((post) => {
-    const slug = post.slug.replace(/\.(en|pt|es)$/, '');
+    const slug = post.id.slice(0, -(post.data.locale.length));
     return {
       params: { slug },
       props: { post, slug },
