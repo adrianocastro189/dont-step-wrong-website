@@ -3,6 +3,7 @@ import type { Locale } from '@i18n/utils';
 import { t, getAlternateURLs, toAbsolute, getUrl } from '@i18n/utils';
 import BaseLayout from '@components/layout/BaseLayout.astro';
 import SchemaBreadcrumb from '@components/seo/SchemaBreadcrumb.astro';
+import SteamWidget from '@components/ui/SteamWidget.astro';
 
 interface Props {
   locale: Locale;
@@ -90,6 +91,8 @@ const CONTACT_EMAIL = p.contactEmail;
         <p class="presskit__lead">{p.aboutP1}</p>
         <p class="presskit__lead">{p.aboutP2}</p>
       </div>
+
+      <SteamWidget />
 
       <div class="presskit__block">
         <h2>{p.featuresTitle}</h2>
