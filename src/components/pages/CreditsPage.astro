@@ -54,7 +54,11 @@ const c = strings.credits;
       <div class="credits">
         <p class="credits__intro">{c.intro}</p>
         <ul class="credits__list">
-          {c.items.map((item) => <li>{item}</li>)}
+          {c.items.map((item) => (
+            <li>
+              <a href={item.url} target="_blank" rel="noopener noreferrer nofollow">{item.label}</a>
+            </li>
+          ))}
         </ul>
       </div>
     </div>
@@ -88,5 +92,15 @@ const c = strings.credits;
     font-size: var(--text-small);
     color: var(--color-text);
     line-height: var(--leading-normal);
+  }
+
+  .credits__list a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .credits__list a:hover {
+    color: var(--color-primary);
   }
 </style>
